@@ -3,6 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
+import navigationData from './shared/navigationData';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,7 +12,7 @@ export default function Routes() {
     <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         <Stack.Screen
-          // options={navigationData.Login.options}
+          options={navigationData.noHeader.options}
           name="Signin"
           component={SignIn}
         />
