@@ -35,10 +35,31 @@ export default StyleSheet.create({
     marginBottom: moderateScale(40),
   },
   icnWallet: {
+    width: moderateScale(58),
+    height: moderateScale(58),
+    borderRadius: moderateScale(58 / 2),
+    marginBottom: moderateScale(8),
+    overflow: 'hidden',
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: moderateScale(1),
+  },
+  walletIcoStyle: {
     width: moderateScale(48),
     height: moderateScale(48),
+    borderRadius: moderateScale(48 / 2),
     marginBottom: moderateScale(8),
     resizeMode: 'contain',
+    top: moderateScale(4),
   },
   txtWallet: {
     color: colors.dark,
@@ -59,5 +80,9 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+  },
+  redBorder: {
+    borderColor: colors.red,
+    borderWidth: moderateScale(2),
   },
 });

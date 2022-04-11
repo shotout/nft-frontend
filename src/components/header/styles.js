@@ -30,13 +30,20 @@ export default StyleSheet.create({
     flex: 1,
   },
   ethRedStyle: {
-    width: moderateScale(40),
-    height: moderateScale(40),
+    width: moderateScale(20),
+    height: moderateScale(20),
     resizeMode: 'contain',
+    marginRight: moderateScale(12),
   },
   txtTitle: {
     fontFamily: fonts.MontserratRegular,
     color: colors.dark,
     fontSize: moderateScale(14),
+  },
+  txtWithTitle: {
+    fontFamily: fonts.MontserratSemiBold,
+    fontSize: moderateScale(18),
+    color: colors.dark,
+    textDecorationLine: 'underline',
   },
 });

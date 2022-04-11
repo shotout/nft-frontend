@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Button from '../../components/button';
 import Header from '../../components/header';
@@ -7,15 +7,17 @@ import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
 import {colors} from '../../shared/styling';
+import {navigate} from '../../helpers/navigationRef';
 
-const iconMetamask = require('../../assets/icon/metamask.png');
+const iconMetamask = require('../../assets/icon/metamask.webp');
 const iconBinance = require('../../assets/icon/bnb.png');
 const iconCardano = require('../../assets/icon/cardano.webp');
 const iconCryptocom = require('../../assets/icon/cryptocom.png');
-const bannerImage = require('../../assets/icon/banner.png');
+const bannerImage = require('../../assets/icon/nft_boarding.gif');
 
 export default function Register() {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
+  const [selectedWallet, setSelectedWallet] = useState([]);
   const walletArr = [
     {name: 'Metamask', icon: iconMetamask},
     {name: 'Binance', icon: iconBinance},
@@ -30,6 +32,25 @@ export default function Register() {
 
   const handleChangeText = (stateName, value) => {
     setValues({...values, [stateName]: value});
+  };
+
+  const findSelectedWallet = name => {
+    const isThere = selectedWallet.find(item => item === name);
+    if (isThere) {
+      return true;
+    }
+    return false;
+  };
+
+  const handleSelectedWallet = name => {
+    const isThere = findSelectedWallet(name);
+    if (isThere) {
+      setSelectedWallet(selectedWallet.filter(item => item !== name));
+    } else {
+      const currrentData = [...selectedWallet];
+      currrentData.push(name);
+      setSelectedWallet(currrentData);
+    }
   };
 
   function getLabel() {
@@ -50,6 +71,9 @@ export default function Register() {
       case 'email':
         setActiveStep('done');
         break;
+      case 'done':
+        navigate('Watchlist');
+        break;
       default:
         break;
     }
@@ -58,7 +82,7 @@ export default function Register() {
   function renderContent() {
     if (activeStep === 'done') {
       return (
-        <>
+        <ScrollView>
           <View style={styles.ctnBanner}>
             <Image source={bannerImage} style={styles.bannerStyle} />
           </View>
@@ -68,7 +92,7 @@ export default function Register() {
               {`Discover one new exlusively selected NFT project each day.\n\nVetted and guaranteed to be interesting.`}
             </Text>
           </View>
-        </>
+        </ScrollView>
       );
     }
     if (activeStep === 'email') {
@@ -89,20 +113,44 @@ export default function Register() {
       );
     }
     if (activeStep === 'wallet') {
+      console.log('Check data:', selectedWallet);
       return (
         <>
           <Title label="Make it relevant for you! Select your primary wallets." />
           <View style={styles.cntWallet}>
-            {walletArr.map(wallet => (
-              <View style={styles.ctnWallet} key={wallet.name}>
-                <Image source={wallet.icon} style={styles.icnWallet} />
-                <Text style={styles.txtWallet}>{wallet.name}</Text>
-              </View>
-            ))}
+            {walletArr.map(wallet => {
+              const isWalletSelected = findSelectedWallet(wallet.name);
+              console.log('Check wallet', wallet.name, isWalletSelected);
+              return (
+                <View style={styles.ctnWallet} key={wallet.name}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleSelectedWallet(wallet.name);
+                    }}>
+                    <View
+                      style={[
+                        styles.icnWallet,
+                        isWalletSelected && styles.redBorder,
+                      ]}>
+                      <Image
+                        source={wallet.icon}
+                        style={styles.walletIcoStyle}
+                      />
+                    </View>
+                  </TouchableOpacity>
+                  <Text style={styles.txtWallet}>{wallet.name}</Text>
+                </View>
+              );
+            })}
             <View style={styles.ctnWallet}>
-              <View style={[styles.icnWallet, styles.bgWallet]}>
-                <AntDesign name="close" size={30} color={colors.white} />
-              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedWallet([]);
+                }}>
+                <View style={styles.icnWallet}>
+                  <AntDesign name="close" size={30} color={colors.dark} />
+                </View>
+              </TouchableOpacity>
               <Text style={styles.txtWallet}>None</Text>
             </View>
           </View>
@@ -127,7 +175,7 @@ export default function Register() {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
-        <Header title="NFT of the Day" />
+        <Header />
         {renderContent()}
       </View>
       <Button label={getLabel()} onPress={handleChangeStep} />

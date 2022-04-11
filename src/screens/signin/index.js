@@ -5,9 +5,17 @@ import Header from '../../components/header';
 import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
+import {navigate} from '../../helpers/navigationRef';
 
 export default function SignIn() {
   const [activeStep, setActiveStep] = useState('signin');
+  const [values, setValues] = useState({
+    email: '',
+  });
+
+  const handleChangeText = (stateName, value) => {
+    setValues({...values, [stateName]: value});
+  };
 
   function getLabel() {
     if (activeStep === 'success') {
@@ -39,6 +47,10 @@ export default function SignIn() {
           placeholder="Your Email"
           keyboardType="email-address"
           autoCapitalize="none"
+          value={values.email}
+          onChangeText={value => {
+            handleChangeText('email', value);
+          }}
         />
       </>
     );
@@ -47,13 +59,17 @@ export default function SignIn() {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
-        <Header title="NFT of the Day" />
+        <Header />
         {renderContent()}
       </View>
       <Button
         label={getLabel()}
         onPress={() => {
-          setActiveStep(activeStep === 'signin' ? 'success' : 'signin');
+          if (activeStep === 'success') {
+            navigate('Watchlist');
+          } else {
+            setActiveStep(activeStep === 'signin' ? 'success' : 'signin');
+          }
         }}
       />
     </View>
