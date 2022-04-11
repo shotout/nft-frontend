@@ -35,6 +35,7 @@ export default function SignIn() {
           label={`Got an account already?\nLogin by entering your email below.`}
         />
         <Input
+          maxLength={100}
           placeholder="Your Email"
           keyboardType="email-address"
           autoCapitalize="none"
