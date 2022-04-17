@@ -7,13 +7,16 @@ import navigationData from './shared/navigationData';
 import Register from './screens/register';
 import BoardingPage from './screens/boarding-page';
 import WatchList from './screens/watch-list';
+import AccountSettings from './screens/account-settings';
+import FAQ from './screens/faq';
+import SafetyGuideline from './screens/safety-guideline';
 
 const Stack = createNativeStackNavigator();
 
 export default function Routes() {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="BoardingPage">
+      <Stack.Navigator initialRouteName="FAQ">
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="BoardingPage"
@@ -33,6 +36,21 @@ export default function Routes() {
           options={navigationData.noHeader.options}
           name="Watchlist"
           component={WatchList}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="AccountSettings"
+          component={AccountSettings}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="FAQ"
+          component={FAQ}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="SafetyGuideline"
+          component={SafetyGuideline}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -3,6 +3,7 @@ export const colors = {
   red: '#ff422c',
   gray: '#dfdfdf',
   dark: '#0a2753',
+  grayText: '#39404B',
 };
 
 export const fonts = {
