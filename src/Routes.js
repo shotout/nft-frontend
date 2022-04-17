@@ -10,13 +10,14 @@ import WatchList from './screens/watch-list';
 import AccountSettings from './screens/account-settings';
 import FAQ from './screens/faq';
 import SafetyGuideline from './screens/safety-guideline';
+import DiscoverNFT from './screens/discover-nft';
 
 const Stack = createNativeStackNavigator();
 
 export default function Routes() {
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="FAQ">
+      <Stack.Navigator initialRouteName="DiscoverNFT">
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="BoardingPage"
@@ -51,6 +52,11 @@ export default function Routes() {
           options={navigationData.noHeader.options}
           name="SafetyGuideline"
           component={SafetyGuideline}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="DiscoverNFT"
+          component={DiscoverNFT}
         />
       </Stack.Navigator>
     </NavigationContainer>

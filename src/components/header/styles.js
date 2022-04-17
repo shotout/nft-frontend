@@ -23,6 +23,11 @@ export default StyleSheet.create({
     height: moderateScale(20),
     resizeMode: 'contain',
   },
+  menuStyle: {
+    width: moderateScale(30),
+    height: moderateScale(30),
+    resizeMode: 'contain',
+  },
   ctnTitle: {
     flexDirection: 'row',
     alignItems: 'center',

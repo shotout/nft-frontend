@@ -5,6 +5,7 @@ import styles from './styles';
 import {goBack} from '../../helpers/navigationRef';
 
 const backIcon = require('../../assets/icon/back_button.png');
+const menuIcon = require('../../assets/icon/menu_bar.png');
 const whiteIcon = require('../../assets/icon/icon_apps_white.png');
 const coloredIcon = require('../../assets/icon/icon_apps_default.png');
 
@@ -26,9 +27,18 @@ function Header({type, title}) {
     }
   }
 
-  function renderRight() {
+  function renderLeft() {
     if (type === 'boarding') {
       return null;
+    }
+    if (type === 'drawer') {
+      return (
+        <View style={styles.ctnBack}>
+          <TouchableOpacity onPress={() => {}} style={styles.backWrapper}>
+            <Image source={menuIcon} style={styles.menuStyle} />
+          </TouchableOpacity>
+        </View>
+      );
     }
     return (
       <View style={styles.ctnBack}>
@@ -40,15 +50,6 @@ function Header({type, title}) {
           <Image source={backIcon} style={styles.backIconStyle} />
         </TouchableOpacity>
       </View>
-    );
-  }
-
-  function getTitle() {
-    if (title) {
-      return <Text style={[styles.txtTitle]}>{title}</Text>;
-    }
-    return (
-      <Text style={[styles.txtTitle, getTitleColor()]}>NFT of the Day</Text>
     );
   }
 
@@ -70,7 +71,7 @@ function Header({type, title}) {
 
   return (
     <View style={styles.ctnRoot}>
-      {renderRight()}
+      {renderLeft()}
       {getContent()}
     </View>
   );

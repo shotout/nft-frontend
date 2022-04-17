@@ -1,0 +1,187 @@
+import {StyleSheet} from 'react-native';
+import {moderateScale} from 'react-native-size-matters';
+import {colors, fonts} from '../../shared/styling';
+
+export default StyleSheet.create({
+  ctnRoot: {
+    position: 'relative',
+    marginBottom: moderateScale(80),
+  },
+  ctnCard: {
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    margin: moderateScale(20),
+    borderRadius: moderateScale(30),
+    position: 'relative',
+  },
+  nftContentStyle: {
+    width: '100%',
+    aspectRatio: 4 / 3,
+    resizeMode: 'cover',
+    borderTopLeftRadius: moderateScale(30),
+    borderTopRightRadius: moderateScale(30),
+    overflow: 'hidden',
+  },
+  ctnTitle: {
+    flex: 1,
+    padding: moderateScale(20),
+  },
+  txtTitle: {
+    fontSize: moderateScale(24),
+    color: colors.white,
+    fontFamily: fonts.MontserratBold,
+  },
+  ctnRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: moderateScale(12),
+  },
+  ctnVerified: {
+    height: moderateScale(24),
+    borderRadius: moderateScale(24 / 2),
+    borderWidth: moderateScale(1),
+    borderColor: colors.white,
+    paddingHorizontal: moderateScale(20),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: moderateScale(20),
+  },
+  verifiedStyle: {
+    width: moderateScale(12),
+    height: moderateScale(12),
+    resizeMode: 'contain',
+  },
+  cardanoIcon: {
+    width: moderateScale(16),
+    height: moderateScale(16),
+    resizeMode: 'contain',
+    marginRight: moderateScale(-2),
+  },
+  txtVerified: {
+    color: '#fff',
+    fontSize: moderateScale(11),
+    fontFamily: fonts.MontserratSemiBold,
+    marginLeft: moderateScale(8),
+  },
+  noBorder: {
+    borderWidth: 0,
+  },
+  ctnTime: {
+    width: '100%',
+    paddingVertical: moderateScale(8),
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  timeWrapper: {
+    marginHorizontal: moderateScale(12),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  timeTitle: {
+    color: '#fff',
+    fontFamily: fonts.MontserratBold,
+    fontSize: moderateScale(16),
+  },
+  timeDesc: {
+    color: '#fff',
+    fontFamily: fonts.MontserratRegular,
+    fontSize: moderateScale(14),
+    marginTop: moderateScale(4),
+  },
+  ctnContent: {
+    backgroundColor: '#736198',
+    marginTop: -1,
+    paddingVertical: moderateScale(16),
+    borderBottomLeftRadius: moderateScale(20),
+    borderBottomRightRadius: moderateScale(30),
+    overflow: 'hidden',
+  },
+  descContentWrapper: {
+    position: 'relative',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  ctnSubContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  iconContent: {
+    width: moderateScale(20),
+    height: moderateScale(20),
+    resizeMode: 'contain',
+  },
+  contentWrapper: {
+    marginLeft: moderateScale(9),
+  },
+  txtTopContent: {
+    color: '#fff',
+    fontFamily: fonts.MontserratRegular,
+  },
+  txtSubContent: {
+    color: '#fff',
+    fontFamily: fonts.MontserratBold,
+    // textAlign: 'center',
+  },
+  ctnDesc: {
+    marginHorizontal: moderateScale(20),
+    marginTop: moderateScale(12),
+    height: moderateScale(100),
+  },
+  txtDesc: {
+    color: colors.white,
+    fontSize: moderateScale(12),
+    fontFamily: fonts.MontserratRegular,
+    lineHeight: moderateScale(19),
+  },
+  ctnButtonStyle: {
+    position: 'absolute',
+    width: '100%',
+    height: moderateScale(100),
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  ctnBottomButton: {
+    marginBottom: moderateScale(-28),
+    position: 'absolute',
+    bottom: 12,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  ctnBtn: {
+    backgroundColor: '#B6565B',
+    height: moderateScale(48),
+    borderRadius: moderateScale(48 / 2.5),
+    paddingHorizontal: moderateScale(28),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  txtBtn: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: moderateScale(16),
+    fontFamily: fonts.MontserratSemiBold,
+  },
+  ctnLove: {
+    backgroundColor: '#2B2B2B',
+    height: moderateScale(48),
+    width: moderateScale(48),
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: moderateScale(48 / 2.5),
+    marginLeft: moderateScale(12),
+  },
+});
