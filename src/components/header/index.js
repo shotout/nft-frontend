@@ -1,15 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles';
-import {goBack} from '../../helpers/navigationRef';
+import {goBack, navigate} from '../../helpers/navigationRef';
+import {colors} from '../../shared/styling';
 
 const backIcon = require('../../assets/icon/back_button.png');
 const menuIcon = require('../../assets/icon/menu_bar.png');
 const whiteIcon = require('../../assets/icon/icon_apps_white.png');
 const coloredIcon = require('../../assets/icon/icon_apps_default.png');
 
-function Header({type, title}) {
+function Header({type, title, onPressDrawer}) {
   function getIconApps() {
     switch (type) {
       case 'boarding':
@@ -27,6 +29,21 @@ function Header({type, title}) {
     }
   }
 
+  function renderRight() {
+    if (type === 'drawer') {
+      return (
+        <TouchableOpacity
+          style={styles.ctnWatchlist}
+          onPress={() => {
+            navigate('Watchlist');
+          }}>
+          <Feather name="heart" color={colors.dark} size={24} />
+        </TouchableOpacity>
+      );
+    }
+    return null;
+  }
+
   function renderLeft() {
     if (type === 'boarding') {
       return null;
@@ -34,7 +51,7 @@ function Header({type, title}) {
     if (type === 'drawer') {
       return (
         <View style={styles.ctnBack}>
-          <TouchableOpacity onPress={() => {}} style={styles.backWrapper}>
+          <TouchableOpacity onPress={onPressDrawer} style={styles.backWrapper}>
             <Image source={menuIcon} style={styles.menuStyle} />
           </TouchableOpacity>
         </View>
@@ -73,6 +90,7 @@ function Header({type, title}) {
     <View style={styles.ctnRoot}>
       {renderLeft()}
       {getContent()}
+      {renderRight()}
     </View>
   );
 }

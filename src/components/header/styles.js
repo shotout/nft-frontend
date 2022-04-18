@@ -51,4 +51,8 @@ export default StyleSheet.create({
     color: colors.dark,
     textDecorationLine: 'underline',
   },
+  ctnWatchlist: {
+    position: 'absolute',
+    right: moderateScale(20),
+  },
 });

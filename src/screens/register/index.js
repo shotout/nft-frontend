@@ -72,7 +72,7 @@ export default function Register() {
         setActiveStep('done');
         break;
       case 'done':
-        navigate('Watchlist');
+        navigate('Homepage');
         break;
       default:
         break;

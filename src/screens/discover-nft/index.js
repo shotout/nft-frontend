@@ -4,7 +4,7 @@ import Header from '../../components/header';
 import NFTCard from '../../components/nft-card';
 import styles from './styles';
 
-export default function DiscoverNFT() {
+export default function DiscoverNFT({navigation}) {
   function renderTitle() {
     return (
       <View style={styles.ctnTitle}>
@@ -16,7 +16,12 @@ export default function DiscoverNFT() {
 
   return (
     <View styles={styles.ctnRoot}>
-      <Header type="drawer" />
+      <Header
+        type="drawer"
+        onPressDrawer={() => {
+          navigation.openDrawer();
+        }}
+      />
       <ScrollView
         style={styles.ctnRoot}
         contentContainerStyle={styles.ctnScroll}>

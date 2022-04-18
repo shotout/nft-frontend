@@ -66,7 +66,7 @@ export default function SignIn() {
         label={getLabel()}
         onPress={() => {
           if (activeStep === 'success') {
-            navigate('Watchlist');
+            navigate('Homepage');
           } else {
             setActiveStep(activeStep === 'signin' ? 'success' : 'signin');
           }
