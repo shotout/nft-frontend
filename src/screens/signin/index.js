@@ -5,16 +5,51 @@ import Header from '../../components/header';
 import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
-import {navigate} from '../../helpers/navigationRef';
+import {goBack, navigate} from '../../helpers/navigationRef';
+import {postLogin} from '../../helpers/requests';
+import arrayErrorResturctor from '../register/responseValidatorArr';
 
 export default function SignIn() {
   const [activeStep, setActiveStep] = useState('signin');
+  const [isLoading, selectedLoading] = useState(false);
   const [values, setValues] = useState({
     email: '',
   });
+  const [error, setError] = useState({
+    email: null,
+  });
+
+  const handleBack = () => {
+    switch (activeStep) {
+      case 'signin':
+        goBack();
+        break;
+      default:
+        setActiveStep('signin');
+        break;
+    }
+  };
 
   const handleChangeText = (stateName, value) => {
     setValues({...values, [stateName]: value});
+  };
+
+  const handleSubmit = async () => {
+    try {
+      selectedLoading(true);
+      const body = {
+        ...values,
+      };
+      await postLogin(body);
+      setActiveStep('success');
+      selectedLoading(false);
+    } catch (err) {
+      if (err.data.errors) {
+        const errorRes = arrayErrorResturctor(err.data.errors);
+        setError(errorRes);
+      }
+      selectedLoading(false);
+    }
   };
 
   function getLabel() {
@@ -48,6 +83,7 @@ export default function SignIn() {
           keyboardType="email-address"
           autoCapitalize="none"
           value={values.email}
+          error={error.email}
           onChangeText={value => {
             handleChangeText('email', value);
           }}
@@ -59,19 +95,16 @@ export default function SignIn() {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
-        <Header />
+        <Header backPress={handleBack} />
         {renderContent()}
       </View>
-      <Button
-        label={getLabel()}
-        onPress={() => {
-          if (activeStep === 'success') {
-            navigate('Homepage');
-          } else {
-            setActiveStep(activeStep === 'signin' ? 'success' : 'signin');
-          }
-        }}
-      />
+      {activeStep === 'signin' && (
+        <Button
+          isLoading={isLoading}
+          label={getLabel()}
+          onPress={handleSubmit}
+        />
+      )}
     </View>
   );
 }

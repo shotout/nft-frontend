@@ -30,3 +30,10 @@ export const postRegister = data =>
     method: 'POST',
     data,
   });
+
+export const postLogin = data =>
+  Wrap({
+    url: '/auth/login',
+    method: 'POST',
+    data,
+  });
