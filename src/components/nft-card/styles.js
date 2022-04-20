@@ -23,7 +23,7 @@ export default StyleSheet.create({
   },
   nftContentStyle: {
     width: '100%',
-    aspectRatio: 4 / 3,
+    aspectRatio: 1 / 1,
     resizeMode: 'cover',
     borderTopLeftRadius: moderateScale(30),
     borderTopRightRadius: moderateScale(30),

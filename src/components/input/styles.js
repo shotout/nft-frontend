@@ -22,4 +22,10 @@ export default StyleSheet.create({
     color: colors.dark,
     paddingTop: moderateScale(8),
   },
+  txtRed: {
+    fontFamily: fonts.MontserratSemiBold,
+    color: colors.red,
+    paddingTop: moderateScale(8),
+    fontSize: moderateScale(11),
+  },
 });

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import {connect} from 'react-redux';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
 import navigationData from './shared/navigationData';
@@ -13,6 +14,7 @@ import FAQ from './screens/faq';
 import SafetyGuideline from './screens/safety-guideline';
 import DiscoverNFT from './screens/discover-nft';
 import Sidebar from './components/sidebar';
+import {fetchWallet} from './store/defaultState/actions';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,10 +32,14 @@ function Homepage() {
   );
 }
 
-export default function Routes() {
+function Routes({handleFetchWallet}) {
+  useEffect(() => {
+    handleFetchWallet();
+  }, []);
+
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="BoardingPage">
+      <Stack.Navigator initialRouteName="FAQ">
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="BoardingPage"
@@ -78,3 +84,7 @@ export default function Routes() {
     </NavigationContainer>
   );
 }
+
+export default connect(undefined, {
+  handleFetchWallet: fetchWallet,
+})(Routes);

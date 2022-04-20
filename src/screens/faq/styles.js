@@ -7,4 +7,7 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  ctnScroll: {
+    paddingTop: moderateScale(20),
+  },
 });

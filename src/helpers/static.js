@@ -1,5 +1,4 @@
-export const API_URL = 'https://be.mfsdev.net';
-export const WEB_URL = 'https://mfsdev.net';
+export const API_URL = 'https://backend.nftdaily.app/api/v1';
 
 export const STORAGE_STATUS = {
   loading: 'LOADING',

@@ -1,17 +1,32 @@
-/* eslint-disable arrow-body-style */
 import Wrap from './axiosWrapper';
 
-// export const fullExample = () => {
-//     return Wrap({
-//         MAIN_URL: 'some-custom-url',
-//         url: '/api/v1/forward-call',
-//         method: 'POST',
-//         data: payload,
-//         customHeaders: {
-//           'Access-Token': accessToken.access_token,
-//           'Access-Client': user.personal_info.email,
-//           Accept: 'application/json',
-//         },
-//         handles: [401],
-//       });
-// }
+export const getFaq = () =>
+  Wrap({
+    url: '/faqs',
+    method: 'get',
+  });
+
+export const getFlagFAQ = (params = '') =>
+  Wrap({
+    url: `/faqs/${params}`,
+    method: 'get',
+  });
+
+export const getWallet = () =>
+  Wrap({
+    url: '/wallet',
+    method: 'get',
+  });
+
+export const getProduct = () =>
+  Wrap({
+    url: '/products',
+    method: 'get',
+  });
+
+export const postRegister = data =>
+  Wrap({
+    url: '/auth/register',
+    method: 'POST',
+    data,
+  });

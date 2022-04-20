@@ -28,6 +28,8 @@
         "prettier/prettier": ["error"],
         "default-param-last": "off",
         "react/forbid-prop-types": "off",
-        "no-async-promise-executor": "off"
+        "no-async-promise-executor": "off",
+        "import/prefer-default-export": "off",
+        "react/prop-types": 0
     }
 }

@@ -11,7 +11,7 @@ const menuIcon = require('../../assets/icon/menu_bar.png');
 const whiteIcon = require('../../assets/icon/icon_apps_white.png');
 const coloredIcon = require('../../assets/icon/icon_apps_default.png');
 
-function Header({type, title, onPressDrawer}) {
+function Header({type, title, onPressDrawer, backPress}) {
   function getIconApps() {
     switch (type) {
       case 'boarding':
@@ -61,7 +61,11 @@ function Header({type, title, onPressDrawer}) {
       <View style={styles.ctnBack}>
         <TouchableOpacity
           onPress={() => {
-            goBack();
+            if (typeof backPress === 'function') {
+              backPress();
+            } else {
+              goBack();
+            }
           }}
           style={styles.backWrapper}>
           <Image source={backIcon} style={styles.backIconStyle} />

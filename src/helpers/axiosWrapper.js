@@ -9,7 +9,7 @@
 
 import axios from 'axios';
 import {API_URL} from './static';
-// import { userCredentialSelector } from '../store/AuthorizationReducer/selector';
+import {userCredentialSelector} from '../store/defaultState/selector';
 import store from '../store/configure-store';
 
 /**
@@ -28,13 +28,14 @@ const request = options => {
   /*
    * Put authorization condition like below
    */
-  // const appState = store.getState();
-  // const userCredential = userCredentialSelector(appState);
-  const userCredential = null;
+  const appState = store.getState();
+  const userCredential = userCredentialSelector(appState);
+  // const userCredential = null;
   let tokenParam = {};
+  console.log('Check userCredential', userCredential);
   if (userCredential) {
     tokenParam = {
-      Authorization: `Bearer ${userCredential.access_token}`,
+      Authorization: `Bearer ${userCredential.token}`,
     };
   }
   const client = axios.create({

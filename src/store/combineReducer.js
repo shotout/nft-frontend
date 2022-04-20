@@ -21,7 +21,7 @@ const persistConfig = {
 const commonPersistConfig = {
   key: 'defaultState',
   storage: AsyncStorage,
-  whitelist: [],
+  whitelist: ['walletList'],
 };
 
 const rootReducers = combineReducers({

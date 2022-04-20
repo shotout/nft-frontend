@@ -1,33 +1,33 @@
 import React, {useState} from 'react';
 import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {connect} from 'react-redux';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
 import {colors} from '../../shared/styling';
-import {navigate} from '../../helpers/navigationRef';
+import {goBack, navigate, reset} from '../../helpers/navigationRef';
+import states from './states';
+import {postRegister} from '../../helpers/requests';
+import arrayErrorResturctor from './responseValidatorArr';
 
-const iconMetamask = require('../../assets/icon/metamask.webp');
-const iconBinance = require('../../assets/icon/bnb.png');
-const iconCardano = require('../../assets/icon/cardano.webp');
-const iconCryptocom = require('../../assets/icon/cryptocom.png');
 const bannerImage = require('../../assets/icon/nft_boarding.gif');
 
-export default function Register() {
+function Register({walletList}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
-  const walletArr = [
-    {name: 'Metamask', icon: iconMetamask},
-    {name: 'Binance', icon: iconBinance},
-    {name: 'Cardano', icon: iconCardano},
-    {name: 'Crypto.com', icon: iconCryptocom},
-  ];
-
+  const [isLoading, selectedLoading] = useState(false);
   const [values, setValues] = useState({
-    username: '',
+    name: '',
     email: '',
+    fcm_token:
+      'cBStvPyy9JkNQLq2F_j1v3:APA91bF5kb0tlBxD2kPaDNw4zXj6V9sOEyIY78P-1gVb3ZPjUTIDvLY92x6R4hvs2VwxcziQ-M0OPz0gO2YEDL0pSujCdz7jjpka5CtYuIe-PV0OnErcOgHOqWRYNp6W6g09oeXg6ny5',
+  });
+  const [error, setError] = useState({
+    name: null,
+    email: null,
   });
 
   const handleChangeText = (stateName, value) => {
@@ -42,6 +42,24 @@ export default function Register() {
     return false;
   };
 
+  const handleBack = () => {
+    switch (activeStep) {
+      case 'username':
+        goBack();
+        break;
+      case 'wallet':
+        setActiveStep('username');
+        break;
+      case 'email':
+        setActiveStep('wallet');
+        break;
+      case 'done':
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleSelectedWallet = name => {
     const isThere = findSelectedWallet(name);
     if (isThere) {
@@ -50,6 +68,25 @@ export default function Register() {
       const currrentData = [...selectedWallet];
       currrentData.push(name);
       setSelectedWallet(currrentData);
+    }
+  };
+
+  const handleSubmit = async () => {
+    try {
+      selectedLoading(true);
+      const body = {
+        ...values,
+        wallet: selectedWallet,
+      };
+      await postRegister(body);
+      selectedLoading(false);
+      setActiveStep('done');
+    } catch (err) {
+      if (err.data.errors) {
+        const errorRes = arrayErrorResturctor(err.data.errors);
+        setError(errorRes);
+      }
+      selectedLoading(false);
     }
   };
 
@@ -63,16 +100,38 @@ export default function Register() {
   const handleChangeStep = () => {
     switch (activeStep) {
       case 'username':
-        setActiveStep('wallet');
+        if (values.name) {
+          setActiveStep('wallet');
+          setError({
+            ...error,
+            name: null,
+          });
+        } else {
+          setError({
+            ...error,
+            name: 'Username is required.',
+          });
+        }
         break;
       case 'wallet':
         setActiveStep('email');
         break;
       case 'email':
-        setActiveStep('done');
+        if (values.email) {
+          handleSubmit();
+          setError({
+            ...error,
+            email: null,
+          });
+        } else {
+          setError({
+            ...error,
+            email: 'Email is required.',
+          });
+        }
         break;
       case 'done':
-        navigate('Homepage');
+        reset('Homepage');
         break;
       default:
         break;
@@ -86,10 +145,10 @@ export default function Register() {
           <View style={styles.ctnBanner}>
             <Image source={bannerImage} style={styles.bannerStyle} />
           </View>
-          <Title label="All done!." />
+          <Title label="All done!" />
           <View style={styles.ctnDesc}>
             <Text style={styles.txtDesc}>
-              {`Discover one new exlusively selected NFT project each day.\n\nVetted and guaranteed to be interesting.`}
+              {`Discover one new exclusively selected NFT project each day.\n\nVetted and guaranteed to be interesting.`}
             </Text>
           </View>
         </ScrollView>
@@ -98,7 +157,9 @@ export default function Register() {
     if (activeStep === 'email') {
       return (
         <>
-          <Title label="Almost done, lets get you the hottest picks directly into your inbox." />
+          <Title
+            label={`Almost done,\nlet's get you the hottest picks directly into your inbox.`}
+          />
           <Input
             maxLength={100}
             value={values.email}
@@ -108,24 +169,23 @@ export default function Register() {
             placeholder="Your Email"
             keyboardType="email-address"
             autoCapitalize="none"
+            error={error.email}
           />
         </>
       );
     }
     if (activeStep === 'wallet') {
-      console.log('Check data:', selectedWallet);
       return (
         <>
           <Title label="Make it relevant for you! Select your primary wallets." />
           <View style={styles.cntWallet}>
-            {walletArr.map(wallet => {
-              const isWalletSelected = findSelectedWallet(wallet.name);
-              console.log('Check wallet', wallet.name, isWalletSelected);
+            {walletList.map(wallet => {
+              const isWalletSelected = findSelectedWallet(wallet.uuid);
               return (
-                <View style={styles.ctnWallet} key={wallet.name}>
+                <View style={styles.ctnWallet} key={wallet.uuid}>
                   <TouchableOpacity
                     onPress={() => {
-                      handleSelectedWallet(wallet.name);
+                      handleSelectedWallet(wallet.uuid);
                     }}>
                     <View
                       style={[
@@ -133,7 +193,7 @@ export default function Register() {
                         isWalletSelected && styles.redBorder,
                       ]}>
                       <Image
-                        source={wallet.icon}
+                        source={{uri: wallet.image_url}}
                         style={styles.walletIcoStyle}
                       />
                     </View>
@@ -159,14 +219,15 @@ export default function Register() {
     }
     return (
       <>
-        <Title label="Lets get personal, what sould we call you?" />
+        <Title label="Lets get personal, what should we call you?" />
         <Input
-          value={values.username}
+          value={values.name}
           onChangeText={value => {
-            handleChangeText('username', value);
+            handleChangeText('name', value);
           }}
           maxLength={30}
           placeholder="Your name"
+          error={error.name}
         />
       </>
     );
@@ -175,10 +236,16 @@ export default function Register() {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
-        <Header />
-        {renderContent()}
+        <Header backPress={handleBack} />
+        <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
-      <Button label={getLabel()} onPress={handleChangeStep} />
+      <Button
+        isLoading={isLoading}
+        label={getLabel()}
+        onPress={handleChangeStep}
+      />
     </View>
   );
 }
+
+export default connect(states)(Register);

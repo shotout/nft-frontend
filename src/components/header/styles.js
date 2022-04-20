@@ -6,7 +6,16 @@ export default StyleSheet.create({
   ctnRoot: {
     flexDirection: 'row',
     alignItems: 'center',
+    backgroundColor: '#fff',
     height: moderateScale(60),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+    elevation: 2,
   },
   ctnBack: {
     position: 'absolute',

@@ -21,6 +21,7 @@ export default function Input(props) {
           {...props}
         />
       </View>
+      {props.error && <Text style={styles.txtRed}>*{props.error}</Text>}
       <Text style={styles.txtLimit}>{`${props.value.length || '0'}/${
         props.maxLength
       }`}</Text>
