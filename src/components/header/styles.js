@@ -1,14 +1,17 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
   ctnRoot: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: moderateScale(60),
+    height: isIphoneXorAbove() ? moderateScale(80) : moderateScale(60),
+    paddingTop: isIphoneXorAbove() ? moderateScale(40) : undefined,
   },
   shadowHeader: {
+    // backgroundColor: 'red',
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
@@ -28,6 +31,7 @@ export default StyleSheet.create({
     height: moderateScale(40),
     justifyContent: 'center',
     alignItems: 'flex-start',
+    marginTop: isIphoneXorAbove() ? moderateScale(40) : undefined,
   },
   backIconStyle: {
     width: moderateScale(20),

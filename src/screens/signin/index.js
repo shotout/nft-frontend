@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -96,21 +96,21 @@ export default function SignIn() {
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
         <Header hideLeft={activeStep === 'success'} backPress={handleBack} />
-        {renderContent()}
+        <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
-      {/* {activeStep === 'signin' && (
-        )} */}
-      <Button
-        isLoading={isLoading}
-        label={getLabel()}
-        onPress={() => {
-          if (activeStep === 'success') {
-            reset('Homepage');
-          } else {
-            handleSubmit();
-          }
-        }}
-      />
+      {activeStep === 'signin' && (
+        <Button
+          isLoading={isLoading}
+          label={getLabel()}
+          onPress={() => {
+            if (activeStep === 'success') {
+              // reset('Homepage');
+            } else {
+              handleSubmit();
+            }
+          }}
+        />
+      )}
     </View>
   );
 }

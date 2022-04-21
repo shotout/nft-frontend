@@ -35,11 +35,12 @@ export default StyleSheet.create({
     marginBottom: moderateScale(40),
   },
   icnWallet: {
+    margin: moderateScale(2),
     width: moderateScale(58),
     height: moderateScale(58),
     borderRadius: moderateScale(58 / 2),
     marginBottom: moderateScale(8),
-    overflow: 'hidden',
+    // overflow: 'hidden',
     backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {

@@ -239,11 +239,13 @@ function Register({walletList}) {
         <Header hideLeft={activeStep === 'done'} backPress={handleBack} />
         <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
-      <Button
-        isLoading={isLoading}
-        label={getLabel()}
-        onPress={handleChangeStep}
-      />
+      {activeStep !== 'done' && (
+        <Button
+          isLoading={isLoading}
+          label={getLabel()}
+          onPress={handleChangeStep}
+        />
+      )}
     </View>
   );
 }
