@@ -11,7 +11,7 @@ const menuIcon = require('../../assets/icon/menu_bar.png');
 const whiteIcon = require('../../assets/icon/icon_apps_white.png');
 const coloredIcon = require('../../assets/icon/icon_apps_default.png');
 
-function Header({type, title, onPressDrawer, backPress}) {
+function Header({type, title, onPressDrawer, backPress, hideLeft}) {
   function getIconApps() {
     switch (type) {
       case 'boarding':
@@ -45,7 +45,7 @@ function Header({type, title, onPressDrawer, backPress}) {
   }
 
   function renderLeft() {
-    if (type === 'boarding') {
+    if (type === 'boarding' || hideLeft) {
       return null;
     }
     if (type === 'drawer') {
@@ -91,7 +91,7 @@ function Header({type, title, onPressDrawer, backPress}) {
   }
 
   return (
-    <View style={styles.ctnRoot}>
+    <View style={[styles.ctnRoot, type !== 'boarding' && styles.shadowHeader]}>
       {renderLeft()}
       {getContent()}
       {renderRight()}

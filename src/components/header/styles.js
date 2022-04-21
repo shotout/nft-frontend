@@ -6,8 +6,10 @@ export default StyleSheet.create({
   ctnRoot: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
     height: moderateScale(60),
+  },
+  shadowHeader: {
+    backgroundColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,

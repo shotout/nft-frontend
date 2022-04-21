@@ -236,7 +236,7 @@ function Register({walletList}) {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
-        <Header backPress={handleBack} />
+        <Header hideLeft={activeStep === 'done'} backPress={handleBack} />
         <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
       <Button

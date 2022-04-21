@@ -56,4 +56,7 @@ export default StyleSheet.create({
     resizeMode: 'contain',
     marginLeft: moderateScale(16),
   },
+  ctnScroll: {
+    paddingTop: moderateScale(20),
+  },
 });

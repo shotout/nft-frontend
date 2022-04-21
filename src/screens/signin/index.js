@@ -5,7 +5,7 @@ import Header from '../../components/header';
 import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
-import {goBack, navigate} from '../../helpers/navigationRef';
+import {goBack, navigate, reset} from '../../helpers/navigationRef';
 import {postLogin} from '../../helpers/requests';
 import arrayErrorResturctor from '../register/responseValidatorArr';
 
@@ -95,16 +95,22 @@ export default function SignIn() {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
-        <Header backPress={handleBack} />
+        <Header hideLeft={activeStep === 'success'} backPress={handleBack} />
         {renderContent()}
       </View>
-      {activeStep === 'signin' && (
-        <Button
-          isLoading={isLoading}
-          label={getLabel()}
-          onPress={handleSubmit}
-        />
-      )}
+      {/* {activeStep === 'signin' && (
+        )} */}
+      <Button
+        isLoading={isLoading}
+        label={getLabel()}
+        onPress={() => {
+          if (activeStep === 'success') {
+            reset('Homepage');
+          } else {
+            handleSubmit();
+          }
+        }}
+      />
     </View>
   );
 }

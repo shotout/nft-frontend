@@ -13,6 +13,7 @@ export default function WatchList() {
     <View style={styles.ctnRoot}>
       <Header title="Watchlist" />
       <FlatList
+        contentContainerStyle={styles.ctnScroll}
         data={['a', 'b', 'c', 'd']}
         renderItem={() => (
           <View style={styles.ctnItem}>

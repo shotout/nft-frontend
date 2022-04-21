@@ -5,6 +5,7 @@ import {colors, fonts} from '../../shared/styling';
 export default StyleSheet.create({
   ctnTitle: {
     marginHorizontal: moderateScale(20),
+    // paddingTop: moderateScale(12),
   },
   txtTitle: {
     color: colors.dark,
@@ -18,5 +19,8 @@ export default StyleSheet.create({
   },
   ctnScroll: {
     paddingBottom: moderateScale(20),
+  },
+  ctnRoot: {
+    backgroundColor: '#fff',
   },
 });
