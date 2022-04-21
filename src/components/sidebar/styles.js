@@ -1,11 +1,13 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
   ctnRoot: {
     flex: 1,
     paddingHorizontal: moderateScale(20),
+    paddingTop: isIphoneXorAbove() ? moderateScale(40) : undefined,
   },
   ctnClose: {
     paddingVertical: moderateScale(20),

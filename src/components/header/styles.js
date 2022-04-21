@@ -25,13 +25,13 @@ export default StyleSheet.create({
   ctnBack: {
     position: 'absolute',
     left: moderateScale(20),
+    top: isIphoneXorAbove() ? moderateScale(40) : undefined,
   },
   backWrapper: {
     width: moderateScale(80),
     height: moderateScale(40),
     justifyContent: 'center',
     alignItems: 'flex-start',
-    marginTop: isIphoneXorAbove() ? moderateScale(40) : undefined,
   },
   backIconStyle: {
     width: moderateScale(20),
@@ -69,5 +69,6 @@ export default StyleSheet.create({
   ctnWatchlist: {
     position: 'absolute',
     right: moderateScale(20),
+    top: isIphoneXorAbove() ? moderateScale(48) : undefined,
   },
 });
