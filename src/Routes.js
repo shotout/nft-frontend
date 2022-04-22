@@ -39,7 +39,7 @@ function Routes({handleFetchWallet}) {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator initialRouteName="Register">
+      <Stack.Navigator initialRouteName="BoardingPage">
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="BoardingPage"
