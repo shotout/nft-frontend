@@ -12,11 +12,12 @@ import {goBack, navigate, reset} from '../../helpers/navigationRef';
 import states from './states';
 import {postRegister} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
+import RegisterAnimate from '../../components/register-animate';
 
 const bannerImage = require('../../assets/icon/nft_boarding.gif');
 
 function Register({walletList}) {
-  const [activeStep, setActiveStep] = useState('username'); // email,wallet
+  const [activeStep, setActiveStep] = useState('done'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
   const [values, setValues] = useState({
@@ -143,7 +144,7 @@ function Register({walletList}) {
       return (
         <ScrollView>
           <View style={styles.ctnBanner}>
-            <Image source={bannerImage} style={styles.bannerStyle} />
+            <RegisterAnimate />
           </View>
           <Title label="All done!" />
           <View style={styles.ctnDesc}>

@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   ctnDesc: {
     marginHorizontal: moderateScale(20),
-    marginTop: moderateScale(30),
+    marginTop: moderateScale(6),
   },
   txtDesc: {
     color: colors.dark,
@@ -74,7 +74,7 @@ export default StyleSheet.create({
   },
   ctnBanner: {
     width: '100%',
-    aspectRatio: 1686 / 1813,
+    aspectRatio: 281 / 315,
     // backgroundColor: 'red',
   },
   bannerStyle: {
