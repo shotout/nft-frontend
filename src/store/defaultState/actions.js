@@ -6,6 +6,11 @@ export const setStorageStatus = payload => ({
   payload,
 });
 
+export const setProfileUser = payload => ({
+  type: types.SET_PROFILE_USER,
+  payload,
+});
+
 export const fetchWallet =
   (params = {}) =>
   async dispatch => {

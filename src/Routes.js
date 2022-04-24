@@ -16,6 +16,7 @@ import SafetyGuideline from './screens/safety-guideline';
 import DiscoverNFT from './screens/discover-nft';
 import Sidebar from './components/sidebar';
 import {fetchWallet} from './store/defaultState/actions';
+import {userCredentialSelector} from './store/defaultState/selector';
 import ValidateToken from './screens/validate-token';
 
 const Stack = createNativeStackNavigator();
@@ -51,14 +52,21 @@ function Homepage({route}) {
   );
 }
 
-function Routes({handleFetchWallet}) {
+function Routes({handleFetchWallet, profile}) {
   useEffect(() => {
     handleFetchWallet();
   }, []);
 
+  function getInitialRoute() {
+    if (profile.token) {
+      return 'Homepage';
+    }
+    return 'BoardingPage';
+  }
+
   return (
     <NavigationContainer linking={linking} ref={navigationRef}>
-      <Stack.Navigator initialRouteName="BoardingPage">
+      <Stack.Navigator initialRouteName={getInitialRoute()}>
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="BoardingPage"
@@ -109,6 +117,10 @@ function Routes({handleFetchWallet}) {
   );
 }
 
-export default connect(undefined, {
+const mapStateToProps = state => ({
+  profile: userCredentialSelector(state),
+});
+
+export default connect(mapStateToProps, {
   handleFetchWallet: fetchWallet,
 })(Routes);

@@ -4,19 +4,7 @@ import * as types from './types';
 const INITIAL_STATE = {
   storageStatus: STORAGE_STATUS.loading,
   walletList: [],
-  userProfile: {
-    status: 'success',
-    token: '4|3IPXUKmu6zXrs1PvOKauFFtSWSt9t2PoscEHXKmS',
-    data: {
-      id: 4,
-      uuid: 'e170f023-523f-4473-b00b-1a1e9557982b',
-      name: 'Fff',
-      email: 'hey@mail.com',
-      email_verified_at: '2022-04-20T08:56:39.000000Z',
-      created_at: '2022-04-20T08:55:22.000000Z',
-      updated_at: '2022-04-20T08:56:39.000000Z',
-    },
-  },
+  userProfile: {},
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -31,6 +19,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         walletList: action.payload,
       };
+    case types.SET_PROFILE_USER: {
+      return {
+        ...state,
+        userProfile: action.payload,
+      };
+    }
     default:
       return state;
   }

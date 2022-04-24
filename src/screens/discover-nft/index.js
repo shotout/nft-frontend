@@ -2,12 +2,17 @@ import React, {useEffect} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import Header from '../../components/header';
 import NFTCard from '../../components/nft-card';
+import {reset} from '../../helpers/navigationRef';
 import {getProduct} from '../../helpers/requests';
 import styles from './styles';
 
 export default function DiscoverNFT({navigation, route}) {
   const fetchData = async () => {
-    const res = await getProduct();
+    try {
+      const res = await getProduct({per_page: 8, page: 1});
+    } catch (err) {
+      reset('BoardingPage');
+    }
   };
 
   useEffect(() => {

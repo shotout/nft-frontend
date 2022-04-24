@@ -18,10 +18,11 @@ export const getWallet = () =>
     method: 'get',
   });
 
-export const getProduct = () =>
+export const getProduct = (params = {}) =>
   Wrap({
     url: '/products',
     method: 'get',
+    params,
   });
 
 export const postRegister = data =>
@@ -36,4 +37,10 @@ export const postLogin = data =>
     url: '/auth/login',
     method: 'POST',
     data,
+  });
+
+export const verifyToken = id =>
+  Wrap({
+    url: `/auth/verify/${id}`,
+    method: 'GET',
   });
