@@ -8,11 +8,10 @@ import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
 import {colors} from '../../shared/styling';
-import {goBack, navigate, reset} from '../../helpers/navigationRef';
+import {goBack} from '../../helpers/navigationRef';
 import states from './states';
 import {postRegister} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
-import RegisterAnimate from '../../components/register-animate';
 
 function Register({walletList}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
@@ -91,7 +90,7 @@ function Register({walletList}) {
 
   function getLabel() {
     if (activeStep === 'done') {
-      return 'Start Exploring';
+      return 'Go Back';
     }
     return 'Continue';
   }
@@ -130,7 +129,7 @@ function Register({walletList}) {
         }
         break;
       case 'done':
-        reset('Homepage');
+        goBack();
         break;
       default:
         break;
@@ -140,17 +139,14 @@ function Register({walletList}) {
   function renderContent() {
     if (activeStep === 'done') {
       return (
-        <ScrollView>
-          <View style={styles.ctnBanner}>
-            <RegisterAnimate />
-          </View>
-          <Title label="All done!" />
-          <View style={styles.ctnDesc}>
-            <Text style={styles.txtDesc}>
-              {`Discover one new exclusively selected NFT project each day.\n\nVetted and guaranteed to be interesting.`}
+        <>
+          <Title label="Success, an email with the login link has been sent to your account." />
+          <View style={styles.ctnDescDone}>
+            <Text style={styles.txtDescDone}>
+              {`To continue, open your emails and click on the link provided.\n\nMake sure to also check your spam folder, if you cannot find it.`}
             </Text>
           </View>
-        </ScrollView>
+        </>
       );
     }
     if (activeStep === 'email') {

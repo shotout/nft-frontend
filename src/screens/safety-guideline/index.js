@@ -8,14 +8,14 @@ import {getFlagFAQ} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
 
 export default function SafetyGuideline({route}) {
-  console.log('Check route:', route);
+  // console.log('Check route:', route);
 
   const [isLoading, setLoading] = useState(true);
   const [listData, setlistData] = useState([]);
 
   const fetchData = async () => {
     setLoading(true);
-    const res = await getFlagFAQ(route.params.id);
+    const res = await getFlagFAQ(route?.params?.id);
     setLoading(false);
     setlistData(res.data);
   };

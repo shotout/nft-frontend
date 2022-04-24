@@ -1,11 +1,12 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Image} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {push} from '../../helpers/navigationRef';
 import styles from './styles';
 
 const iconSocial = require('../../assets/icon/social.png');
 
-export default function Sidebar({navigation}) {
+export default function Sidebar({navigation, route}) {
   const topMenu = [
     {
       name: 'Account & Settings',
@@ -22,7 +23,10 @@ export default function Sidebar({navigation}) {
     {
       name: 'Safety Guidelines',
       onPress: () => {
-        navigation.navigate('SafetyGuideline');
+        push('SafetyGuideline', {
+          id: 'guideline',
+          question: 'Safety Guidelines',
+        });
       },
     },
     {name: 'Need Help?', onPress: () => {}},

@@ -1,4 +1,5 @@
 import React, {useEffect} from 'react';
+import {Linking} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -15,12 +16,30 @@ import SafetyGuideline from './screens/safety-guideline';
 import DiscoverNFT from './screens/discover-nft';
 import Sidebar from './components/sidebar';
 import {fetchWallet} from './store/defaultState/actions';
+import ValidateToken from './screens/validate-token';
 
 const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
-function Homepage() {
+export const config = {
+  screens: {
+    ValidateToken: {
+      path: 'api/v1/auth/verify/:id',
+      parse: {
+        id: id => `${id}`,
+      },
+    },
+  },
+};
+
+const linking = {
+  prefixes: ['https://backend.nftdaily.app', 'nftapps://link'],
+  // prefixes: ['nftapps://link'],
+  config,
+};
+
+function Homepage({route}) {
   return (
     <Drawer.Navigator drawerContent={props => <Sidebar {...props} />}>
       <Drawer.Screen
@@ -38,7 +57,7 @@ function Routes({handleFetchWallet}) {
   }, []);
 
   return (
-    <NavigationContainer ref={navigationRef}>
+    <NavigationContainer linking={linking} ref={navigationRef}>
       <Stack.Navigator initialRouteName="BoardingPage">
         <Stack.Screen
           options={navigationData.noHeader.options}
@@ -79,6 +98,11 @@ function Routes({handleFetchWallet}) {
           options={navigationData.noHeader.options}
           name="Homepage"
           component={Homepage}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="ValidateToken"
+          component={ValidateToken}
         />
       </Stack.Navigator>
     </NavigationContainer>

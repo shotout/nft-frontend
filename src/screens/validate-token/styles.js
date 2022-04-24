@@ -86,14 +86,4 @@ export default StyleSheet.create({
     borderColor: colors.red,
     borderWidth: moderateScale(2),
   },
-  ctnDescDone: {
-    marginHorizontal: moderateScale(20),
-    marginTop: moderateScale(30),
-  },
-  txtDescDone: {
-    color: colors.dark,
-    fontSize: moderateScale(16),
-    fontFamily: fonts.MontserratSemiBold,
-    lineHeight: moderateScale(24),
-  },
 });

@@ -5,7 +5,7 @@ import NFTCard from '../../components/nft-card';
 import {getProduct} from '../../helpers/requests';
 import styles from './styles';
 
-export default function DiscoverNFT({navigation}) {
+export default function DiscoverNFT({navigation, route}) {
   const fetchData = async () => {
     const res = await getProduct();
   };
@@ -13,7 +13,6 @@ export default function DiscoverNFT({navigation}) {
   useEffect(() => {
     fetchData();
   }, []);
-
   function renderTitle() {
     return (
       <View style={styles.ctnTitle}>

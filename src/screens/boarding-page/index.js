@@ -17,7 +17,7 @@ const notificationIcon = require('../../assets/icon/notification.png');
 const nftImage =
   'https://dappradar.com/nft-metadata-image?format=preview&filePath=ethereum/0x60e4d786628fea6478f785a6d7e704777c86a7c6/4849.png';
 
-export default function BoardingPage() {
+export default function BoardingPage({route}) {
   function notificationBar() {
     return (
       <View style={styles.notificationBar}>

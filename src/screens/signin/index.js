@@ -103,7 +103,7 @@ export default function SignIn() {
         label={getLabel()}
         onPress={() => {
           if (activeStep === 'success') {
-            reset('Homepage');
+            goBack();
           } else {
             handleSubmit();
           }
