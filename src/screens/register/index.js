@@ -14,10 +14,8 @@ import {postRegister} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
 import RegisterAnimate from '../../components/register-animate';
 
-const bannerImage = require('../../assets/icon/nft_boarding.gif');
-
 function Register({walletList}) {
-  const [activeStep, setActiveStep] = useState('done'); // email,wallet
+  const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
   const [values, setValues] = useState({
@@ -240,13 +238,11 @@ function Register({walletList}) {
         <Header hideLeft={activeStep === 'done'} backPress={handleBack} />
         <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
-      {activeStep !== 'done' && (
-        <Button
-          isLoading={isLoading}
-          label={getLabel()}
-          onPress={handleChangeStep}
-        />
-      )}
+      <Button
+        isLoading={isLoading}
+        label={getLabel()}
+        onPress={handleChangeStep}
+      />
     </View>
   );
 }
