@@ -9,6 +9,7 @@
     "test": "jest",
     "lint": "eslint .",
     "clean": "cd android && ./gradlew clean",
+    "pod": "rm -rf ios/Pods ios/Podfile.lock && cd ios && pod install",
     "releaseApk": "cd android && ./gradlew assembleRelease && open app/build/outputs/apk/release",
     "bundleRelease": "cd android && ./gradlew clean && ./gradlew bundleRelease && open app/build/outputs/bundle/release",
     "reinstall": "rm -rf node_modules && yarn"
