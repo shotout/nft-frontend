@@ -32,6 +32,13 @@ export const postRegister = data =>
     data,
   });
 
+export const updateUser = data =>
+  Wrap({
+    url: '/users',
+    method: 'PATCH',
+    data,
+  });
+
 export const addWatchlist = id =>
   Wrap({
     url: `/watchlists/${id}`,
@@ -50,9 +57,16 @@ export const verifyToken = id =>
     url: `/auth/verify/${id}`,
     method: 'GET',
   });
+
 export const listWatchlist = params =>
   Wrap({
     url: `/watchlists`,
+    method: 'GET',
+    params,
+  });
+export const getProfile = params =>
+  Wrap({
+    url: `/users`,
     method: 'GET',
     params,
   });

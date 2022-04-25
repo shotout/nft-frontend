@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
@@ -10,13 +10,15 @@ import styles from './styles';
 import {colors} from '../../shared/styling';
 import {goBack} from '../../helpers/navigationRef';
 import states from './states';
-import {postRegister} from '../../helpers/requests';
+import {getProfile, postRegister, updateUser} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
+import LoadingIndicator from '../../components/loading-indicator';
 
-function Register({walletList}) {
+function Register({walletList, route}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
+  const [loadingGetEdit, setEditLoading] = useState(false);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -27,6 +29,26 @@ function Register({walletList}) {
     name: null,
     email: null,
   });
+
+  const handleInitialEdit = async () => {
+    if (route.params.edit) {
+      setEditLoading(true);
+      setActiveStep(route.params.edit);
+      const res = await getProfile();
+      const wallet = res.data.wallets.map(item => item.uuid);
+      setValues({
+        ...values,
+        name: res.data.name,
+        email: res.data.email,
+      });
+      setSelectedWallet(wallet);
+      setEditLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    handleInitialEdit();
+  }, []);
 
   const handleChangeText = (stateName, value) => {
     setValues({...values, [stateName]: value});
@@ -39,8 +61,13 @@ function Register({walletList}) {
     }
     return false;
   };
+  console.log('Check params:', route.params);
 
   const handleBack = () => {
+    if (route.params.edit) {
+      goBack();
+      return true;
+    }
     switch (activeStep) {
       case 'username':
         goBack();
@@ -56,6 +83,7 @@ function Register({walletList}) {
       default:
         break;
     }
+    return true;
   };
 
   const handleSelectedWallet = name => {
@@ -88,7 +116,29 @@ function Register({walletList}) {
     }
   };
 
+  const handleUpdate = async () => {
+    try {
+      selectedLoading(true);
+      const body = {
+        ...values,
+        wallet: selectedWallet,
+      };
+      await updateUser(body);
+      selectedLoading(false);
+      goBack();
+    } catch (err) {
+      if (err.data.errors) {
+        const errorRes = arrayErrorResturctor(err.data.errors);
+        setError(errorRes);
+      }
+      selectedLoading(false);
+    }
+  };
+
   function getLabel() {
+    if (route.params.edit) {
+      return 'Save';
+    }
     if (activeStep === 'done') {
       return 'Go Back';
     }
@@ -96,6 +146,10 @@ function Register({walletList}) {
   }
 
   const handleChangeStep = () => {
+    if (route.params.edit) {
+      handleUpdate();
+      return true;
+    }
     switch (activeStep) {
       case 'username':
         if (values.name) {
@@ -134,6 +188,7 @@ function Register({walletList}) {
       default:
         break;
     }
+    return true;
   };
 
   function renderContent() {
@@ -228,17 +283,26 @@ function Register({walletList}) {
     );
   }
 
+  function renderMainContent() {
+    if (loadingGetEdit) {
+      return <LoadingIndicator fullscreen />;
+    }
+    return <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>;
+  }
+
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
         <Header hideLeft={activeStep === 'done'} backPress={handleBack} />
-        <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
+        {renderMainContent()}
       </View>
-      <Button
-        isLoading={isLoading}
-        label={getLabel()}
-        onPress={handleChangeStep}
-      />
+      {!loadingGetEdit && (
+        <Button
+          isLoading={isLoading}
+          label={getLabel()}
+          onPress={handleChangeStep}
+        />
+      )}
     </View>
   );
 }
