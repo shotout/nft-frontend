@@ -32,6 +32,12 @@ export const postRegister = data =>
     data,
   });
 
+export const addWatchlist = id =>
+  Wrap({
+    url: `/watchlists/${id}`,
+    method: 'POST',
+  });
+
 export const postLogin = data =>
   Wrap({
     url: '/auth/login',
@@ -43,4 +49,10 @@ export const verifyToken = id =>
   Wrap({
     url: `/auth/verify/${id}`,
     method: 'GET',
+  });
+export const listWatchlist = params =>
+  Wrap({
+    url: `/watchlists`,
+    method: 'GET',
+    params,
   });

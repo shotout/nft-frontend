@@ -21,6 +21,11 @@ export default StyleSheet.create({
     paddingBottom: moderateScale(20),
   },
   ctnRoot: {
+    // flex: 1,
+    backgroundColor: '#fff',
+  },
+  ctnMain: {
+    flex: 1,
     backgroundColor: '#fff',
   },
 });
