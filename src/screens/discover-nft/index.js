@@ -15,7 +15,6 @@ export default function DiscoverNFT({navigation, route}) {
     try {
       setLoading(true);
       const res = await getProduct({per_page: 8, page: 1});
-      console.log('Check res:', res.data);
       setData(res.data.data);
       setLoading(false);
     } catch (err) {

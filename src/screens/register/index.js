@@ -31,9 +31,9 @@ function Register({walletList, route}) {
   });
 
   const handleInitialEdit = async () => {
-    if (route.params.edit) {
+    if (route.params?.edit) {
       setEditLoading(true);
-      setActiveStep(route.params.edit);
+      setActiveStep(route.params?.edit);
       const res = await getProfile();
       const wallet = res.data.wallets.map(item => item.uuid);
       setValues({
@@ -61,10 +61,9 @@ function Register({walletList, route}) {
     }
     return false;
   };
-  console.log('Check params:', route.params);
 
   const handleBack = () => {
-    if (route.params.edit) {
+    if (route.params?.edit) {
       goBack();
       return true;
     }
@@ -136,7 +135,7 @@ function Register({walletList, route}) {
   };
 
   function getLabel() {
-    if (route.params.edit) {
+    if (route.params?.edit) {
       return 'Save';
     }
     if (activeStep === 'done') {
@@ -146,7 +145,7 @@ function Register({walletList, route}) {
   }
 
   const handleChangeStep = () => {
-    if (route.params.edit) {
+    if (route.params?.edit) {
       handleUpdate();
       return true;
     }

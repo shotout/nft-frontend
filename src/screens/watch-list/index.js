@@ -17,7 +17,6 @@ export default function WatchList() {
       setLoading(true);
       const res = await listWatchlist();
       setLoading(false);
-      console.log('Check res.data.data:', res.data.data);
       setData(res.data.data);
     } catch (err) {
       setLoading(false);

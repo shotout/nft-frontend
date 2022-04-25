@@ -18,7 +18,6 @@ function ValidateToken({route, setProfileUser}) {
     try {
       selectedLoading(true);
       const res = await verifyToken(route.params.id);
-      console.log('Cehck res:', res);
       if (res.status === 'failed') {
         setError(true);
       } else {

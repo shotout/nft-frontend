@@ -9,10 +9,11 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {hexToRgbA} from '../../helpers/hexToRgba';
-import {addWatchlist} from '../../helpers/requests';
+import {addWatchlist, removeWatchlist} from '../../helpers/requests';
 import {URL_WEBSITE} from '../../helpers/static';
+import {colors} from '../../shared/styling';
 import styles from './styles';
 
 const verifiedIcon = require('../../assets/icon/verified.png');
@@ -22,11 +23,17 @@ const starsIcon = require('../../assets/icon/stars.png');
 
 export default function NFTCard({item}) {
   const [loadingFavorite, setFavorite] = useState(false);
+  const [isFavorite, setIsFavorite] = useState(item.watch_list);
 
   const handleFavorite = async () => {
     try {
       setFavorite(true);
-      await addWatchlist(item.uuid);
+      if (isFavorite) {
+        await removeWatchlist(item.uuid);
+      } else {
+        await addWatchlist(item.uuid);
+      }
+      setIsFavorite(!isFavorite);
       setFavorite(false);
     } catch (err) {
       setFavorite(false);
@@ -160,7 +167,11 @@ export default function NFTCard({item}) {
               {loadingFavorite ? (
                 <ActivityIndicator color="#fff" size="small" />
               ) : (
-                <Feather name="heart" color="#fff" size={24} />
+                <FontAwesome
+                  name={isFavorite ? 'heart' : 'heart-o'}
+                  color={isFavorite ? colors.red : '#fff'}
+                  size={24}
+                />
               )}
             </View>
           </TouchableWithoutFeedback>

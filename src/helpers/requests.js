@@ -45,6 +45,12 @@ export const addWatchlist = id =>
     method: 'POST',
   });
 
+export const removeWatchlist = id =>
+  Wrap({
+    url: `/watchlists/${id}`,
+    method: 'DELETE',
+  });
+
 export const postLogin = data =>
   Wrap({
     url: '/auth/login',
