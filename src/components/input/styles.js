@@ -16,11 +16,13 @@ export default StyleSheet.create({
     flex: 1,
     fontFamily: fonts.MontserratRegular,
     color: colors.dark,
+    fontSize: moderateScale(14),
   },
   txtLimit: {
     fontFamily: fonts.MontserratRegular,
     color: colors.dark,
     paddingTop: moderateScale(8),
+    fontSize: moderateScale(12),
   },
   txtRed: {
     fontFamily: fonts.MontserratSemiBold,

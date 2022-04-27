@@ -99,6 +99,7 @@ export default function SignIn() {
         <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
       <Button
+        btnStyle={styles.btnStyle}
         isLoading={isLoading}
         label={getLabel()}
         onPress={() => {
