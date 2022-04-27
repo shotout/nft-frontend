@@ -95,8 +95,8 @@ function Header({type, title, onPressDrawer, backPress, hideLeft}) {
       <StatusBar
         barStyle={type === 'boarding' ? 'light-content' : 'dark-content'}
       />
-      {renderLeft()}
       {getContent()}
+      {renderLeft()}
       {renderRight()}
     </View>
   );
