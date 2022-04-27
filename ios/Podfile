@@ -7,6 +7,9 @@ install! 'cocoapods', :deterministic_uuids => false
 target 'nftdaily' do
   config = use_native_modules!
 
+  # #Deep link
+  # pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+
   # Flags change depending on the env values.
   flags = get_default_flags()
 
