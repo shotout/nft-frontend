@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   FlatList,
@@ -7,22 +7,42 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 import Header from '../../components/header';
+import LoadingIndicator from '../../components/loading-indicator';
 import {navigate} from '../../helpers/navigationRef';
+import {getProfile} from '../../helpers/requests';
 import styles from './styles';
 
 const forwardIcon = require('../../assets/icon/forward_icon.png');
 
 export default function AccountSettings() {
+  const [loadingGetEdit, setEditLoading] = useState(false);
+  const [detail, setDetail] = useState({
+    name: '',
+    email: '',
+  });
+
+  const getInitialData = async () => {
+    setEditLoading(true);
+    const res = await getProfile();
+    setDetail(res.data);
+    setEditLoading(false);
+  };
+
+  useEffect(() => {
+    getInitialData();
+  }, []);
+
+  console.log('Check detail :', detail);
   const menuItem = [
     {
-      title: 'Your Name',
+      title: detail.name,
       desc: 'Change your display name',
       onPress: () => {
         navigate('Register', {edit: 'username'});
       },
     },
     {
-      title: 'Email',
+      title: detail.email,
       desc: 'Update your email address linked to this account',
       onPress: () => {
         navigate('Register', {edit: 'email'});
@@ -42,9 +62,11 @@ export default function AccountSettings() {
     },
   ];
 
-  return (
-    <View style={styles.ctnRoot}>
-      <Header title="Account & Settings" />
+  function renderContent() {
+    if (loadingGetEdit) {
+      return <LoadingIndicator fullscreen />;
+    }
+    return (
       <View style={styles.ctnCard}>
         <FlatList
           data={menuItem}
@@ -59,9 +81,16 @@ export default function AccountSettings() {
               </View>
             </TouchableWithoutFeedback>
           )}
-          keyExtractor={item => item.title}
+          keyExtractor={(item, index) => index.toString()}
         />
       </View>
+    );
+  }
+
+  return (
+    <View style={styles.ctnRoot}>
+      <Header title="Account & Settings" />
+      {renderContent()}
     </View>
   );
 }
