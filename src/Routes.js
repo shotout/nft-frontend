@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, {useEffect} from 'react';
 import {Linking} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
@@ -18,29 +19,13 @@ import Sidebar from './components/sidebar';
 import {fetchWallet} from './store/defaultState/actions';
 import {userCredentialSelector} from './store/defaultState/selector';
 import ValidateToken from './screens/validate-token';
+import {linking} from './helpers/linking';
 
 const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
-export const config = {
-  screens: {
-    ValidateToken: {
-      path: 'api/v1/auth/verify/:id',
-      parse: {
-        id: id => `${id}`,
-      },
-    },
-  },
-};
-
-const linking = {
-  prefixes: ['https://backend.nftdaily.app', 'nftapps://link'],
-  // prefixes: ['nftapps://link'],
-  config,
-};
-
-function Homepage({route}) {
+function Homepage() {
   return (
     <Drawer.Navigator drawerContent={props => <Sidebar {...props} />}>
       <Drawer.Screen

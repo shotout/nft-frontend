@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
@@ -85,5 +86,8 @@ export default StyleSheet.create({
   redBorder: {
     borderColor: colors.red,
     borderWidth: moderateScale(2),
+  },
+  btnStyle: {
+    marginBottom: isIphoneXorAbove() ? moderateScale(28) : moderateScale(20),
   },
 });

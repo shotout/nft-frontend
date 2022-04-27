@@ -13,7 +13,7 @@ import dispatcher from './dispatcher';
 function ValidateToken({route, setProfileUser}) {
   const [isLoading, selectedLoading] = useState(true);
   const [isError, setError] = useState(false);
-
+  console.log('Check token:', route.params);
   const handleData = async () => {
     try {
       selectedLoading(true);
@@ -72,6 +72,7 @@ function ValidateToken({route, setProfileUser}) {
         </ScrollView>
       </View>
       <Button
+        btnStyle={styles.btnStyle}
         isLoading={isLoading}
         label={isError ? 'Go Back' : 'Start Exploring'}
         onPress={() => {
