@@ -11,7 +11,7 @@ import Header from '../../components/header';
 import {navigate} from '../../helpers/navigationRef';
 import styles from './styles';
 
-const backgroundImage = require('../../assets/icon/boarding_bg.png');
+const backgroundImage = require('../../assets/icon/boarding.gif');
 const notificationIcon = require('../../assets/icon/notification.png');
 
 const nftImage =
