@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {View, Image, Text, TouchableOpacity} from 'react-native';
+import {View, Image, Text, TouchableOpacity, StatusBar} from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import styles from './styles';
 import {goBack, navigate} from '../../helpers/navigationRef';
@@ -92,6 +92,9 @@ function Header({type, title, onPressDrawer, backPress, hideLeft}) {
 
   return (
     <View style={[styles.ctnRoot, type !== 'boarding' && styles.shadowHeader]}>
+      <StatusBar
+        barStyle={type === 'boarding' ? 'light-content' : 'dark-content'}
+      />
       {renderLeft()}
       {getContent()}
       {renderRight()}

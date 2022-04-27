@@ -4,7 +4,7 @@ import {Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {colors} from '../../shared/styling';
 import styles from './styles';
 
-export default function Button({label, onPress, type, isLoading}) {
+export default function Button({label, onPress, type, isLoading, btnStyle}) {
   const [isFocus, setFocus] = useState(false);
 
   function getBgColor() {
@@ -29,7 +29,7 @@ export default function Button({label, onPress, type, isLoading}) {
     <TouchableOpacity
       disabled={isLoading}
       onPress={onPress}
-      style={[styles.ctnRoot, getBgColor()]}>
+      style={[styles.ctnRoot, getBgColor(), btnStyle]}>
       {isLoading ? (
         <ActivityIndicator size="small" color="#fff" />
       ) : (

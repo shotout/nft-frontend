@@ -26,6 +26,7 @@ export default StyleSheet.create({
     position: 'absolute',
     left: moderateScale(20),
     top: isIphoneXorAbove() ? moderateScale(40) : undefined,
+    zIndex: 9999,
   },
   backWrapper: {
     width: moderateScale(80),
@@ -70,5 +71,6 @@ export default StyleSheet.create({
     position: 'absolute',
     right: moderateScale(20),
     top: isIphoneXorAbove() ? moderateScale(48) : undefined,
+    zIndex: 9999,
   },
 });

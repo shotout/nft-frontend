@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
@@ -95,5 +96,8 @@ export default StyleSheet.create({
     fontSize: moderateScale(16),
     fontFamily: fonts.MontserratSemiBold,
     lineHeight: moderateScale(24),
+  },
+  btnStyle: {
+    marginBottom: isIphoneXorAbove() ? moderateScale(28) : moderateScale(20),
   },
 });

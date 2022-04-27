@@ -18,6 +18,7 @@ function Register({walletList, route}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
+  const [isNone, setNone] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
   const [values, setValues] = useState({
     name: '',
@@ -87,6 +88,9 @@ function Register({walletList, route}) {
 
   const handleSelectedWallet = name => {
     const isThere = findSelectedWallet(name);
+    if (isNone) {
+      setNone(false);
+    }
     if (isThere) {
       setSelectedWallet(selectedWallet.filter(item => item !== name));
     } else {
@@ -177,7 +181,7 @@ function Register({walletList, route}) {
         } else {
           setError({
             ...error,
-            email: 'Email is required.',
+            email: 'Please enter a valid email address.',
           });
         }
         break;
@@ -255,8 +259,9 @@ function Register({walletList, route}) {
               <TouchableOpacity
                 onPress={() => {
                   setSelectedWallet([]);
+                  setNone(true);
                 }}>
-                <View style={styles.icnWallet}>
+                <View style={[styles.icnWallet, isNone && styles.redBorder]}>
                   <AntDesign name="close" size={30} color={colors.dark} />
                 </View>
               </TouchableOpacity>
@@ -300,6 +305,7 @@ function Register({walletList, route}) {
           isLoading={isLoading}
           label={getLabel()}
           onPress={handleChangeStep}
+          btnStyle={styles.btnStyle}
         />
       )}
     </View>

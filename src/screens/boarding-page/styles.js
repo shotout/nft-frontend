@@ -36,6 +36,7 @@ export default StyleSheet.create({
     color: colors.white,
     fontFamily: fonts.MontserratRegular,
     textDecorationLine: 'underline',
+    fontSize: moderateScale(14),
   },
   notificationBar: {
     flexDirection: 'row',
