@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import moment from 'moment';
 
 const getReturnValues = countDown => {
   // calculate time left
@@ -13,7 +14,9 @@ const getReturnValues = countDown => {
 };
 
 const useCountdown = targetDate => {
-  const countDownDate = new Date(targetDate).getTime();
+  const countDownDate = new Date(
+    moment(targetDate).format('YYYY-MM-DD'),
+  ).getTime();
 
   const [countDown, setCountDown] = useState(
     countDownDate - new Date().getTime(),
