@@ -20,6 +20,7 @@ import {fetchWallet} from './store/defaultState/actions';
 import {userCredentialSelector} from './store/defaultState/selector';
 import ValidateToken from './screens/validate-token';
 import {linking} from './helpers/linking';
+import DetailProduct from './screens/detail-product';
 
 const Stack = createNativeStackNavigator();
 
@@ -96,6 +97,11 @@ function Routes({handleFetchWallet, profile}) {
           options={navigationData.noHeader.options}
           name="ValidateToken"
           component={ValidateToken}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="DetailProduct"
+          component={DetailProduct}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -76,3 +76,9 @@ export const getProfile = params =>
     method: 'GET',
     params,
   });
+
+export const getDetailProduct = id =>
+  Wrap({
+    url: `/products/${id}`,
+    method: 'GET',
+  });

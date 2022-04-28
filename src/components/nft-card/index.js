@@ -11,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {hexToRgbA} from '../../helpers/hexToRgba';
+import {navigate} from '../../helpers/navigationRef';
 import {addWatchlist, removeWatchlist} from '../../helpers/requests';
 import {URL_WEBSITE} from '../../helpers/static';
 import {colors} from '../../shared/styling';
@@ -156,6 +157,9 @@ export default function NFTCard({item}) {
         {renderContent()}
         <View style={styles.ctnBottomButton}>
           <TouchableOpacity
+            onPress={() => {
+              navigate('DetailProduct', {id: item.uuid});
+            }}
             style={[
               styles.ctnBtn,
               {backgroundColor: item.preferance.main_color},
