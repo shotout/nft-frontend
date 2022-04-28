@@ -10,12 +10,10 @@ export default StyleSheet.create({
   ctnSlider: {
     width: '100%',
     paddingTop: moderateScale(12),
-    paddingVertical: moderateScale(30),
-    paddingHorizontal: moderateScale(20),
-    // paddingTop: moderateScale(20),
+    paddingBottom: moderateScale(30),
   },
   ctnCollection: {
-    width: '100%',
+    marginHorizontal: moderateScale(20),
     aspectRatio: 1 / 1,
     backgroundColor: '#fff',
     borderRadius: moderateScale(30),
@@ -41,6 +39,7 @@ export default StyleSheet.create({
     borderTopLeftRadius: moderateScale(30),
     borderTopRightRadius: moderateScale(30),
     paddingBottom: moderateScale(80),
+    marginTop: moderateScale(20),
   },
   ctnTitle: {
     paddingHorizontal: moderateScale(20),
@@ -186,5 +185,27 @@ export default StyleSheet.create({
   },
   ctnScroll: {
     flexGrow: 1,
+  },
+  dotWrapper: {
+    position: 'absolute',
+    right: moderateScale(16),
+    bottom: moderateScale(-20),
+    alignSelf: 'center',
+    width: '100%',
+  },
+  dotContainerStyle: {
+    marginHorizontal: moderateScale(2),
+  },
+  inactiveDotStyle: {
+    width: moderateScale(12),
+    height: moderateScale(12),
+    borderRadius: moderateScale(6),
+    backgroundColor: '#cfcfcf',
+  },
+  dotStyle: {
+    width: moderateScale(8),
+    height: moderateScale(8),
+    borderRadius: moderateScale(4),
+    backgroundColor: '#fff',
   },
 });

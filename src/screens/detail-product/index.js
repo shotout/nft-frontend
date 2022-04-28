@@ -1,6 +1,8 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {View, Text, Image, ScrollView} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import Carousel, {Pagination} from 'react-native-snap-carousel';
+import {moderateScale} from 'react-native-size-matters';
 import styles from './styles';
 // import {detail} from './detail';
 import {URL_WEBSITE} from '../../helpers/static';
@@ -10,6 +12,7 @@ import {getDetailProduct} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
 import Header from '../../components/header';
 import {useCountdown} from '../../hooks/useCountdown';
+import {getDimensionWidth} from '../../helpers/getDimensions';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 const starIcon = require('../../assets/icon/rating.png');
@@ -22,7 +25,10 @@ const linkIcon = require('../../assets/icon/social.png');
 
 function DetailProduct({route}) {
   const [isLoading, setLoading] = useState(true);
+  const [activeSlide, setActiveSlide] = useState(true);
   const [detail, setDetail] = useState({});
+
+  let carouselRef = useRef();
 
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
 
@@ -46,10 +52,36 @@ function DetailProduct({route}) {
   function renderSlider() {
     return (
       <View style={[styles.ctnSlider]}>
-        <View style={styles.ctnCollection}>
-          <Image
-            source={{uri: `${URL_WEBSITE}${detail.collections[0].image}`}}
-            style={styles.imgCollection}
+        <Carousel
+          layout="default"
+          ref={c => {
+            carouselRef = c;
+          }}
+          data={detail.collections}
+          renderItem={({item}) => (
+            <View style={styles.ctnCollection}>
+              <Image
+                source={{uri: `${URL_WEBSITE}${item.image}`}}
+                style={styles.imgCollection}
+              />
+            </View>
+          )}
+          onBeforeSnapToItem={index => setActiveSlide(index)}
+          keyExtractor={index => index.toString()}
+          sliderWidth={getDimensionWidth(1)}
+          itemWidth={getDimensionWidth(1)}
+        />
+        <View style={styles.dotWrapper}>
+          <Pagination
+            activeDotIndex={activeSlide}
+            dotsLength={detail.collections?.length || 0}
+            containerStyle={styles.ctnDot}
+            dotStyle={styles.dotStyle}
+            inactiveDotStyle={styles.inactiveDotStyle}
+            dotContainerStyle={styles.dotContainerStyle}
+            inactiveDotOpacity={1}
+            inactiveDotScale={0.7}
+            carouselRef={carouselRef}
           />
         </View>
       </View>
