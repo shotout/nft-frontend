@@ -14,6 +14,7 @@ import {hexToRgbA} from '../../helpers/hexToRgba';
 import {navigate} from '../../helpers/navigationRef';
 import {addWatchlist, removeWatchlist} from '../../helpers/requests';
 import {URL_WEBSITE} from '../../helpers/static';
+import {useCountdown} from '../../hooks/useCountdown';
 import {colors} from '../../shared/styling';
 import styles from './styles';
 
@@ -25,6 +26,7 @@ const starsIcon = require('../../assets/icon/stars.png');
 export default function NFTCard({item}) {
   const [loadingFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
+  const [days, hours, minutes, seconds] = useCountdown(item.nft_exp_promo);
 
   const handleFavorite = async () => {
     try {
@@ -78,6 +80,17 @@ export default function NFTCard({item}) {
   }
 
   function renderTime() {
+    if (days + hours + minutes + seconds <= 0) {
+      return (
+        <LinearGradient
+          colors={colorGradient}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          style={styles.ctnTime}>
+          <Text style={styles.txtExpired}>Expired</Text>
+        </LinearGradient>
+      );
+    }
     return (
       <LinearGradient
         colors={colorGradient}
@@ -85,19 +98,19 @@ export default function NFTCard({item}) {
         end={{x: 1, y: 0}}
         style={styles.ctnTime}>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>1</Text>
+          <Text style={styles.timeTitle}>{days}</Text>
           <Text style={styles.timeDesc}>Day</Text>
         </View>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>14</Text>
+          <Text style={styles.timeTitle}>{hours}</Text>
           <Text style={styles.timeDesc}>Hrs</Text>
         </View>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>56</Text>
+          <Text style={styles.timeTitle}>{minutes}</Text>
           <Text style={styles.timeDesc}>Min</Text>
         </View>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>05</Text>
+          <Text style={styles.timeTitle}>{seconds}</Text>
           <Text style={styles.timeDesc}>Sec</Text>
         </View>
       </LinearGradient>
@@ -158,7 +171,10 @@ export default function NFTCard({item}) {
         <View style={styles.ctnBottomButton}>
           <TouchableOpacity
             onPress={() => {
-              navigate('DetailProduct', {id: item.uuid});
+              navigate('DetailProduct', {
+                id: item.uuid,
+                exp_promo: item.nft_exp_promo,
+              });
             }}
             style={[
               styles.ctnBtn,

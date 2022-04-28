@@ -80,6 +80,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    minHeight: moderateScale(50),
   },
   timeWrapper: {
     marginHorizontal: moderateScale(12),
@@ -183,5 +184,11 @@ export default StyleSheet.create({
     alignItems: 'center',
     borderRadius: moderateScale(48 / 2.5),
     marginLeft: moderateScale(12),
+  },
+  txtExpired: {
+    color: '#fff',
+    fontSize: moderateScale(20),
+    fontFamily: fonts.MontserratSemiBold,
+    textAlign: 'center',
   },
 });

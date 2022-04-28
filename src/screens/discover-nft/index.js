@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
+import Carousel from 'react-native-snap-carousel';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import NFTCard from '../../components/nft-card';
 import {reset} from '../../helpers/navigationRef';
 import {getProduct} from '../../helpers/requests';
 import styles from './styles';
+import {getDimensionWidth} from '../../helpers/getDimensions';
 
 export default function DiscoverNFT({navigation, route}) {
   const [isLoading, setLoading] = useState(true);
@@ -34,13 +36,28 @@ export default function DiscoverNFT({navigation, route}) {
     );
   }
 
+  function renderCard() {
+    // return <NFTCard item={listData[0]} />;
+    return (
+      <Carousel
+        layout="tinder"
+        layoutCardOffset="9"
+        data={listData}
+        renderItem={({item}) => <NFTCard item={item} />}
+        keyExtractor={item => item.uuid}
+        sliderWidth={getDimensionWidth(1)}
+        itemWidth={getDimensionWidth(1)}
+      />
+    );
+  }
+
   function renderContent() {
     return (
       <ScrollView
         style={styles.ctnRoot}
         contentContainerStyle={styles.ctnScroll}>
         {renderTitle()}
-        {listData?.length > 0 && <NFTCard item={listData[0]} />}
+        {renderCard()}
       </ScrollView>
     );
   }

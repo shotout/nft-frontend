@@ -6,6 +6,7 @@ import {LocalizeProvider} from 'react-localize-redux';
 import Navigator from './Routes';
 import store, {persistor} from './store/configure-store';
 
+console.disableYellowBox = true;
 const App = () => {
   // const getToken = async () => {
   //   try {

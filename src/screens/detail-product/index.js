@@ -9,6 +9,7 @@ import {hexToRgbA} from '../../helpers/hexToRgba';
 import {getDetailProduct} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
 import Header from '../../components/header';
+import {useCountdown} from '../../hooks/useCountdown';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 const starIcon = require('../../assets/icon/rating.png');
@@ -22,6 +23,8 @@ const linkIcon = require('../../assets/icon/social.png');
 function DetailProduct({route}) {
   const [isLoading, setLoading] = useState(true);
   const [detail, setDetail] = useState({});
+
+  const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
 
   const fetchData = async () => {
     setLoading(true);
@@ -127,19 +130,19 @@ function DetailProduct({route}) {
         end={{x: 1, y: 0}}
         style={styles.ctnTime}>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>1</Text>
+          <Text style={styles.timeTitle}>{days}</Text>
           <Text style={styles.timeDesc}>Day</Text>
         </View>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>14</Text>
+          <Text style={styles.timeTitle}>{hours}</Text>
           <Text style={styles.timeDesc}>Hrs</Text>
         </View>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>56</Text>
+          <Text style={styles.timeTitle}>{minutes}</Text>
           <Text style={styles.timeDesc}>Min</Text>
         </View>
         <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>05</Text>
+          <Text style={styles.timeTitle}>{seconds}</Text>
           <Text style={styles.timeDesc}>Sec</Text>
         </View>
       </LinearGradient>
