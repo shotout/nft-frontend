@@ -9,6 +9,7 @@ export default StyleSheet.create({
   },
   ctnSlider: {
     width: '100%',
+    paddingTop: moderateScale(12),
     paddingVertical: moderateScale(30),
     paddingHorizontal: moderateScale(20),
     // paddingTop: moderateScale(20),

@@ -8,6 +8,7 @@ import Button from '../../components/button';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {getDetailProduct} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
+import Header from '../../components/header';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 const starIcon = require('../../assets/icon/rating.png');
@@ -197,6 +198,7 @@ function DetailProduct({route}) {
           {backgroundColor: detail.preferance.background_color},
         ]}
         contentContainerStyle={styles.ctnScroll}>
+        <Header type="detail-product" />
         {renderSlider()}
         {renderContent()}
       </ScrollView>
