@@ -31,6 +31,8 @@ function Register({walletList, route}) {
     email: null,
   });
 
+  console.log('Check walletList:', walletList);
+
   const handleInitialEdit = async () => {
     if (route.params?.edit) {
       setEditLoading(true);

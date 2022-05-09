@@ -14,7 +14,7 @@ export const getFlagFAQ = (params = '') =>
 
 export const getWallet = () =>
   Wrap({
-    url: '/wallet',
+    url: 'https://cdn.contentful.com/spaces/iekxawt54bzj/environments/master/entries/?access_token=PnEziYatZ-FrHJ-vus9Uxry0gJNXMU2g0dd-EB2xKOQ',
     method: 'get',
   });
 

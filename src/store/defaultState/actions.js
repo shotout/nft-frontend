@@ -15,5 +15,6 @@ export const fetchWallet =
   (params = {}) =>
   async dispatch => {
     const res = await getWallet(params);
-    dispatch({type: types.FETCH_WALLET_LIST, payload: res.data});
+    // console.log('Check wallet :', res);
+    dispatch({type: types.FETCH_WALLET_LIST, payload: res.items});
   };
