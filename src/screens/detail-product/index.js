@@ -25,7 +25,7 @@ const linkIcon = require('../../assets/icon/social.png');
 
 function DetailProduct({route}) {
   const [isLoading, setLoading] = useState(true);
-  const [activeSlide, setActiveSlide] = useState(true);
+  const [activeSlide, setActiveSlide] = useState(0);
   const [detail, setDetail] = useState({});
 
   let carouselRef = useRef();
@@ -155,6 +155,17 @@ function DetailProduct({route}) {
   }
 
   function renderTime() {
+    if (days + hours + minutes + seconds <= 0) {
+      return (
+        <LinearGradient
+          colors={colorGradient}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          style={styles.ctnTime}>
+          <Text style={styles.txtExpired}>Expired</Text>
+        </LinearGradient>
+      );
+    }
     return (
       <LinearGradient
         colors={colorGradient}

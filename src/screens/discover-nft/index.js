@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Header from '../../components/header';
@@ -12,6 +12,8 @@ import {getDimensionWidth} from '../../helpers/getDimensions';
 export default function DiscoverNFT({navigation, route}) {
   const [isLoading, setLoading] = useState(true);
   const [listData, setData] = useState([]);
+  const [activeSlide, setActiveSlide] = useState(0);
+  let carouselRef = useRef();
 
   const fetchData = async () => {
     try {
@@ -43,10 +45,16 @@ export default function DiscoverNFT({navigation, route}) {
         layout="tinder"
         layoutCardOffset="9"
         data={listData}
-        renderItem={({item}) => <NFTCard item={item} />}
+        renderItem={({item, index}) => (
+          <NFTCard isActive={index === activeSlide} item={item} />
+        )}
         keyExtractor={item => item.uuid}
         sliderWidth={getDimensionWidth(1)}
         itemWidth={getDimensionWidth(1)}
+        ref={c => {
+          carouselRef = c;
+        }}
+        onBeforeSnapToItem={index => setActiveSlide(index)}
       />
     );
   }

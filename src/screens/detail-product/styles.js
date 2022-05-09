@@ -208,4 +208,10 @@ export default StyleSheet.create({
     borderRadius: moderateScale(4),
     backgroundColor: '#fff',
   },
+  txtExpired: {
+    color: '#fff',
+    fontSize: moderateScale(20),
+    fontFamily: fonts.MontserratSemiBold,
+    textAlign: 'center',
+  },
 });

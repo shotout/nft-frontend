@@ -24,7 +24,7 @@ const groupIcon = require('../../assets/icon/group_icon.png');
 
 const starsIcon = require('../../assets/icon/stars.png');
 
-export default function NFTCard({item}) {
+export default function NFTCard({item, isActive}) {
   const [loadingFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
   const [days, hours, minutes, seconds] = useCountdown(item.nft_exp_promo);
@@ -42,6 +42,13 @@ export default function NFTCard({item}) {
     } catch (err) {
       setFavorite(false);
     }
+  };
+
+  const navigateDetailProduct = () => {
+    navigate('DetailProduct', {
+      id: item.uuid,
+      exp_promo: item.nft_exp_promo,
+    });
   };
 
   const colorGradient = [
@@ -163,20 +170,12 @@ export default function NFTCard({item}) {
     );
   }
 
-  return (
-    <View style={styles.ctnRoot}>
-      <View style={styles.ctnCard}>
-        {renderImage()}
-        {renderTime()}
-        {renderContent()}
+  function renderBottom() {
+    if (isActive) {
+      return (
         <View style={styles.ctnBottomButton}>
           <TouchableOpacity
-            onPress={() => {
-              navigate('DetailProduct', {
-                id: item.uuid,
-                exp_promo: item.nft_exp_promo,
-              });
-            }}
+            onPress={navigateDetailProduct}
             style={[
               styles.ctnBtn,
               {backgroundColor: item.preferance.main_color},
@@ -197,7 +196,21 @@ export default function NFTCard({item}) {
             </View>
           </TouchableWithoutFeedback>
         </View>
-      </View>
+      );
+    }
+    return null;
+  }
+
+  return (
+    <View style={styles.ctnRoot}>
+      <TouchableWithoutFeedback onPress={navigateDetailProduct}>
+        <View style={styles.ctnCard}>
+          {renderImage()}
+          {renderTime()}
+          {renderContent()}
+          {renderBottom()}
+        </View>
+      </TouchableWithoutFeedback>
     </View>
   );
 }
