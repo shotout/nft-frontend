@@ -36,7 +36,7 @@ export default function WatchList() {
 
   return (
     <View style={styles.ctnRoot}>
-      <Header title="Watchlist" />
+      <Header title="Hypelist" />
       <FlatList
         contentContainerStyle={styles.ctnScroll}
         data={listData}
