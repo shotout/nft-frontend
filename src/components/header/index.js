@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import {
   View,
   Image,
@@ -27,7 +26,7 @@ function Header({
   onPressDrawer,
   backPress,
   hideLeft,
-  toggleFavorite,
+  onShare,
   loadingFavorite,
   isFavorite,
 }) {
@@ -61,21 +60,29 @@ function Header({
   function renderRight() {
     if (type === 'detail-product') {
       return (
-        <TouchableOpacity
-          style={styles.ctnWatchlist}
-          onPress={() => {
-            navigate('Watchlist');
-          }}>
-          {loadingFavorite ? (
-            <ActivityIndicator color="#fff" size="small" />
-          ) : (
-            <FontAwesome
-              name={isFavorite ? 'heart' : 'heart-o'}
-              color={isFavorite ? colors.red : '#fff'}
-              size={moderateScale(20)}
+        <View style={styles.ctnWatchlist}>
+          <TouchableOpacity style={styles.ctnShare} onPress={onShare}>
+            <Feather
+              name="share-2"
+              color={colors.white}
+              size={moderateScale(21)}
             />
-          )}
-        </TouchableOpacity>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigate('Watchlist');
+            }}>
+            {loadingFavorite ? (
+              <ActivityIndicator color="#fff" size="small" />
+            ) : (
+              <FontAwesome
+                name={isFavorite ? 'heart' : 'heart-o'}
+                color={isFavorite ? colors.red : '#fff'}
+                size={moderateScale(20)}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
       );
     }
     if (type === 'drawer') {

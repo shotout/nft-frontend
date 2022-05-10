@@ -72,5 +72,10 @@ export default StyleSheet.create({
     right: moderateScale(20),
     top: isIphoneXorAbove() ? moderateScale(48) : undefined,
     zIndex: 9999,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ctnShare: {
+    marginRight: moderateScale(14),
   },
 });

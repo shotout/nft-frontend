@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, Image, ScrollView} from 'react-native';
+import {View, Text, Image, ScrollView, Share} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {moderateScale} from 'react-native-size-matters';
@@ -48,6 +48,12 @@ function DetailProduct({route}) {
     detail?.preferance?.gradient1_color || '#fff',
     detail?.preferance?.gradient2_color || '#fff',
   ];
+
+  const handleShare = async () => {
+    await Share.share({
+      message: `Open link to open apps https://backend.nftdaily.app/article/${detail.uuid}`,
+    });
+  };
 
   function renderSlider() {
     return (
@@ -244,7 +250,7 @@ function DetailProduct({route}) {
           {backgroundColor: detail.preferance.background_color},
         ]}
         contentContainerStyle={styles.ctnScroll}>
-        <Header type="detail-product" />
+        <Header onShare={handleShare} type="detail-product" />
         {renderSlider()}
         {renderContent()}
       </ScrollView>

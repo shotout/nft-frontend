@@ -37,6 +37,12 @@ const config = {
         id: id => `${id}`,
       },
     },
+    DetailProduct: {
+      path: 'article/:id',
+      parse: {
+        id: id => `${id}`,
+      },
+    },
     Signin: 'signin',
     Homepage: '*',
   },
