@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import moment from 'moment';
+import {connect} from 'react-redux';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import NFTCard from '../../components/nft-card';
@@ -10,8 +11,9 @@ import {getProduct} from '../../helpers/requests';
 import styles from './styles';
 import {getDimensionWidth} from '../../helpers/getDimensions';
 import {getFutureDate} from '../../helpers/dateHelper';
+import states from './states';
 
-export default function DiscoverNFT({navigation, route}) {
+function DiscoverNFT({navigation, userProfile}) {
   const [isLoading, setLoading] = useState(true);
   const [listData, setData] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -55,6 +57,9 @@ export default function DiscoverNFT({navigation, route}) {
   function renderTitle() {
     return (
       <View style={styles.ctnTitle}>
+        <Text style={styles.txtName}>{`Hi ${
+          userProfile?.data?.name || ''
+        },`}</Text>
         <Text style={styles.txtTitle}>Here is our pick</Text>
         <Text style={styles.txtDayTitle}>{`for ${getDateItem()}`}</Text>
       </View>
@@ -112,3 +117,5 @@ export default function DiscoverNFT({navigation, route}) {
     </View>
   );
 }
+
+export default connect(states)(DiscoverNFT);

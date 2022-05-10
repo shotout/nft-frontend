@@ -17,6 +17,11 @@ export default StyleSheet.create({
     fontSize: moderateScale(30),
     fontFamily: fonts.MontserratBold,
   },
+  txtName: {
+    color: colors.dark,
+    fontSize: moderateScale(18),
+    fontFamily: fonts.MontserratRegular,
+  },
   ctnScroll: {
     paddingBottom: moderateScale(20),
   },
