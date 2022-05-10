@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, RefreshControl} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import moment from 'moment';
 import {connect} from 'react-redux';
@@ -15,9 +15,10 @@ import states from './states';
 
 function DiscoverNFT({navigation, userProfile}) {
   const [isLoading, setLoading] = useState(true);
+  const [isRefresh, setRefresh] = useState(false);
   const [listData, setData] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
-  let carouselRef = useRef();
+  let carouselRef = null;
 
   const fetchData = async () => {
     try {
@@ -27,6 +28,19 @@ function DiscoverNFT({navigation, userProfile}) {
       setLoading(false);
     } catch (err) {
       reset('BoardingPage');
+    }
+  };
+
+  const handleRefresh = async () => {
+    try {
+      setRefresh(true);
+      carouselRef.snapToItem(0);
+      const res = await getProduct({per_page: 8, page: 1});
+      setData(res.data.data);
+      setRefresh(false);
+    } catch (err) {
+      console.log('Error refresh:', err);
+      setRefresh(false);
     }
   };
 
@@ -90,6 +104,9 @@ function DiscoverNFT({navigation, userProfile}) {
   function renderContent() {
     return (
       <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={isRefresh} onRefresh={handleRefresh} />
+        }
         style={styles.ctnRoot}
         contentContainerStyle={styles.ctnScroll}>
         {renderTitle()}
