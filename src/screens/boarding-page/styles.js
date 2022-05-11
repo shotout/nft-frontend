@@ -1,5 +1,9 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {
+  getDimensionHeight,
+  getDimensionWidth,
+} from '../../helpers/getDimensions';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
@@ -85,5 +89,14 @@ export default StyleSheet.create({
   },
   txtTime: {
     fontFamily: fonts.MontserratRegular,
+  },
+  videoRootStyle: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: getDimensionWidth(1),
+    height: getDimensionHeight(1),
   },
 });
