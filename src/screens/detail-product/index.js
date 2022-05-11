@@ -15,8 +15,9 @@ import {useCountdown} from '../../hooks/useCountdown';
 import {getDimensionWidth} from '../../helpers/getDimensions';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
-const starIcon = require('../../assets/icon/rating.png');
+const starIcon = require('../../assets/icon/hype_red.png');
 const groupIcon = require('../../assets/icon/user_group.png');
+const hypeGif = require('../../assets/icon/flame.gif');
 
 const twitter = require('../../assets/icon/twitter.png');
 const discord = require('../../assets/icon/discord.png');
@@ -107,15 +108,12 @@ function DetailProduct({route}) {
     return (
       <View style={styles.descContentWrapper}>
         <View style={styles.ctnSubContent}>
-          <View style={styles.ctnIconTab}>
-            <Image
-              source={starIcon}
-              style={[styles.iconContent, styles.starIcon]}
-            />
-          </View>
+          <Image source={hypeGif} style={styles.privateStarIcon} />
           <View style={styles.contentWrapper}>
-            <Text style={styles.txtTopContent}>Type</Text>
-            <Text style={styles.txtSubContent}>{detail.nft_type}</Text>
+            <Text style={styles.txtTopContent}>Hype</Text>
+            <Text style={[styles.txtSubContent, styles.txtHype]}>
+              {detail.nft_type}
+            </Text>
           </View>
         </View>
         <View style={styles.ctnSubContent}>

@@ -23,6 +23,7 @@ const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
 
 const starsIcon = require('../../assets/icon/stars.png');
+const hypeIcon = require('../../assets/icon/hype_white.png');
 
 export default function NFTCard({item, isActive}) {
   const [loadingFavorite, setFavorite] = useState(false);
@@ -134,9 +135,9 @@ export default function NFTCard({item, isActive}) {
         ]}>
         <View style={styles.descContentWrapper}>
           <View style={styles.ctnSubContent}>
-            <Image source={starsIcon} style={styles.iconContent} />
+            <Image source={hypeIcon} style={styles.iconHype} />
             <View style={styles.contentWrapper}>
-              <Text style={styles.txtTopContent}>Type</Text>
+              <Text style={styles.txtTopContent}>Hype</Text>
               <Text style={styles.txtSubContent}>{item.nft_type}</Text>
             </View>
           </View>
@@ -148,7 +149,10 @@ export default function NFTCard({item, isActive}) {
             </View>
           </View>
           <View style={styles.ctnSubContent}>
-            <Image source={starsIcon} style={styles.iconContent} />
+            <Image
+              source={{uri: `${URL_WEBSITE}${item.blockchain.vektor}`}}
+              style={styles.iconContent}
+            />
             <View style={styles.contentWrapper}>
               <Text style={styles.txtTopContent}>Price</Text>
               <Text style={styles.txtSubContent}>{`${item.nft_price}`}</Text>
@@ -187,11 +191,7 @@ export default function NFTCard({item, isActive}) {
               {loadingFavorite ? (
                 <ActivityIndicator color="#fff" size="small" />
               ) : (
-                <FontAwesome
-                  name={isFavorite ? 'heart' : 'heart-o'}
-                  color={isFavorite ? colors.red : '#fff'}
-                  size={24}
-                />
+                <Image source={hypeIcon} style={styles.hypeIconStyle} />
               )}
             </View>
           </TouchableWithoutFeedback>

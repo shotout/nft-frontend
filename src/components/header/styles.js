@@ -78,4 +78,9 @@ export default StyleSheet.create({
   ctnShare: {
     marginRight: moderateScale(14),
   },
+  hypeIconStyle: {
+    width: moderateScale(24),
+    height: moderateScale(24),
+    resizeMode: 'contain',
+  },
 });

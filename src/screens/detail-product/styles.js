@@ -80,6 +80,13 @@ export default StyleSheet.create({
     width: moderateScale(15),
     height: moderateScale(15),
   },
+  privateStarIcon: {
+    width: moderateScale(50),
+    height: moderateScale(50),
+    top: moderateScale(-8),
+    right: moderateScale(-6),
+    marginLeft: moderateScale(-20),
+  },
   ctnIconTab: {
     width: moderateScale(30),
     height: moderateScale(30),
@@ -213,5 +220,9 @@ export default StyleSheet.create({
     fontSize: moderateScale(20),
     fontFamily: fonts.MontserratSemiBold,
     textAlign: 'center',
+  },
+  txtHype: {
+    color: colors.red,
+    fontFamily: fonts.MontserratBold,
   },
 });

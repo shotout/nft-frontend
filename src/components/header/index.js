@@ -19,6 +19,8 @@ const backWhite = require('../../assets/icon/back_button_white.png');
 const menuIcon = require('../../assets/icon/menu_bar.png');
 const whiteIcon = require('../../assets/icon/icon_apps_white.png');
 const coloredIcon = require('../../assets/icon/icon_apps_default.png');
+const hypeShadow = require('../../assets/icon/hype_with_shadow.png');
+const hypeWhite = require('../../assets/icon/hype_white.png');
 
 function Header({
   type,
@@ -75,11 +77,7 @@ function Header({
             {loadingFavorite ? (
               <ActivityIndicator color="#fff" size="small" />
             ) : (
-              <FontAwesome
-                name={isFavorite ? 'heart' : 'heart-o'}
-                color={isFavorite ? colors.red : '#fff'}
-                size={moderateScale(20)}
-              />
+              <Image source={hypeWhite} style={styles.hypeIconStyle} />
             )}
           </TouchableOpacity>
         </View>
@@ -92,7 +90,7 @@ function Header({
           onPress={() => {
             navigate('Watchlist');
           }}>
-          <Feather name="heart" color={colors.dark} size={24} />
+          <Image source={hypeShadow} style={styles.hypeIconStyle} />
         </TouchableOpacity>
       );
     }

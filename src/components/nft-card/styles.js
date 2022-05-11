@@ -52,7 +52,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: moderateScale(20),
+    marginRight: moderateScale(12),
   },
   verifiedStyle: {
     width: moderateScale(12),
@@ -120,6 +120,11 @@ export default StyleSheet.create({
   iconContent: {
     width: moderateScale(20),
     height: moderateScale(20),
+    resizeMode: 'contain',
+  },
+  iconHype: {
+    width: moderateScale(16),
+    height: moderateScale(16),
     resizeMode: 'contain',
   },
   contentWrapper: {
@@ -190,5 +195,10 @@ export default StyleSheet.create({
     fontSize: moderateScale(20),
     fontFamily: fonts.MontserratSemiBold,
     textAlign: 'center',
+  },
+  hypeIconStyle: {
+    width: moderateScale(24),
+    height: moderateScale(24),
+    resizeMode: 'contain',
   },
 });
