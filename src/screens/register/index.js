@@ -14,6 +14,7 @@ import states from './states';
 import {getProfile, postRegister, updateUser} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
 import LoadingIndicator from '../../components/loading-indicator';
+import {requestNotificationPermission} from '../../helpers/requestPermission';
 
 function Register({walletList, route}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
@@ -61,6 +62,7 @@ function Register({walletList, route}) {
   };
 
   useEffect(() => {
+    requestNotificationPermission();
     handleInitialEdit();
     getToken();
   }, []);

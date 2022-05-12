@@ -1,0 +1,525 @@
+{
+	"info": {
+		"_postman_id": "12d14186-51a3-4931-ac2e-538cbe4caef5",
+		"name": "nft",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\" : \"padliyulian\",\n    \"email\" : \"padliyulian@gmail.com\",\n    \"wallet\" : [\"945b20fc-4285-47c5-a488-c2c06eb6543c\", \"54d5cefe-fd84-4cbc-83ab-2ed0568a7bb1\"],\n    \"fcm_token\": \"cBStvPyy9JkNQLq2F_j1v3:APA91bF5kb0tlBxD2kPaDNw4zXj6V9sOEyIY78P-1gVb3ZPjUTIDvLY92x6R4hvs2VwxcziQ-M0OPz0gO2YEDL0pSujCdz7jjpka5CtYuIe-PV0OnErcOgHOqWRYNp6W6g09oeXg6ny5\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/register",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\" : \"user1@mail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "verify",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/verify/14oY360UcbfSletV",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"auth",
+								"verify",
+								"14oY360UcbfSletV"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "wallet",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/wallet",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"wallet"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|O7ZlzvaXYF8u9WuMG35tgZU3bdcLgUsuZlyQUREW",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|UFRwUlWIxJ40QjxklYqjM4oZKVDPhI0lNkewNuZl",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/products/a096396c-8e22-4364-bfc6-7fc8d92366d3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"products",
+								"a096396c-8e22-4364-bfc6-7fc8d92366d3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "watchlist",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|O7ZlzvaXYF8u9WuMG35tgZU3bdcLgUsuZlyQUREW",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/watchlists",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"watchlists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|O7ZlzvaXYF8u9WuMG35tgZU3bdcLgUsuZlyQUREW",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/watchlists/329608dd-09de-40ec-8632-2897ac9feae4",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"watchlists",
+								"329608dd-09de-40ec-8632-2897ac9feae4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|O7ZlzvaXYF8u9WuMG35tgZU3bdcLgUsuZlyQUREW",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/watchlists/506b2f52-e12d-42ad-b5f7-a1227c89e0e6",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"watchlists",
+								"506b2f52-e12d-42ad-b5f7-a1227c89e0e6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "faq",
+			"item": [
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|t9lM8iTizvBJFilRSQaxuRRh9HPKEiUVBX5s00Pv",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/faqs",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|t9lM8iTizvBJFilRSQaxuRRh9HPKEiUVBX5s00Pv",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/faqs/show/ffd2ab24-9877-4688-92f9-2ed28d05237f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs",
+								"show",
+								"ffd2ab24-9877-4688-92f9-2ed28d05237f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "flag",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|t9lM8iTizvBJFilRSQaxuRRh9HPKEiUVBX5s00Pv",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/faqs/guideline",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"faqs",
+								"guideline"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "show",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|O7ZlzvaXYF8u9WuMG35tgZU3bdcLgUsuZlyQUREW",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "1|O7ZlzvaXYF8u9WuMG35tgZU3bdcLgUsuZlyQUREW",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"wallet\" : [\"59786eda-58c4-483f-adfa-59d5719e420c\", \"945b20fc-4285-47c5-a488-c2c06eb6543c\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://nft.test/api/v1",
+			"type": "string"
+		}
+	]
+}

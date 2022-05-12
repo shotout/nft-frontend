@@ -52,7 +52,7 @@ function DetailProduct({route}) {
 
   const handleShare = async () => {
     await Share.share({
-      message: `Open link to open apps https://backend.nftdaily.app/article/${detail.uuid}`,
+      message: `Hey, have you heard about NFT Daily? Discover today's NFT pick before it's too late! https://nftdaily.app/article/${detail.uuid}`,
     });
   };
 

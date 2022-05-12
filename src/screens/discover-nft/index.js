@@ -85,7 +85,7 @@ function DiscoverNFT({navigation, userProfile}) {
     return (
       <Carousel
         layout="tinder"
-        layoutCardOffset="9"
+        layoutCardOffset={9}
         data={listData}
         renderItem={({item, index}) => (
           <NFTCard isActive={index === activeSlide} item={item} />

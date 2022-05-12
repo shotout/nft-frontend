@@ -21,6 +21,7 @@ import {userCredentialSelector} from './store/defaultState/selector';
 import ValidateToken from './screens/validate-token';
 import {linking} from './helpers/linking';
 import DetailProduct from './screens/detail-product';
+import {appWokeUp} from './helpers/userInit';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,8 @@ function Homepage() {
 function Routes({handleFetchWallet, profile}) {
   useEffect(() => {
     handleFetchWallet();
+    const subscription = Linking.addEventListener('url', appWokeUp);
+    return () => subscription.remove();
   }, []);
 
   function getInitialRoute() {

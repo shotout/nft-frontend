@@ -32,7 +32,7 @@ const config = {
       },
     },
     Register: {
-      path: 'register/:id',
+      path: 'register',
       parse: {
         id: id => `${id}`,
       },
@@ -52,6 +52,23 @@ export const linking = {
   prefixes: ['https://nftdaily.app'],
   // prefixes: ['nftapps://link'],
   config,
-  //   subscribe: handleSubscribe,
-  //   getInitialURL: handlegetInitialURL,
+  // getInitialURL: async () => {
+  //   const initialURL = await Linking.getInitialURL();
+  //   console.log('getInitialUrl', initialURL);
+  // },
+  // subscribe: listener => {
+  //   console.log('subscribe');
+  //   const onReceiveURL = ({url}) => {
+  //     console.log('Receive url:', url);
+  //     listener(url);
+  //   };
+
+  //   // Listen to incoming links from deep linking
+  //   Linking.addEventListener('url', onReceiveURL);
+
+  //   return () => {
+  //     // Clean up the event listeners
+  //     Linking.remove();
+  //   };
+  // },
 };

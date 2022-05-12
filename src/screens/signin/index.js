@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import Button from '../../components/button';
 import Header from '../../components/header';
@@ -8,6 +8,7 @@ import styles from './styles';
 import {goBack, navigate, reset} from '../../helpers/navigationRef';
 import {postLogin} from '../../helpers/requests';
 import arrayErrorResturctor from '../register/responseValidatorArr';
+import {requestNotificationPermission} from '../../helpers/requestPermission';
 
 export default function SignIn() {
   const [activeStep, setActiveStep] = useState('signin');
@@ -18,6 +19,10 @@ export default function SignIn() {
   const [error, setError] = useState({
     email: null,
   });
+
+  useEffect(() => {
+    requestNotificationPermission();
+  }, []);
 
   const handleBack = () => {
     switch (activeStep) {

@@ -5,6 +5,7 @@ import {
   Image,
   Text,
   TouchableWithoutFeedback,
+  Linking,
 } from 'react-native';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
@@ -51,7 +52,9 @@ export default function AccountSettings() {
     {
       title: 'Notifications',
       desc: 'Change your notifications settings',
-      onPress: () => {},
+      onPress: () => {
+        Linking.openSettings();
+      },
     },
     {
       title: 'Wallets',
