@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
+import messaging from '@react-native-firebase/messaging';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -23,13 +24,25 @@ function Register({walletList, route}) {
   const [values, setValues] = useState({
     name: '',
     email: '',
-    fcm_token:
-      'cBStvPyy9JkNQLq2F_j1v3:APA91bF5kb0tlBxD2kPaDNw4zXj6V9sOEyIY78P-1gVb3ZPjUTIDvLY92x6R4hvs2VwxcziQ-M0OPz0gO2YEDL0pSujCdz7jjpka5CtYuIe-PV0OnErcOgHOqWRYNp6W6g09oeXg6ny5',
+    fcm_token: '',
   });
   const [error, setError] = useState({
     name: null,
     email: null,
   });
+
+  const getToken = async () => {
+    try {
+      const fcmToken = await messaging().getToken();
+      setValues({
+        ...values,
+        fcm_token: fcmToken,
+      });
+      console.log('Check fcm:', fcmToken);
+    } catch (err) {
+      console.log('firebase error', err);
+    }
+  };
 
   const handleInitialEdit = async () => {
     if (route.params?.edit) {
@@ -49,6 +62,7 @@ function Register({walletList, route}) {
 
   useEffect(() => {
     handleInitialEdit();
+    getToken();
   }, []);
 
   const handleChangeText = (stateName, value) => {
@@ -198,7 +212,7 @@ function Register({walletList, route}) {
     if (activeStep === 'done') {
       return (
         <>
-          <Title label="Success, an email with the login link has been sent to your account." />
+          <Title label="Success, an email with the register link has been sent to your account." />
           <View style={styles.ctnDescDone}>
             <Text style={styles.txtDescDone}>
               {`To continue, open your emails and click on the link provided.\n\nMake sure to also check your spam folder, if you cannot find it.`}
