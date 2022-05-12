@@ -44,12 +44,12 @@ const config = {
       },
     },
     Signin: 'signin',
-    Homepage: '*',
+    // Homepage: '*',
   },
 };
 
 export const linking = {
-  prefixes: ['https://backend.nftdaily.app'],
+  prefixes: ['https://nftdaily.app'],
   // prefixes: ['nftapps://link'],
   config,
   //   subscribe: handleSubscribe,
