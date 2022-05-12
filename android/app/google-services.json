@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "876096327612",
+    "project_id": "nftdaily-8d729",
+    "storage_bucket": "nftdaily-8d729.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876096327612:android:8c493624240bfb008ba5b9",
+        "android_client_info": {
+          "package_name": "com.nftdaily"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876096327612-uk110avfdo90keu5ju6vhq1ptaepjfrf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsBKICxj7AZ1iDfejOeXvlUoN8emXrZT0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876096327612-uk110avfdo90keu5ju6vhq1ptaepjfrf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
