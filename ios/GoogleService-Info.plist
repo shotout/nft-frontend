@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>876096327612-o0ubd3pvba7h31mp8uselstiv6fa20sg.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.876096327612-o0ubd3pvba7h31mp8uselstiv6fa20sg</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDsE8WEN6KDNSnvJA6COSpgz3Y_A-wd52c</string>
+	<key>GCM_SENDER_ID</key>
+	<string>876096327612</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.nftdaily</string>
+	<key>PROJECT_ID</key>
+	<string>nftdaily-8d729</string>
+	<key>STORAGE_BUCKET</key>
+	<string>nftdaily-8d729.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:876096327612:ios:684cbbbfc8d878158ba5b9</string>
+</dict>
+</plist>
