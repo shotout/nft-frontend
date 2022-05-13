@@ -18,6 +18,7 @@ import {URL_WEBSITE} from '../../helpers/static';
 import {useCountdown} from '../../hooks/useCountdown';
 import {colors} from '../../shared/styling';
 import styles from './styles';
+import Flame from '../../assets/icon/svg/Flame';
 
 const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
@@ -49,6 +50,7 @@ export default function NFTCard({item, isActive}) {
     navigate('DetailProduct', {
       id: item.uuid,
       exp_promo: item.nft_exp_promo,
+      isFavorite,
     });
   };
 
@@ -191,7 +193,7 @@ export default function NFTCard({item, isActive}) {
               {loadingFavorite ? (
                 <ActivityIndicator color="#fff" size="small" />
               ) : (
-                <Image source={hypeIcon} style={styles.hypeIconStyle} />
+                <Flame color={isFavorite ? colors.red : colors.white} />
               )}
             </View>
           </TouchableWithoutFeedback>

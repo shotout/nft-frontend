@@ -8,11 +8,11 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {moderateScale} from 'react-native-size-matters';
 import styles from './styles';
 import {goBack, navigate} from '../../helpers/navigationRef';
 import {colors} from '../../shared/styling';
+import Flame from '../../assets/icon/svg/Flame';
 
 const backIcon = require('../../assets/icon/back_button.png');
 const backWhite = require('../../assets/icon/back_button_white.png');
@@ -31,6 +31,7 @@ function Header({
   onShare,
   loadingFavorite,
   isFavorite,
+  handleFavorite,
 }) {
   function getIconApps() {
     switch (type) {
@@ -70,14 +71,15 @@ function Header({
               size={moderateScale(21)}
             />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              navigate('Watchlist');
-            }}>
+          <TouchableOpacity onPress={handleFavorite}>
             {loadingFavorite ? (
               <ActivityIndicator color="#fff" size="small" />
             ) : (
-              <Image source={hypeWhite} style={styles.hypeIconStyle} />
+              <Flame
+                width="20"
+                height="25"
+                color={isFavorite ? colors.red : colors.white}
+              />
             )}
           </TouchableOpacity>
         </View>

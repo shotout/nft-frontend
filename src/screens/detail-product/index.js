@@ -1,5 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
-import {View, Text, Image, ScrollView, Share} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  Share,
+  Linking,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {moderateScale} from 'react-native-size-matters';
@@ -8,14 +16,17 @@ import styles from './styles';
 import {URL_WEBSITE} from '../../helpers/static';
 import Button from '../../components/button';
 import {hexToRgbA} from '../../helpers/hexToRgba';
-import {getDetailProduct} from '../../helpers/requests';
+import {
+  addWatchlist,
+  getDetailProduct,
+  removeWatchlist,
+} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
 import Header from '../../components/header';
 import {useCountdown} from '../../hooks/useCountdown';
 import {getDimensionWidth} from '../../helpers/getDimensions';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
-const starIcon = require('../../assets/icon/hype_red.png');
 const groupIcon = require('../../assets/icon/user_group.png');
 const hypeGif = require('../../assets/icon/flame.gif');
 
@@ -28,6 +39,10 @@ function DetailProduct({route}) {
   const [isLoading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
   const [detail, setDetail] = useState({});
+  const [isFavorite, setIsFavorite] = useState(
+    route.params?.isFavorite || false,
+  );
+  const [loadingFavorite, setFavorite] = useState(false);
 
   let carouselRef = useRef();
 
@@ -36,9 +51,23 @@ function DetailProduct({route}) {
   const fetchData = async () => {
     setLoading(true);
     const res = await getDetailProduct(route.params.id);
-    // console.log('Check res:', res.data);
     setDetail(res.data);
     setLoading(false);
+  };
+
+  const handleFavorite = async () => {
+    try {
+      setFavorite(true);
+      if (isFavorite) {
+        await removeWatchlist(detail.uuid);
+      } else {
+        await addWatchlist(detail.uuid);
+      }
+      setIsFavorite(!isFavorite);
+      setFavorite(false);
+    } catch (err) {
+      setFavorite(false);
+    }
   };
 
   useEffect(() => {
@@ -54,6 +83,10 @@ function DetailProduct({route}) {
     await Share.share({
       message: `Hey, have you heard about NFT Daily? Discover today's NFT pick before it's too late! https://nftdaily.app/article/${detail.uuid}`,
     });
+  };
+
+  const handleOpenURL = url => {
+    Linking.openURL(url);
   };
 
   function renderSlider() {
@@ -200,21 +233,42 @@ function DetailProduct({route}) {
     return (
       <View style={styles.ctnRaffle}>
         <Text style={styles.txtRaffle}>Community</Text>
-        <View style={styles.ctnCommunity}>
-          <Image source={twitter} style={styles.icnCommunity} />
-          <Text style={styles.txtCommunity}>Twitter</Text>
-          <Image source={linkIcon} style={styles.socialIcon} />
-        </View>
-        <View style={styles.ctnCommunity}>
-          <Image source={discord} style={styles.icnCommunity} />
-          <Text style={styles.txtCommunity}>Discord</Text>
-          <Image source={linkIcon} style={styles.socialIcon} />
-        </View>
-        <View style={styles.ctnCommunity}>
-          <Image source={telegram} style={styles.icnCommunity} />
-          <Text style={styles.txtCommunity}>Telegram</Text>
-          <Image source={linkIcon} style={styles.socialIcon} />
-        </View>
+        {detail.community.twitter && (
+          <TouchableWithoutFeedback
+            onPress={() => {
+              handleOpenURL(`https://twitter.com/${detail.community.twitter}`);
+            }}>
+            <View style={styles.ctnCommunity}>
+              <Image source={twitter} style={styles.icnCommunity} />
+              <Text style={styles.txtCommunity}>Twitter</Text>
+              <Image source={linkIcon} style={styles.socialIcon} />
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+        {detail.community.discord && (
+          <TouchableWithoutFeedback
+            onPress={() => {
+              handleOpenURL(detail.community.discord);
+            }}>
+            <View style={styles.ctnCommunity}>
+              <Image source={discord} style={styles.icnCommunity} />
+              <Text style={styles.txtCommunity}>Discord</Text>
+              <Image source={linkIcon} style={styles.socialIcon} />
+            </View>
+          </TouchableWithoutFeedback>
+        )}
+        {detail.community.telegram && (
+          <TouchableWithoutFeedback
+            onPress={() => {
+              handleOpenURL(`https://t.me/${detail.community.telegram}`);
+            }}>
+            <View style={styles.ctnCommunity}>
+              <Image source={telegram} style={styles.icnCommunity} />
+              <Text style={styles.txtCommunity}>Telegram</Text>
+              <Image source={linkIcon} style={styles.socialIcon} />
+            </View>
+          </TouchableWithoutFeedback>
+        )}
       </View>
     );
   }
@@ -248,7 +302,13 @@ function DetailProduct({route}) {
           {backgroundColor: detail.preferance.background_color},
         ]}
         contentContainerStyle={styles.ctnScroll}>
-        <Header onShare={handleShare} type="detail-product" />
+        <Header
+          loadingFavorite={loadingFavorite}
+          isFavorite={isFavorite}
+          handleFavorite={handleFavorite}
+          onShare={handleShare}
+          type="detail-product"
+        />
         {renderSlider()}
         {renderContent()}
       </ScrollView>
