@@ -97,7 +97,11 @@ function DiscoverNFT({navigation, userProfile}) {
             layoutCardOffset={9}
             data={listData}
             renderItem={({item, index}) => (
-              <NFTCard isActive={index === activeSlide} item={item} />
+              <NFTCard
+                handleRefresh={fetchData}
+                isActive={index === activeSlide}
+                item={item}
+              />
             )}
             keyExtractor={item => item.uuid}
             sliderWidth={getDimensionWidth(1)}

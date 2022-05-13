@@ -26,7 +26,7 @@ const groupIcon = require('../../assets/icon/group_icon.png');
 const starsIcon = require('../../assets/icon/stars.png');
 const hypeIcon = require('../../assets/icon/hype_white.png');
 
-export default function NFTCard({item, isActive}) {
+export default function NFTCard({item, isActive, handleRefresh}) {
   const [loadingFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
   const [days, hours, minutes, seconds] = useCountdown(item.nft_exp_promo);
@@ -51,6 +51,7 @@ export default function NFTCard({item, isActive}) {
       id: item.uuid,
       exp_promo: item.nft_exp_promo,
       isFavorite,
+      handleRefresh,
     });
   };
 

@@ -43,6 +43,7 @@ function DetailProduct({route}) {
     route.params?.isFavorite || false,
   );
   const [loadingFavorite, setFavorite] = useState(false);
+  const handleRefresh = route.params?.handleRefresh;
 
   let carouselRef = useRef();
 
@@ -65,6 +66,9 @@ function DetailProduct({route}) {
       }
       setIsFavorite(!isFavorite);
       setFavorite(false);
+      if (handleRefresh && typeof handleRefresh === 'function') {
+        handleRefresh();
+      }
     } catch (err) {
       setFavorite(false);
     }
