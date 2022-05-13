@@ -25,6 +25,8 @@ import LoadingIndicator from '../../components/loading-indicator';
 import Header from '../../components/header';
 import {useCountdown} from '../../hooks/useCountdown';
 import {getDimensionWidth} from '../../helpers/getDimensions';
+import Flame from '../../assets/icon/svg/Flame';
+import {colors} from '../../shared/styling';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 const groupIcon = require('../../assets/icon/user_group.png');
@@ -111,7 +113,7 @@ function DetailProduct({route}) {
             </View>
           )}
           onBeforeSnapToItem={index => setActiveSlide(index)}
-          keyExtractor={index => index.toString()}
+          keyExtractor={item => item.uuid}
           sliderWidth={getDimensionWidth(1)}
           itemWidth={getDimensionWidth(1)}
         />
@@ -142,13 +144,24 @@ function DetailProduct({route}) {
   }
 
   function renderBar() {
+    const isHype = false;
     return (
       <View style={styles.descContentWrapper}>
         <View style={styles.ctnSubContent}>
-          <Image source={hypeGif} style={styles.privateStarIcon} />
+          {isHype ? (
+            <Image source={hypeGif} style={styles.privateStarIcon} />
+          ) : (
+            <View style={styles.ctnIconTab}>
+              <Flame
+                width={moderateScale(15)}
+                height={moderateScale(17)}
+                color={colors.red}
+              />
+            </View>
+          )}
           <View style={styles.contentWrapper}>
             <Text style={styles.txtTopContent}>Hype</Text>
-            <Text style={[styles.txtSubContent, styles.txtHype]}>
+            <Text style={[styles.txtSubContent, isHype ? styles.txtHype : {}]}>
               {detail.nft_type}
             </Text>
           </View>
