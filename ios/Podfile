@@ -22,6 +22,8 @@ target 'nftdaily' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
+  pod 'RNExitApp', :path => '../node_modules/react-native-exit-app'
+
   target 'nftdailyTests' do
     inherit! :complete
     # Pods for testing

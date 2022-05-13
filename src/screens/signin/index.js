@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {View, Text, ScrollView, AppState} from 'react-native';
+import RNExitApp from 'react-native-exit-app';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
-import {goBack, navigate, reset} from '../../helpers/navigationRef';
+import {goBack} from '../../helpers/navigationRef';
 import {postLogin} from '../../helpers/requests';
 import arrayErrorResturctor from '../register/responseValidatorArr';
 import {requestNotificationPermission} from '../../helpers/requestPermission';
@@ -13,6 +14,8 @@ import {requestNotificationPermission} from '../../helpers/requestPermission';
 export default function SignIn() {
   const [activeStep, setActiveStep] = useState('signin');
   const [isLoading, selectedLoading] = useState(false);
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [values, setValues] = useState({
     email: '',
   });
@@ -22,6 +25,27 @@ export default function SignIn() {
 
   useEffect(() => {
     requestNotificationPermission();
+
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        console.log('App has come to the foreground!');
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
+      if (nextAppState === 'inactive') {
+        console.log('Exit apps');
+        RNExitApp.exitApp();
+      }
+      console.log('AppState', appState.current);
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   const handleBack = () => {
