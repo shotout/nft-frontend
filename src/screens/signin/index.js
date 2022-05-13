@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, Text, ScrollView, AppState} from 'react-native';
+import {View, Text, ScrollView, AppState, Platform} from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import Button from '../../components/button';
 import Header from '../../components/header';
@@ -25,28 +25,36 @@ export default function SignIn() {
 
   useEffect(() => {
     requestNotificationPermission();
-
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        console.log('App has come to the foreground!');
-      }
-
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
-      if (nextAppState === 'inactive') {
-        console.log('Exit apps');
-        RNExitApp.exitApp();
-      }
-      console.log('AppState', appState.current);
-    });
-
-    return () => {
-      subscription.remove();
-    };
   }, []);
+
+  useEffect(() => {
+    console.log('Active step change', activeStep);
+    if (activeStep === 'success') {
+      const subscription = AppState.addEventListener('change', nextAppState => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === 'active'
+        ) {
+          console.log('App has come to the foreground!');
+        }
+
+        appState.current = nextAppState;
+        setAppStateVisible(appState.current);
+
+        console.log('AppState', appState.current, activeStep);
+        if (nextAppState === 'inactive' || nextAppState === 'background') {
+          if (Platform.OS === 'ios') {
+            console.log('Exit apps', activeStep);
+            RNExitApp.exitApp();
+          }
+        }
+      });
+
+      return () => {
+        subscription.remove();
+      };
+    }
+  }, [activeStep]);
 
   const handleBack = () => {
     switch (activeStep) {

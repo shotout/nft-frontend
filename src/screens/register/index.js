@@ -1,5 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, ScrollView} from 'react-native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+  AppState,
+  Platform,
+} from 'react-native';
+import RNExitApp from 'react-native-exit-app';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
@@ -22,6 +31,8 @@ function Register({walletList, route}) {
   const [isLoading, selectedLoading] = useState(false);
   const [isNone, setNone] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -66,6 +77,35 @@ function Register({walletList, route}) {
     handleInitialEdit();
     getToken();
   }, []);
+
+  useEffect(() => {
+    console.log('Active step change', activeStep);
+    if (activeStep === 'done') {
+      const subscription = AppState.addEventListener('change', nextAppState => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === 'active'
+        ) {
+          console.log('App has come to the foreground!');
+        }
+
+        appState.current = nextAppState;
+        setAppStateVisible(appState.current);
+
+        console.log('AppState', appState.current, activeStep);
+        if (nextAppState === 'inactive' || nextAppState === 'background') {
+          if (Platform.OS === 'ios') {
+            console.log('Exit apps', activeStep);
+            RNExitApp.exitApp();
+          }
+        }
+      });
+
+      return () => {
+        subscription.remove();
+      };
+    }
+  }, [activeStep]);
 
   const handleChangeText = (stateName, value) => {
     setValues({...values, [stateName]: value});
