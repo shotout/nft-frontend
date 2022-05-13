@@ -81,23 +81,34 @@ function DiscoverNFT({navigation, userProfile}) {
   }
 
   function renderCard() {
-    // return <NFTCard item={listData[0]} />;
+    const getDefaultColor = () => ({
+      backgroundColor: listData[activeSlide].preferance.background_color,
+    });
     return (
-      <Carousel
-        layout="tinder"
-        layoutCardOffset={9}
-        data={listData}
-        renderItem={({item, index}) => (
-          <NFTCard isActive={index === activeSlide} item={item} />
-        )}
-        keyExtractor={item => item.uuid}
-        sliderWidth={getDimensionWidth(1)}
-        itemWidth={getDimensionWidth(1)}
-        ref={c => {
-          carouselRef = c;
-        }}
-        onBeforeSnapToItem={index => setActiveSlide(index)}
-      />
+      <View style={styles.cardWrapper}>
+        <View style={styles.overalyWrapper}>
+          <View style={[styles.overlay, getDefaultColor(), styles.mgMin8]} />
+          <View style={[styles.overlay, getDefaultColor(), styles.mgMin4]} />
+          <View style={[styles.overlay, getDefaultColor()]} />
+        </View>
+        <View style={styles.carouselWrapper}>
+          <Carousel
+            layout="tinder"
+            layoutCardOffset={9}
+            data={listData}
+            renderItem={({item, index}) => (
+              <NFTCard isActive={index === activeSlide} item={item} />
+            )}
+            keyExtractor={item => item.uuid}
+            sliderWidth={getDimensionWidth(1)}
+            itemWidth={getDimensionWidth(1)}
+            ref={c => {
+              carouselRef = c;
+            }}
+            onBeforeSnapToItem={index => setActiveSlide(index)}
+          />
+        </View>
+      </View>
     );
   }
 

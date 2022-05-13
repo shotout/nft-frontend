@@ -1,6 +1,8 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Platform} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import {colors, fonts} from '../../shared/styling';
+
+const isAndroid = Platform.OS === 'android';
 
 export default StyleSheet.create({
   ctnTitle: {
@@ -32,5 +34,47 @@ export default StyleSheet.create({
   ctnMain: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  cardWrapper: {
+    position: 'relative',
+  },
+  overalyWrapper: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    paddingRight: moderateScale(20),
+    paddingLeft: moderateScale(20),
+    paddingBottom: moderateScale(114),
+  },
+  overlay: {
+    alignSelf: 'center',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    // backgroundColor: 'red',
+    borderRadius: moderateScale(30),
+    marginTop: moderateScale(20),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 1,
+  },
+  mgMin4: {
+    marginTop: moderateScale(22),
+    // backgroundColor: 'blue',
+  },
+  mgMin8: {
+    width: '100%',
+    height: '100%',
+    marginTop: moderateScale(26),
+    // backgroundColor: 'yellow',
+  },
+  carouselWrapper: {
+    elevation: isAndroid ? 10 : undefined,
+    zIndex: 10,
   },
 });
