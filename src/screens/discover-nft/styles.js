@@ -44,7 +44,8 @@ export default StyleSheet.create({
     height: '100%',
     paddingRight: moderateScale(20),
     paddingLeft: moderateScale(20),
-    paddingBottom: moderateScale(114),
+    paddingBottom: moderateScale(126),
+    marginTop: moderateScale(12),
   },
   overlay: {
     alignSelf: 'center',
@@ -53,7 +54,7 @@ export default StyleSheet.create({
     height: '100%',
     // backgroundColor: 'red',
     borderRadius: moderateScale(30),
-    marginTop: moderateScale(20),
+    marginTop: moderateScale(18),
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
