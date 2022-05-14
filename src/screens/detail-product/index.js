@@ -211,7 +211,9 @@ function DetailProduct({route, listHype, setHypeList}) {
           </View>
           <View style={styles.contentWrapper}>
             <Text style={styles.txtTopContent}>Price</Text>
-            <Text style={styles.txtSubContent}>{`${detail.nft_price}`}</Text>
+            <Text style={styles.txtSubContent}>{`${detail.nft_price} ${
+              detail.blockchain?.abbreviation || ''
+            }`}</Text>
           </View>
         </View>
       </View>

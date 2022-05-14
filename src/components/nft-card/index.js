@@ -139,6 +139,7 @@ export default function NFTCard({
   }
 
   function renderContent() {
+    console.log('Check item:', item);
     return (
       <View
         style={[
@@ -169,7 +170,9 @@ export default function NFTCard({
             />
             <View style={styles.contentWrapper}>
               <Text style={styles.txtTopContent}>Price</Text>
-              <Text style={styles.txtSubContent}>{`${item.nft_price}`}</Text>
+              <Text style={styles.txtSubContent}>{`${item.nft_price} ${
+                item.blockchain?.abbreviation || ''
+              }`}</Text>
             </View>
           </View>
         </View>
