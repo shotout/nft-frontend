@@ -34,6 +34,9 @@ export default function NFTCard({
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
   const [days, hours, minutes, seconds] = useCountdown(item.nft_exp_promo);
   const storedData = selectAmountHype(item.uuid);
+  const [svgContent, setSvgContent] = useState(
+    `${URL_WEBSITE}${item.blockchain?.vektor}`,
+  );
 
   const handleFavorite = async () => {
     try {
@@ -88,19 +91,26 @@ export default function NFTCard({
               end={{x: 1, y: 0}}
               style={[styles.ctnVerified, styles.noBorder]}>
               {/* <Image
-                source={{uri: `${URL_WEBSITE}${item.blockchain.vektor}`}}
+                source={{uri: `${URL_WEBSITE}${item.blockchain?.vektor}`}}
                 style={styles.cardanoIcon}
               /> */}
-              <View style={styles.ctnSvg}>
-                <SvgUri
-                  width="100%"
-                  height="100%"
-                  uri={`${URL_WEBSITE}${item.blockchain?.vektor}`}
-                  fill="#fff"
-                  color="#fff"
-                />
-              </View>
-              <Text style={styles.txtVerified}>{item.blockchain.name}</Text>
+              {item.blockchain?.vektor && (
+                <View style={styles.ctnSvg}>
+                  <SvgUri
+                    onError={() => {
+                      setSvgContent(
+                        'https://cryptologos.cc/logos/solana-sol-logo.svg',
+                      );
+                    }}
+                    uri={svgContent}
+                    width="100%"
+                    height="100%"
+                    fill="#fff"
+                    color="#fff"
+                  />
+                </View>
+              )}
+              <Text style={styles.txtVerified}>{item.blockchain?.name}</Text>
             </LinearGradient>
           </View>
         </View>
@@ -172,10 +182,26 @@ export default function NFTCard({
             </View>
           </View>
           <View style={styles.ctnSubContent}>
-            <Image
-              source={{uri: `${URL_WEBSITE}${item.blockchain.vektor}`}}
+            {/* <Image
+              source={{uri: `${URL_WEBSITE}${item.blockchain?.vektor}`}}
               style={styles.iconContent}
-            />
+            /> */}
+            {item.blockchain?.vektor && (
+              <View style={styles.ctnSvgContent}>
+                <SvgUri
+                  onError={() => {
+                    setSvgContent(
+                      'https://cryptologos.cc/logos/solana-sol-logo.svg',
+                    );
+                  }}
+                  uri={svgContent}
+                  width="100%"
+                  height="100%"
+                  fill="#fff"
+                  color="#fff"
+                />
+              </View>
+            )}
             <View style={styles.contentWrapper}>
               <Text style={styles.txtTopContent}>Price</Text>
               <Text style={styles.txtSubContent}>{`${item.nft_price} ${

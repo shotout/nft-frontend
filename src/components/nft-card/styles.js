@@ -126,6 +126,11 @@ export default StyleSheet.create({
     height: moderateScale(20),
     resizeMode: 'contain',
   },
+  ctnSvgContent: {
+    width: moderateScale(20),
+    height: moderateScale(20),
+    resizeMode: 'contain',
+  },
   iconHype: {
     width: moderateScale(16),
     height: moderateScale(16),
