@@ -23,13 +23,18 @@ import Flame from '../../assets/icon/svg/Flame';
 const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
 
-const starsIcon = require('../../assets/icon/stars.png');
 const hypeIcon = require('../../assets/icon/hype_white.png');
 
-export default function NFTCard({item, isActive, handleRefresh}) {
+export default function NFTCard({
+  item,
+  isActive,
+  handleRefresh,
+  selectAmountHype,
+}) {
   const [loadingFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
   const [days, hours, minutes, seconds] = useCountdown(item.nft_exp_promo);
+  const storedData = selectAmountHype(item.uuid);
 
   const handleFavorite = async () => {
     try {
@@ -52,6 +57,10 @@ export default function NFTCard({item, isActive, handleRefresh}) {
       exp_promo: item.nft_exp_promo,
       isFavorite,
       handleRefresh,
+      storedData: {
+        ...storedData,
+        maxTotal: item.nft_type,
+      },
     });
   };
 
@@ -141,7 +150,9 @@ export default function NFTCard({item, isActive, handleRefresh}) {
             <Image source={hypeIcon} style={styles.iconHype} />
             <View style={styles.contentWrapper}>
               <Text style={styles.txtTopContent}>Hype</Text>
-              <Text style={styles.txtSubContent}>{item.nft_type}</Text>
+              <Text style={styles.txtSubContent}>
+                {storedData.currentAmount || 0}
+              </Text>
             </View>
           </View>
           <View style={styles.ctnSubContent}>

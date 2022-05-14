@@ -11,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {moderateScale} from 'react-native-size-matters';
+import {connect} from 'react-redux';
 import styles from './styles';
 // import {detail} from './detail';
 import {URL_WEBSITE} from '../../helpers/static';
@@ -27,6 +28,9 @@ import {useCountdown} from '../../hooks/useCountdown';
 import {getDimensionWidth} from '../../helpers/getDimensions';
 import Flame from '../../assets/icon/svg/Flame';
 import {colors} from '../../shared/styling';
+import {useHypeFlame} from '../../hooks/useHypeFlame';
+import dispatcher from './dispatcher';
+import states from './states';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 const groupIcon = require('../../assets/icon/user_group.png');
@@ -37,7 +41,7 @@ const discord = require('../../assets/icon/discord.png');
 const telegram = require('../../assets/icon/telegram.png');
 const linkIcon = require('../../assets/icon/social.png');
 
-function DetailProduct({route}) {
+function DetailProduct({route, listHype, setHypeList}) {
   const [isLoading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
   const [detail, setDetail] = useState({});
@@ -45,11 +49,15 @@ function DetailProduct({route}) {
     route.params?.isFavorite || false,
   );
   const [loadingFavorite, setFavorite] = useState(false);
-  const handleRefresh = route.params?.handleRefresh;
 
+  const handleRefresh = route.params?.handleRefresh;
+  const storedData = route.params?.storedData;
   let carouselRef = useRef();
+  const hypeAmount = useRef();
+  const isHypeFlameActive = Date.now() - storedData.dateAdded > 60;
 
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
+  const {hypeValue} = useHypeFlame(storedData, hypeAmount);
 
   const fetchData = async () => {
     setLoading(true);
@@ -76,8 +84,25 @@ function DetailProduct({route}) {
     }
   };
 
+  const handleSetFlameState = () => {
+    const restructureData = listHype.map(item => {
+      if (item.idProject === route.params.id) {
+        return {
+          ...item,
+          currentAmount: hypeAmount.current,
+        };
+      }
+      return item;
+    });
+    console.log('Check res data:', restructureData);
+    setHypeList(restructureData);
+  };
+
   useEffect(() => {
     fetchData();
+    return () => {
+      handleSetFlameState();
+    };
   }, []);
 
   const colorGradient = [
@@ -144,11 +169,10 @@ function DetailProduct({route}) {
   }
 
   function renderBar() {
-    const isHype = false;
     return (
       <View style={styles.descContentWrapper}>
         <View style={styles.ctnSubContent}>
-          {isHype ? (
+          {isHypeFlameActive ? (
             <Image source={hypeGif} style={styles.privateStarIcon} />
           ) : (
             <View style={styles.ctnIconTab}>
@@ -161,8 +185,12 @@ function DetailProduct({route}) {
           )}
           <View style={styles.contentWrapper}>
             <Text style={styles.txtTopContent}>Hype</Text>
-            <Text style={[styles.txtSubContent, isHype ? styles.txtHype : {}]}>
-              {detail.nft_type}
+            <Text
+              style={[
+                styles.txtSubContent,
+                isHypeFlameActive ? styles.txtHype : {},
+              ]}>
+              {hypeValue}
             </Text>
           </View>
         </View>
@@ -345,4 +373,4 @@ function DetailProduct({route}) {
   );
 }
 
-export default DetailProduct;
+export default connect(states, dispatcher)(DetailProduct);

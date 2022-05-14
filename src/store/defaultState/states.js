@@ -17,6 +17,9 @@ const INITIAL_STATE = {
     //   updated_at: '2022-04-28T03:41:26.000000Z',
     // },
   },
+  listHype: [
+    // {idProject: '', currentAmount: '', dateAdded: '',}
+  ],
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -35,6 +38,12 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         userProfile: action.payload,
+      };
+    }
+    case types.SET_LIST_HYPE: {
+      return {
+        ...state,
+        listHype: action.payload,
       };
     }
     default:

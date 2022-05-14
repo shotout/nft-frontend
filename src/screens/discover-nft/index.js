@@ -12,19 +12,46 @@ import styles from './styles';
 import {getDimensionWidth} from '../../helpers/getDimensions';
 import {getFutureDate} from '../../helpers/dateHelper';
 import states from './states';
+import {stringToNumber} from '../../helpers/parseNumber';
+import dispacher from './dispatcher';
 
-function DiscoverNFT({navigation, userProfile}) {
+function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
   const [listData, setData] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
   let carouselRef = null;
 
+  const handleHypeList = res => {
+    if (res.length > 0) {
+      if (listHype.length > 0) {
+        // asd
+      } else {
+        const hypeData = [];
+        res.forEach(item => {
+          hypeData.push({
+            idProject: item.uuid,
+            currentAmount: Math.round(stringToNumber(item.nft_type) / 3),
+            dateAdded: Date.now(),
+          });
+        });
+        setHypeList(hypeData);
+      }
+    }
+  };
+
+  const selectAmountHype = id => {
+    const getItem = listHype.find(item => item.idProject === id);
+    // console.log('Cehck value getItem', getItem);
+    return getItem;
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
       const res = await getProduct({per_page: 8, page: 1});
       setData(res.data.data);
+      handleHypeList(res.data.data);
       setLoading(false);
     } catch (err) {
       reset('BoardingPage');
@@ -101,6 +128,7 @@ function DiscoverNFT({navigation, userProfile}) {
                 handleRefresh={fetchData}
                 isActive={index === activeSlide}
                 item={item}
+                selectAmountHype={selectAmountHype}
               />
             )}
             keyExtractor={item => item.uuid}
@@ -150,4 +178,4 @@ function DiscoverNFT({navigation, userProfile}) {
   );
 }
 
-export default connect(states)(DiscoverNFT);
+export default connect(states, dispacher)(DiscoverNFT);

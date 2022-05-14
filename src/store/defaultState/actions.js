@@ -11,6 +11,11 @@ export const setProfileUser = payload => ({
   payload,
 });
 
+export const setHypeList = payload => ({
+  type: types.SET_LIST_HYPE,
+  payload,
+});
+
 export const fetchWallet =
   (params = {}) =>
   async dispatch => {
