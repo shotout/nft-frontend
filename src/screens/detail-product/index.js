@@ -94,7 +94,6 @@ function DetailProduct({route, listHype, setHypeList}) {
       }
       return item;
     });
-    console.log('Check res data:', restructureData);
     setHypeList(restructureData);
   };
 
@@ -338,7 +337,6 @@ function DetailProduct({route, listHype, setHypeList}) {
       </View>
     );
   }
-
   return (
     <View style={[styles.ctnRoot]}>
       <ScrollView
@@ -365,6 +363,9 @@ function DetailProduct({route, listHype, setHypeList}) {
             marginTop: 0,
             marginBottom: 0,
             backgroundColor: detail.preferance.main_color,
+          }}
+          onPress={() => {
+            handleOpenURL(detail.nft_mint);
           }}
           label="Mint"
         />
