@@ -12,6 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {moderateScale} from 'react-native-size-matters';
 import {connect} from 'react-redux';
+import {SvgUri} from 'react-native-svg';
 import styles from './styles';
 // import {detail} from './detail';
 import {URL_WEBSITE} from '../../helpers/static';
@@ -31,6 +32,7 @@ import {colors} from '../../shared/styling';
 import {useHypeFlame} from '../../hooks/useHypeFlame';
 import dispatcher from './dispatcher';
 import states from './states';
+import HTMRenderer from '../../components/html-renderer';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 const groupIcon = require('../../assets/icon/user_group.png');
@@ -204,10 +206,19 @@ function DetailProduct({route, listHype, setHypeList}) {
         </View>
         <View style={styles.ctnSubContent}>
           <View style={styles.ctnIconTab}>
-            <Image
+            {/* <Image
               source={{uri: `${URL_WEBSITE}${detail.blockchain.vektor}`}}
               style={styles.iconContent}
-            />
+            /> */}
+            <View style={styles.ctnSvg}>
+              <SvgUri
+                width="100%"
+                height="100%"
+                uri={`${URL_WEBSITE}${detail.blockchain.vektor}`}
+                fill={detail.preferance.main_color}
+                color={detail.preferance.main_color}
+              />
+            </View>
           </View>
           <View style={styles.contentWrapper}>
             <Text style={styles.txtTopContent}>Price</Text>
@@ -223,7 +234,7 @@ function DetailProduct({route, listHype, setHypeList}) {
   function renderDescription() {
     return (
       <View style={styles.ctnDescription}>
-        <Text style={styles.txtDescription}>{detail.nft_description}</Text>
+        <HTMRenderer content={detail.nft_description} />
       </View>
     );
   }
@@ -279,42 +290,47 @@ function DetailProduct({route, listHype, setHypeList}) {
     return (
       <View style={styles.ctnRaffle}>
         <Text style={styles.txtRaffle}>Community</Text>
-        {detail.community.twitter && (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              handleOpenURL(`https://twitter.com/${detail.community.twitter}`);
-            }}>
-            <View style={styles.ctnCommunity}>
-              <Image source={twitter} style={styles.icnCommunity} />
-              <Text style={styles.txtCommunity}>Twitter</Text>
-              <Image source={linkIcon} style={styles.socialIcon} />
-            </View>
-          </TouchableWithoutFeedback>
-        )}
-        {detail.community.discord && (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              handleOpenURL(detail.community.discord);
-            }}>
-            <View style={styles.ctnCommunity}>
-              <Image source={discord} style={styles.icnCommunity} />
-              <Text style={styles.txtCommunity}>Discord</Text>
-              <Image source={linkIcon} style={styles.socialIcon} />
-            </View>
-          </TouchableWithoutFeedback>
-        )}
-        {detail.community.telegram && (
-          <TouchableWithoutFeedback
-            onPress={() => {
-              handleOpenURL(`https://t.me/${detail.community.telegram}`);
-            }}>
-            <View style={styles.ctnCommunity}>
-              <Image source={telegram} style={styles.icnCommunity} />
-              <Text style={styles.txtCommunity}>Telegram</Text>
-              <Image source={linkIcon} style={styles.socialIcon} />
-            </View>
-          </TouchableWithoutFeedback>
-        )}
+        <HTMRenderer content={detail.nft_community} />
+        <View style={styles.ctnLink}>
+          {detail.community.twitter && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleOpenURL(
+                  `https://twitter.com/${detail.community.twitter}`,
+                );
+              }}>
+              <View style={styles.ctnCommunity}>
+                <Image source={twitter} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Twitter</Text>
+                <Image source={linkIcon} style={styles.socialIcon} />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+          {detail.community.discord && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleOpenURL(detail.community.discord);
+              }}>
+              <View style={styles.ctnCommunity}>
+                <Image source={discord} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Discord</Text>
+                <Image source={linkIcon} style={styles.socialIcon} />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+          {detail.community.telegram && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleOpenURL(`https://t.me/${detail.community.telegram}`);
+              }}>
+              <View style={styles.ctnCommunity}>
+                <Image source={telegram} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Telegram</Text>
+                <Image source={linkIcon} style={styles.socialIcon} />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+        </View>
       </View>
     );
   }
@@ -326,7 +342,7 @@ function DetailProduct({route, listHype, setHypeList}) {
         {renderBar()}
         {renderTime()}
         {renderDescription()}
-        {renderRaffle()}
+        {/* {renderRaffle()} */}
         {renderCommunity()}
       </View>
     );

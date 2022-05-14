@@ -65,6 +65,10 @@ export default StyleSheet.create({
     resizeMode: 'contain',
     marginRight: moderateScale(-2),
   },
+  ctnSvg: {
+    width: moderateScale(16),
+    height: moderateScale(16),
+  },
   txtVerified: {
     color: '#fff',
     fontSize: moderateScale(11),

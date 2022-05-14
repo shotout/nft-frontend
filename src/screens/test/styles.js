@@ -228,8 +228,4 @@ export default StyleSheet.create({
   ctnLink: {
     marginTop: moderateScale(6),
   },
-  ctnSvg: {
-    width: moderateScale(20),
-    height: moderateScale(20),
-  },
 });

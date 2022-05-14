@@ -22,6 +22,7 @@ import ValidateToken from './screens/validate-token';
 import {linking} from './helpers/linking';
 import DetailProduct from './screens/detail-product';
 import {appWokeUp} from './helpers/userInit';
+import Test from './screens/test';
 
 const Stack = createNativeStackNavigator();
 
@@ -105,6 +106,11 @@ function Routes({handleFetchWallet, profile}) {
           options={navigationData.noHeader.options}
           name="DetailProduct"
           component={DetailProduct}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="Test"
+          component={Test}
         />
       </Stack.Navigator>
     </NavigationContainer>

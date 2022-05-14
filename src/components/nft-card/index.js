@@ -9,8 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import moment from 'moment';
+import {SvgUri} from 'react-native-svg';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {navigate} from '../../helpers/navigationRef';
 import {addWatchlist, removeWatchlist} from '../../helpers/requests';
@@ -88,10 +87,19 @@ export default function NFTCard({
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}
               style={[styles.ctnVerified, styles.noBorder]}>
-              <Image
+              {/* <Image
                 source={{uri: `${URL_WEBSITE}${item.blockchain.vektor}`}}
                 style={styles.cardanoIcon}
-              />
+              /> */}
+              <View style={styles.ctnSvg}>
+                <SvgUri
+                  width="100%"
+                  height="100%"
+                  uri={`${URL_WEBSITE}${item.blockchain?.vektor}`}
+                  fill={item.preferance.main_color}
+                  color={item.preferance.main_color}
+                />
+              </View>
               <Text style={styles.txtVerified}>{item.blockchain.name}</Text>
             </LinearGradient>
           </View>
@@ -139,7 +147,7 @@ export default function NFTCard({
   }
 
   function renderContent() {
-    console.log('Check item:', item);
+    // console.log('Check item:', item);
     return (
       <View
         style={[
