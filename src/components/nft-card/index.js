@@ -96,8 +96,8 @@ export default function NFTCard({
                   width="100%"
                   height="100%"
                   uri={`${URL_WEBSITE}${item.blockchain?.vektor}`}
-                  fill={item.preferance.main_color}
-                  color={item.preferance.main_color}
+                  fill="#fff"
+                  color="#fff"
                 />
               </View>
               <Text style={styles.txtVerified}>{item.blockchain.name}</Text>
