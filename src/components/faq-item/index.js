@@ -9,6 +9,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import styles from './styles';
 import {colors} from '../../shared/styling';
 import {push} from '../../helpers/navigationRef';
+import HTMRenderer from '../html-renderer';
 
 export default function FAQItem({item}) {
   const [showItem, setShowItem] = useState(false);
@@ -36,7 +37,12 @@ export default function FAQItem({item}) {
                 });
               }
             }}>
-            <Text style={styles.txtAnswer}>{item.answer}</Text>
+            <HTMRenderer
+              tagsStyles={{
+                p: styles.txtAnswer,
+              }}
+              content={item.answer}
+            />
           </TouchableWithoutFeedback>
         </View>
       )}

@@ -18,6 +18,7 @@ import {useCountdown} from '../../hooks/useCountdown';
 import {colors} from '../../shared/styling';
 import styles from './styles';
 import Flame from '../../assets/icon/svg/Flame';
+import HTMRenderer from '../html-renderer';
 
 const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
@@ -37,6 +38,8 @@ export default function NFTCard({
   const [svgContent, setSvgContent] = useState(
     `${URL_WEBSITE}${item.blockchain?.vektor}`,
   );
+
+  // console.log('SVG:', svgContent);
 
   const handleFavorite = async () => {
     try {
@@ -59,10 +62,6 @@ export default function NFTCard({
       exp_promo: item.nft_exp_promo,
       isFavorite,
       handleRefresh,
-      storedData: {
-        ...storedData,
-        maxTotal: item.nft_type,
-      },
     });
   };
 
@@ -97,11 +96,11 @@ export default function NFTCard({
               {item.blockchain?.vektor && (
                 <View style={styles.ctnSvg}>
                   <SvgUri
-                    onError={() => {
-                      setSvgContent(
-                        'https://cryptologos.cc/logos/solana-sol-logo.svg',
-                      );
-                    }}
+                    // onError={() => {
+                    //   setSvgContent(
+                    //     'https://cryptologos.cc/logos/solana-sol-logo.svg',
+                    //   );
+                    // }}
                     uri={svgContent}
                     width="100%"
                     height="100%"
@@ -170,7 +169,7 @@ export default function NFTCard({
             <View style={styles.contentWrapper}>
               <Text style={styles.txtTopContent}>Hype</Text>
               <Text style={styles.txtSubContent}>
-                {storedData.currentAmount || 0}
+                {storedData?.currentAmount || 0}
               </Text>
             </View>
           </View>
@@ -189,11 +188,11 @@ export default function NFTCard({
             {item.blockchain?.vektor && (
               <View style={styles.ctnSvgContent}>
                 <SvgUri
-                  onError={() => {
-                    setSvgContent(
-                      'https://cryptologos.cc/logos/solana-sol-logo.svg',
-                    );
-                  }}
+                  // onError={() => {
+                  //   setSvgContent(
+                  //     'https://cryptologos.cc/logos/solana-sol-logo.svg',
+                  //   );
+                  // }}
                   uri={svgContent}
                   width="100%"
                   height="100%"
@@ -211,7 +210,12 @@ export default function NFTCard({
           </View>
         </View>
         <View style={styles.ctnDesc}>
-          <Text style={styles.txtDesc}>{item.nft_description}</Text>
+          <HTMRenderer
+            tagsStyles={{
+              p: styles.pStyle,
+            }}
+            content={item.nft_description}
+          />
         </View>
 
         <LinearGradient

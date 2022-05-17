@@ -31,13 +31,14 @@ export default StyleSheet.create({
   },
   txtMenu: {
     color: colors.dark,
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(20),
     fontFamily: fonts.MontserratRegular,
   },
   socialIconStyle: {
-    width: moderateScale(20),
-    height: moderateScale(20),
+    width: moderateScale(22),
+    height: moderateScale(22),
     resizeMode: 'contain',
     marginLeft: moderateScale(6),
+    top: moderateScale(1),
   },
 });

@@ -48,6 +48,7 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratRegular,
     fontSize: moderateScale(12),
     marginTop: moderateScale(2),
+    marginBottom: 0,
     lineHeight: moderateScale(18),
   },
   forwardIcon: {

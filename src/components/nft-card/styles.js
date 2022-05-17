@@ -210,4 +210,7 @@ export default StyleSheet.create({
     height: moderateScale(24),
     resizeMode: 'contain',
   },
+  pStyle: {
+    color: '#fff',
+  },
 });

@@ -12,7 +12,6 @@ import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {moderateScale} from 'react-native-size-matters';
 import {connect} from 'react-redux';
-import {SvgUri} from 'react-native-svg';
 import styles from './styles';
 // import {detail} from './detail';
 import {URL_WEBSITE} from '../../helpers/static';
@@ -33,11 +32,12 @@ import {useHypeFlame} from '../../hooks/useHypeFlame';
 import dispatcher from './dispatcher';
 import states from './states';
 import HTMRenderer from '../../components/html-renderer';
+import BarProduct from '../../components/bar-product';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
-const groupIcon = require('../../assets/icon/user_group.png');
-const hypeGif = require('../../assets/icon/flame.gif');
 
+const instagram = require('../../assets/icon/instagram.png');
+const fb = require('../../assets/icon/fb.png');
 const twitter = require('../../assets/icon/twitter.png');
 const discord = require('../../assets/icon/discord.png');
 const telegram = require('../../assets/icon/telegram.png');
@@ -56,10 +56,8 @@ function DetailProduct({route, listHype, setHypeList}) {
   const storedData = route.params?.storedData;
   let carouselRef = useRef();
   const hypeAmount = useRef();
-  const isHypeFlameActive = Date.now() - storedData.dateAdded > 60;
 
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
-  const {hypeValue} = useHypeFlame(storedData, hypeAmount);
 
   const fetchData = async () => {
     setLoading(true);
@@ -170,65 +168,7 @@ function DetailProduct({route, listHype, setHypeList}) {
   }
 
   function renderBar() {
-    return (
-      <View style={styles.descContentWrapper}>
-        <View style={styles.ctnSubContent}>
-          {isHypeFlameActive ? (
-            <Image source={hypeGif} style={styles.privateStarIcon} />
-          ) : (
-            <View style={styles.ctnIconTab}>
-              <Flame
-                width={moderateScale(15)}
-                height={moderateScale(17)}
-                color={colors.red}
-              />
-            </View>
-          )}
-          <View style={styles.contentWrapper}>
-            <Text style={styles.txtTopContent}>Hype</Text>
-            <Text
-              style={[
-                styles.txtSubContent,
-                isHypeFlameActive ? styles.txtHype : {},
-              ]}>
-              {hypeValue}
-            </Text>
-          </View>
-        </View>
-        <View style={styles.ctnSubContent}>
-          <View style={styles.ctnIconTab}>
-            <Image source={groupIcon} style={styles.iconContent} />
-          </View>
-          <View style={styles.contentWrapper}>
-            <Text style={styles.txtTopContent}>Amount</Text>
-            <Text style={styles.txtSubContent}>{detail.nft_amount}</Text>
-          </View>
-        </View>
-        <View style={styles.ctnSubContent}>
-          <View style={styles.ctnIconTab}>
-            {/* <Image
-              source={{uri: `${URL_WEBSITE}${detail.blockchain.vektor}`}}
-              style={styles.iconContent}
-            /> */}
-            <View style={styles.ctnSvg}>
-              <SvgUri
-                width="100%"
-                height="100%"
-                uri={`${URL_WEBSITE}${detail.blockchain.vektor}`}
-                fill={detail.preferance.main_color}
-                color={detail.preferance.main_color}
-              />
-            </View>
-          </View>
-          <View style={styles.contentWrapper}>
-            <Text style={styles.txtTopContent}>Price</Text>
-            <Text style={styles.txtSubContent}>{`${detail.nft_price} ${
-              detail.blockchain?.abbreviation || ''
-            }`}</Text>
-          </View>
-        </View>
-      </View>
-    );
+    return <BarProduct detail={detail} hypeAmount={hypeAmount} />;
   }
 
   function renderDescription() {
@@ -295,9 +235,7 @@ function DetailProduct({route, listHype, setHypeList}) {
           {detail.community.twitter && (
             <TouchableWithoutFeedback
               onPress={() => {
-                handleOpenURL(
-                  `https://twitter.com/${detail.community.twitter}`,
-                );
+                handleOpenURL(detail.community.twitter);
               }}>
               <View style={styles.ctnCommunity}>
                 <Image source={twitter} style={styles.icnCommunity} />
@@ -321,11 +259,35 @@ function DetailProduct({route, listHype, setHypeList}) {
           {detail.community.telegram && (
             <TouchableWithoutFeedback
               onPress={() => {
-                handleOpenURL(`https://t.me/${detail.community.telegram}`);
+                handleOpenURL(detail.community.telegram);
               }}>
               <View style={styles.ctnCommunity}>
                 <Image source={telegram} style={styles.icnCommunity} />
                 <Text style={styles.txtCommunity}>Telegram</Text>
+                <Image source={linkIcon} style={styles.socialIcon} />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+          {detail.community?.instagram && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleOpenURL(detail.community.instagram);
+              }}>
+              <View style={styles.ctnCommunity}>
+                <Image source={instagram} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Instagram</Text>
+                <Image source={linkIcon} style={styles.socialIcon} />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+          {detail.community?.facebook && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleOpenURL(detail.community.facebook);
+              }}>
+              <View style={styles.ctnCommunity}>
+                <Image source={fb} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Facebook</Text>
                 <Image source={linkIcon} style={styles.socialIcon} />
               </View>
             </TouchableWithoutFeedback>

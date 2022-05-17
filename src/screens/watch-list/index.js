@@ -6,16 +6,19 @@ import {
   Text,
   TouchableWithoutFeedback,
 } from 'react-native';
+import {connect} from 'react-redux';
 import Header from '../../components/header';
+import HTMRenderer from '../../components/html-renderer';
 import LoadingIndicator from '../../components/loading-indicator';
 import {navigate} from '../../helpers/navigationRef';
 import {listWatchlist} from '../../helpers/requests';
 import {URL_WEBSITE} from '../../helpers/static';
 import styles from './styles';
+import states from './states';
 
 const backIcon = require('../../assets/icon/forward_icon.png');
 
-export default function WatchList() {
+function WatchList() {
   const [isLoading, setLoading] = useState(true);
   const [listData, setData] = useState([]);
 
@@ -40,38 +43,46 @@ export default function WatchList() {
       <FlatList
         contentContainerStyle={styles.ctnScroll}
         data={listData}
-        renderItem={({item}) => (
-          <View style={styles.ctnItem}>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigate('DetailProduct', {id: item.product.uuid});
-              }}>
-              <View style={styles.ctnImage}>
-                <Image
-                  source={{
-                    uri: `${URL_WEBSITE}${item.product.collections[0].image}`,
-                  }}
-                  style={styles.imgNft}
-                />
-              </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              onPress={() => {
-                navigate('DetailProduct', {id: item.product.uuid});
-              }}>
-              <View style={styles.centerItem}>
-                <Text style={styles.txtTitle}>{item.product.nft_title}</Text>
-                <Text
-                  style={styles.txtDesc}
-                  numberOfLines={2}
-                  ellipsizeMode="tail">
-                  {item.product.nft_description}
-                </Text>
-              </View>
-            </TouchableWithoutFeedback>
-            <Image source={backIcon} style={styles.forwardIcon} />
-          </View>
-        )}
+        renderItem={({item}) => {
+          const handleRedirectProduct = () => {
+            navigate('DetailProduct', {
+              id: item.product.uuid,
+              isFavorite: true,
+              handleRefresh: fetchData,
+              exp_promo: item.product.nft_exp_promo,
+            });
+          };
+          return (
+            <View style={styles.ctnItem}>
+              <TouchableWithoutFeedback onPress={handleRedirectProduct}>
+                <View style={styles.ctnImage}>
+                  <Image
+                    source={{
+                      uri: `${URL_WEBSITE}${item.product.collections[0].image}`,
+                    }}
+                    style={styles.imgNft}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={handleRedirectProduct}>
+                <View style={styles.centerItem}>
+                  <Text style={styles.txtTitle}>{item.product.nft_title}</Text>
+                  <HTMRenderer
+                    tagsStyles={{
+                      p: styles.txtDesc,
+                    }}
+                    content={
+                      item.product.nft_description.length > 100
+                        ? `${item.product.nft_description.substring(0, 45)}...`
+                        : item.product.nft_description
+                    }
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+              <Image source={backIcon} style={styles.forwardIcon} />
+            </View>
+          );
+        }}
         keyExtractor={item => item}
         ListFooterComponent={() => {
           if (isLoading) {
@@ -83,3 +94,5 @@ export default function WatchList() {
     </View>
   );
 }
+
+export default connect(states)(WatchList);

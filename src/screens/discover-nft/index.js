@@ -22,10 +22,27 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const [activeSlide, setActiveSlide] = useState(0);
   let carouselRef = null;
 
+  const selectAmountHype = id => {
+    const getItem = listHype.find(item => item.idProject === id);
+    // console.log('Cehck value getItem', getItem);
+    return getItem;
+  };
+
   const handleHypeList = res => {
     if (res.length > 0) {
       if (listHype.length > 0) {
-        // asd
+        const hypeData = [];
+        res.map(item => {
+          if (!selectAmountHype(item.uuid)?.currentAmount) {
+            return {
+              idProject: item.uuid,
+              currentAmount: Math.round(stringToNumber(item.nft_type) / 3),
+              dateAdded: Date.now(),
+            };
+          }
+          return item;
+        });
+        setHypeList(hypeData);
       } else {
         const hypeData = [];
         res.forEach(item => {
@@ -38,12 +55,6 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
         setHypeList(hypeData);
       }
     }
-  };
-
-  const selectAmountHype = id => {
-    const getItem = listHype.find(item => item.idProject === id);
-    // console.log('Cehck value getItem', getItem);
-    return getItem;
   };
 
   const fetchData = async () => {
@@ -113,16 +124,17 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     });
     return (
       <View style={styles.cardWrapper}>
-        <View style={styles.overalyWrapper}>
+        {/* <View style={styles.overalyWrapper}>
           <View style={[styles.overlay, getDefaultColor(), styles.mgMin8]} />
           <View style={[styles.overlay, getDefaultColor(), styles.mgMin4]} />
           <View style={[styles.overlay, getDefaultColor()]} />
-        </View>
+        </View> */}
         <View style={styles.carouselWrapper}>
           <Carousel
             layout="tinder"
             layoutCardOffset={9}
             data={listData}
+            extraData={listData}
             renderItem={({item, index}) => (
               <NFTCard
                 handleRefresh={fetchData}
@@ -137,6 +149,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
             ref={c => {
               carouselRef = c;
             }}
+            // loop
             onBeforeSnapToItem={index => setActiveSlide(index)}
           />
         </View>

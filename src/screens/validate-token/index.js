@@ -9,6 +9,7 @@ import {reset} from '../../helpers/navigationRef';
 import RegisterAnimate from '../../components/register-animate';
 import {verifyToken} from '../../helpers/requests';
 import dispatcher from './dispatcher';
+import LoadingIndicator from '../../components/loading-indicator';
 
 function ValidateToken({route, setProfileUser}) {
   const [isLoading, selectedLoading] = useState(true);
@@ -23,6 +24,7 @@ function ValidateToken({route, setProfileUser}) {
       } else {
         setProfileUser(res);
       }
+      reset('Homepage');
       selectedLoading(false);
     } catch (err) {
       console.log('Error verify:', err);
@@ -57,6 +59,14 @@ function ValidateToken({route, setProfileUser}) {
           </Text>
         </View>
       </>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={{flex: 1, backgroundColor: '#fff'}}>
+        <LoadingIndicator fullscreen />
+      </View>
     );
   }
 

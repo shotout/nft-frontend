@@ -42,5 +42,7 @@ export default StyleSheet.create({
     color: colors.grayText,
     fontFamily: fonts.MontserratRegular,
     lineHeight: moderateScale(22),
+    marginTop: moderateScale(0),
+    marginBottom: moderateScale(10),
   },
 });

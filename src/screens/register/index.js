@@ -25,7 +25,6 @@ import {getProfile, postRegister, updateUser} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
 import LoadingIndicator from '../../components/loading-indicator';
 import {requestNotificationPermission} from '../../helpers/requestPermission';
-import {URL_WEBSITE} from '../../helpers/static';
 
 function Register({walletList, route}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
@@ -83,29 +82,33 @@ function Register({walletList, route}) {
   useEffect(() => {
     console.log('Active step change', activeStep);
     if (activeStep === 'done') {
-      const subscription = AppState.addEventListener('change', nextAppState => {
-        if (
-          appState.current.match(/inactive|background/) &&
-          nextAppState === 'active'
-        ) {
-          console.log('App has come to the foreground!');
-        }
+      setTimeout(() => {
+        console.log('Exit apps', activeStep);
+        RNExitApp.exitApp();
+      }, 5000);
+      // const subscription = AppState.addEventListener('change', nextAppState => {
+      //   if (
+      //     appState.current.match(/inactive|background/) &&
+      //     nextAppState === 'active'
+      //   ) {
+      //     console.log('App has come to the foreground!');
+      //   }
 
-        appState.current = nextAppState;
-        setAppStateVisible(appState.current);
+      //   appState.current = nextAppState;
+      //   setAppStateVisible(appState.current);
 
-        console.log('AppState', appState.current, activeStep);
-        if (nextAppState === 'inactive' || nextAppState === 'background') {
-          if (Platform.OS === 'ios') {
-            console.log('Exit apps', activeStep);
-            RNExitApp.exitApp();
-          }
-        }
-      });
+      //   console.log('AppState', appState.current, activeStep);
+      //   if (nextAppState === 'inactive' || nextAppState === 'background') {
+      //     if (Platform.OS === 'ios') {
+      //       console.log('Exit apps', activeStep);
+      //       RNExitApp.exitApp();
+      //     }
+      //   }
+      // });
 
-      return () => {
-        subscription.remove();
-      };
+      // return () => {
+      //   subscription.remove();
+      // };
     }
   }, [activeStep]);
 
@@ -308,7 +311,7 @@ function Register({walletList, route}) {
                         isWalletSelected && styles.redBorder,
                       ]}>
                       <Image
-                        source={{uri: `${URL_WEBSITE}${wallet.image_url}`}}
+                        source={{uri: wallet.image_url}}
                         style={styles.walletIcoStyle}
                       />
                     </View>

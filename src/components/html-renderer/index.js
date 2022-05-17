@@ -4,7 +4,7 @@ import RenderHtml, {defaultSystemFonts} from 'react-native-render-html';
 import {fonts} from '../../shared/styling';
 import styles from './styles';
 
-function HTMRenderer({content}) {
+function HTMRenderer({content, tagsStyles = {}}) {
   const {width} = useWindowDimensions();
 
   return (
@@ -24,6 +24,7 @@ function HTMRenderer({content}) {
         tagsStyles={{
           p: styles.pStyle,
           h2: styles.h2Style,
+          ...tagsStyles,
         }}
       />
     </View>

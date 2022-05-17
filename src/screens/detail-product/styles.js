@@ -195,7 +195,6 @@ export default StyleSheet.create({
   },
   dotWrapper: {
     position: 'absolute',
-    right: moderateScale(16),
     bottom: moderateScale(-20),
     alignSelf: 'center',
     width: '100%',
