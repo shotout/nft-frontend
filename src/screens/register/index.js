@@ -7,6 +7,7 @@ import {
   ScrollView,
   AppState,
   Platform,
+  Alert,
 } from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,6 +25,7 @@ import {getProfile, postRegister, updateUser} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
 import LoadingIndicator from '../../components/loading-indicator';
 import {requestNotificationPermission} from '../../helpers/requestPermission';
+import {URL_WEBSITE} from '../../helpers/static';
 
 function Register({walletList, route}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
@@ -163,9 +165,13 @@ function Register({walletList, route}) {
         ...values,
         wallet: selectedWallet,
       };
-      await postRegister(body);
+      const res = await postRegister(body);
+      if (res?.status === 'failed') {
+        Alert.alert(res?.message || 'Error');
+      } else {
+        setActiveStep('done');
+      }
       selectedLoading(false);
-      setActiveStep('done');
     } catch (err) {
       if (err.data.errors) {
         const errorRes = arrayErrorResturctor(err.data.errors);
@@ -302,7 +308,7 @@ function Register({walletList, route}) {
                         isWalletSelected && styles.redBorder,
                       ]}>
                       <Image
-                        source={{uri: wallet.image_url}}
+                        source={{uri: `${URL_WEBSITE}${wallet.image_url}`}}
                         style={styles.walletIcoStyle}
                       />
                     </View>

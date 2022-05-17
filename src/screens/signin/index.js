@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, Text, ScrollView, AppState, Platform} from 'react-native';
+import {View, Text, ScrollView, AppState, Platform, Alert} from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import Button from '../../components/button';
 import Header from '../../components/header';
@@ -77,8 +77,13 @@ export default function SignIn() {
       const body = {
         ...values,
       };
-      await postLogin(body);
-      setActiveStep('success');
+      const res = await postLogin(body);
+      console.log('Res data:', res);
+      if (res?.status === 'failed') {
+        Alert.alert(res?.message || 'Error');
+      } else {
+        setActiveStep('success');
+      }
       selectedLoading(false);
     } catch (err) {
       if (err.data.errors) {
