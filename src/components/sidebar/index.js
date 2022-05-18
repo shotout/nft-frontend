@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import {View, Text, TouchableOpacity, Image, Linking} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {push} from '../../helpers/navigationRef';
 import styles from './styles';
@@ -32,11 +32,20 @@ export default function Sidebar({navigation, route}) {
     {name: 'Need Help?', onPress: () => {}},
   ];
 
+  const handleOpenURL = url => {
+    Linking.openURL(url);
+  };
+
   const socialMenu = [
-    {name: 'Twitter'},
-    {name: 'Discord'},
-    {name: 'Telegram'},
-    {name: 'Website'},
+    {
+      name: 'Twitter',
+      url: 'https://twitter.com/nftdailyapp?s=21&t=I6KUsgc8uoctkQDfBG3W3Q',
+    },
+    {name: 'Telegram', url: 'https://t.me/nftdailyapp'},
+    {
+      name: 'Instagram',
+      url: 'https://instagram.com/nftdaily.app?igshid=YmMyMTA2M2Y=',
+    },
   ];
 
   function renderMenu() {
@@ -65,7 +74,9 @@ export default function Sidebar({navigation, route}) {
         </View>
         {socialMenu.map(menu => (
           <TouchableOpacity
-            // onPress={menu.onPress}
+            onPress={() => {
+              handleOpenURL(menu.url);
+            }}
             style={styles.ctnMenu}
             key={menu.name}>
             <Text style={styles.txtMenu}>{menu.name}</Text>
