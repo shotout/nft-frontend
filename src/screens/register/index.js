@@ -236,7 +236,11 @@ function Register({walletList, route, setProfileUser}) {
         }
         break;
       case 'wallet':
-        setActiveStep('email');
+        if (selectedWallet.length === 0) {
+          Alert.alert('Wallet must be selected.');
+        } else {
+          setActiveStep('email');
+        }
         break;
       case 'email':
         if (values.email) {
@@ -325,7 +329,7 @@ function Register({walletList, route, setProfileUser}) {
                 </View>
               );
             })}
-            <View style={styles.ctnWallet}>
+            {/* <View style={styles.ctnWallet}>
               <TouchableOpacity
                 onPress={() => {
                   setSelectedWallet([]);
@@ -336,7 +340,7 @@ function Register({walletList, route, setProfileUser}) {
                 </View>
               </TouchableOpacity>
               <Text style={styles.txtWallet}>None</Text>
-            </View>
+            </View> */}
           </View>
         </>
       );
