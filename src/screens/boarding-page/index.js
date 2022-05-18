@@ -10,35 +10,38 @@ import Video from 'react-native-video';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import {navigate} from '../../helpers/navigationRef';
+import {isIphone} from '../../shared/devices';
 import styles from './styles';
 
 const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 const notificationIcon = require('../../assets/icon/notification.png');
 
-// const nftImage =
-//   'https://dappradar.com/nft-metadata-image?format=preview&filePath=ethereum/0x60e4d786628fea6478f785a6d7e704777c86a7c6/4849.png';
+const nftImage = require('../../assets/icon/media_boarding.png');
 
 export default function BoardingPage({route}) {
-  // function notificationBar() {
-  //   return (
-  //     <View style={styles.notificationBar}>
-  //       <View style={styles.ctnNotification}>
-  //         <Image source={notificationIcon} style={styles.notificationStyle} />
-  //       </View>
-  //       <View style={styles.ctnNotifItem}>
-  //         <Text style={styles.txtNotif}>NFT Raffle is Live</Text>
-  //         <Text style={styles.txtDescNotif}>
-  //           Win 1 of 10 exlusive MekaVerse NFTs. Opt in before all slots are
-  //           gone!
-  //         </Text>
-  //       </View>
-  //       <View style={styles.rightNotif}>
-  //         <Text style={styles.txtTime}>now</Text>
-  //         <Image source={{uri: nftImage}} style={styles.rightIcon} />
-  //       </View>
-  //     </View>
-  //   );
-  // }
+  function notificationBar() {
+    if (isIphone) {
+      return (
+        <View style={styles.notificationBar}>
+          <View style={styles.ctnNotification}>
+            <Image source={notificationIcon} style={styles.notificationStyle} />
+          </View>
+          <View style={styles.ctnNotifItem}>
+            <Text style={styles.txtNotif}>NFT Raffle is Live</Text>
+            <Text style={styles.txtDescNotif}>
+              Win 1 of 10 exlusive MekaVerse NFTs. Opt in before all slots are
+              gone!
+            </Text>
+          </View>
+          <View style={styles.rightNotif}>
+            <Text style={styles.txtTime}>now</Text>
+            <Image source={nftImage} style={styles.rightIcon} />
+          </View>
+        </View>
+      );
+    }
+    return null;
+  }
 
   function renderContent() {
     return (
@@ -47,7 +50,7 @@ export default function BoardingPage({route}) {
           <Text style={styles.txtContent}>Never miss another</Text>
           <Text style={[styles.txtContent, styles.txtRed]}>Airdrop</Text>
         </View> */}
-        {/* {notificationBar()} */}
+        {notificationBar()}
       </View>
     );
   }

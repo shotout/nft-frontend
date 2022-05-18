@@ -19,7 +19,7 @@ export default StyleSheet.create({
   ctnWrapper: {
     flex: 1,
     justifyContent: 'center',
-    paddingBottom: moderateScale(100),
+    paddingTop: moderateScale(200),
     paddingHorizontal: moderateScale(20),
   },
   txtContent: {
@@ -44,7 +44,7 @@ export default StyleSheet.create({
   },
   notificationBar: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(245, 245, 245, 0.6)',
+    backgroundColor: 'rgba(245, 245, 245, 0.8)',
     borderRadius: moderateScale(16),
     padding: moderateScale(16),
     marginTop: moderateScale(30),
@@ -78,7 +78,8 @@ export default StyleSheet.create({
   },
   rightIcon: {
     width: moderateScale(40),
-    aspectRatio: 1 / 1,
+    height: moderateScale(40),
+    // aspectRatio: 1 / 1,
     borderRadius: moderateScale(12),
     marginTop: moderateScale(8),
   },
