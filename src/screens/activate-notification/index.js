@@ -25,7 +25,7 @@ function ActivateNotification() {
       <Button
         onPress={activateNotification}
         btnStyle={styles.pdBnmNotification}
-        label="ENABLE NOTIFICATION"
+        label="ENABLE NOTIFICATIONS"
       />
       <TouchableOpacity
         style={styles.btnNoThanks}

@@ -6,7 +6,7 @@ const fomoIcon = require('../../assets/icon/fomo_icon.png');
 const nftImage = require('../../assets/icon/media_boarding.png');
 const notificationIcon = require('../../assets/icon/notification.png');
 
-export default function FomoComponent() {
+export default function FomoComponent({ctnStyle}) {
   function notificationBar() {
     return (
       <View style={styles.notificationBar}>
@@ -14,9 +14,9 @@ export default function FomoComponent() {
           <Image source={notificationIcon} style={styles.notificationStyle} />
         </View>
         <View style={styles.ctnNotifItem}>
-          <Text style={styles.txtNotif}>NFT Raffle is Live</Text>
+          <Text style={styles.txtNotif}>NFT Raffle is Live 🚀</Text>
           <Text style={styles.txtDescNotif}>
-            Win 1 of 10 exlusive MekaVerse NFTs. Opt in before all slots are
+            Win 1 of 10 exclusive Monkeys NFTs. Opt in before all slots are
             gone!
           </Text>
         </View>
@@ -29,7 +29,7 @@ export default function FomoComponent() {
   }
 
   return (
-    <View style={styles.ctnFomo}>
+    <View style={[styles.ctnFomo, ctnStyle]}>
       <Image source={fomoIcon} style={styles.icnFomo} />
       <View style={styles.ctnText}>
         <Text style={styles.txtTitle}>

@@ -17,17 +17,17 @@ export default StyleSheet.create({
   txtTitle: {
     fontFamily: fonts.MontserratBold,
     color: colors.dark,
-    fontSize: moderateScale(28),
+    fontSize: moderateScale(32),
   },
   txtRed: {
     color: colors.red,
   },
   txtDesc: {
-    fontSize: moderateScale(20),
+    fontSize: moderateScale(24),
     fontFamily: fonts.MontserratRegular,
     color: colors.dark,
-    marginTop: moderateScale(10),
-    lineHeight: moderateScale(28),
+    marginTop: moderateScale(16),
+    lineHeight: moderateScale(32),
   },
   notificationBar: {
     flexDirection: 'row',
@@ -73,6 +73,7 @@ export default StyleSheet.create({
   txtDescNotif: {
     color: '#000',
     fontFamily: fonts.MontserratRegular,
+    fontSize: moderateScale(13),
   },
   rightIcon: {
     width: moderateScale(40),
@@ -92,7 +93,8 @@ export default StyleSheet.create({
   ctnText: {
     justifyContent: 'center',
     alignItems: 'center',
-    maxWidth: moderateScale(280),
+    maxWidth: moderateScale(310),
     marginTop: moderateScale(12),
+    // paddingHorizontal: moderateScale(10),
   },
 });

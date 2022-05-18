@@ -98,14 +98,14 @@ export default StyleSheet.create({
     lineHeight: moderateScale(24),
   },
   btnStyle: {
-    marginBottom: isIphoneXorAbove() ? moderateScale(28) : moderateScale(20),
+    marginBottom: isIphoneXorAbove() ? moderateScale(42) : moderateScale(20),
   },
   pdBtmNormal: {
     marginBottom: 0,
   },
   btnNoThanks: {
     paddingTop: moderateScale(16),
-    paddingBottom: isIphoneXorAbove() ? moderateScale(28) : moderateScale(20),
+    paddingBottom: isIphoneXorAbove() ? moderateScale(42) : moderateScale(20),
     paddingHorizontal: moderateScale(20),
   },
   txtNothanks: {

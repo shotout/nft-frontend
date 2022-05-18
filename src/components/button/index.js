@@ -4,7 +4,14 @@ import {Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {colors} from '../../shared/styling';
 import styles from './styles';
 
-export default function Button({label, onPress, type, isLoading, btnStyle}) {
+export default function Button({
+  label,
+  onPress,
+  type,
+  isLoading,
+  btnStyle,
+  isDisable,
+}) {
   const [isFocus, setFocus] = useState(false);
 
   function getBgColor() {
@@ -12,6 +19,9 @@ export default function Button({label, onPress, type, isLoading, btnStyle}) {
       case 'white-button':
         return {backgroundColor: '#fff'};
       default:
+        if (isDisable) {
+          return {backgroundColor: '#ddd'};
+        }
         return {};
     }
   }
@@ -21,13 +31,16 @@ export default function Button({label, onPress, type, isLoading, btnStyle}) {
       case 'white-button':
         return {color: colors.red};
       default:
+        if (isDisable) {
+          return {backgroundColor: '#ddd'};
+        }
         return {};
     }
   }
 
   return (
     <TouchableOpacity
-      disabled={isLoading}
+      disabled={isLoading || isDisable}
       onPress={onPress}
       style={[styles.ctnRoot, getBgColor(), btnStyle]}>
       {isLoading ? (

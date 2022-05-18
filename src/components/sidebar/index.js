@@ -29,7 +29,12 @@ export default function Sidebar({navigation, route}) {
         });
       },
     },
-    {name: 'Need Help?', onPress: () => {}},
+    {
+      name: 'Need Help?',
+      onPress: () => {
+        // contact@nftdaily.app
+      },
+    },
   ];
 
   const handleOpenURL = url => {

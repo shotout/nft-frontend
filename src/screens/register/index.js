@@ -17,6 +17,7 @@ import {
   checkNotifications,
   requestNotifications,
 } from 'react-native-permissions';
+import {moderateScale} from 'react-native-size-matters';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -157,6 +158,15 @@ function Register({walletList, route, setProfileUser}) {
     return true;
   };
 
+  const getDisable = () => {
+    if (activeStep === 'wallet') {
+      if (selectedWallet.length === 0) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   const handleSelectedWallet = name => {
     const isThere = findSelectedWallet(name);
     if (isNone) {
@@ -226,7 +236,7 @@ function Register({walletList, route, setProfileUser}) {
       return 'Start Exploring';
     }
     if (activeStep === 'notification') {
-      return 'ENABLE NOTIFICATION';
+      return 'ENABLE NOTIFICATIONS';
     }
     return 'Continue';
   }
@@ -309,7 +319,7 @@ function Register({walletList, route, setProfileUser}) {
     }
 
     if (activeStep === 'notification') {
-      return <FomoComponent />;
+      return <FomoComponent ctnStyle={{paddingTop: moderateScale(20)}} />;
     }
     if (activeStep === 'email') {
       return (
@@ -409,6 +419,7 @@ function Register({walletList, route, setProfileUser}) {
           isLoading={isLoading}
           label={getLabel()}
           onPress={handleChangeStep}
+          isDisable={getDisable()}
           btnStyle={
             activeStep === 'notification' ? styles.pdBtmNormal : styles.btnStyle
           }
