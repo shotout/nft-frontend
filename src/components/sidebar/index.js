@@ -32,7 +32,7 @@ export default function Sidebar({navigation, route}) {
     {
       name: 'Need Help?',
       onPress: () => {
-        // contact@nftdaily.app
+        Linking.openURL('mailto:contact@nftdaily.app');
       },
     },
   ];
