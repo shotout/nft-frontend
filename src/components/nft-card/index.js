@@ -104,20 +104,24 @@ function NFTCard({
           </Text>
           <View style={styles.ctnRow}>
             {item.is_verified === 1 && (
-              <View style={styles.ctnVerified}>
+              <View
+                style={[
+                  styles.ctnVerified,
+                  {borderColor: item?.preferance?.badge_color},
+                ]}>
                 <View style={styles.verifiedStyle}>
                   <SvgXml
                     xml={verifiedIcon}
                     width="100%"
                     height="100%"
-                    fill={item?.preferance?.headline_color}
-                    color={item?.preferance?.headline_color}
+                    fill={item?.preferance?.badge_color}
+                    color={item?.preferance?.badge_color}
                   />
                 </View>
                 <Text
                   style={[
                     styles.txtVerified,
-                    {color: item?.preferance?.headline_color || undefined},
+                    {color: item?.preferance?.badge_color || undefined},
                   ]}>
                   Verified
                 </Text>
