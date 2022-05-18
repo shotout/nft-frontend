@@ -28,38 +28,39 @@ export default function SignIn() {
   }, []);
 
   useEffect(() => {
-    if (activeStep === 'success') {
-      if (Platform.OS === 'ios') {
-        setTimeout(() => {
-          console.log('Exit apps', activeStep);
-          RNExitApp.exitApp();
-        }, 5000);
-      }
-    }
-    // const subscription = AppState.addEventListener('change', nextAppState => {
-    //   if (
-    //     appState.current.match(/inactive|background/) &&
-    //     nextAppState === 'active'
-    //   ) {
-    //     console.log('App has come to the foreground!');
-    //   }
-
-    //   appState.current = nextAppState;
-    //   setAppStateVisible(appState.current);
-
-    //   console.log('AppState', appState.current, activeStep);
-    //   if (nextAppState === 'inactive' || nextAppState === 'background') {
-    //     if (Platform.OS === 'ios') {
+    // if (activeStep === 'success') {
+    //   if (Platform.OS === 'ios') {
+    //     setTimeout(() => {
     //       console.log('Exit apps', activeStep);
     //       RNExitApp.exitApp();
-    //     }
+    //     }, 5000);
     //   }
-    // });
-
-    // return () => {
-    //   subscription.remove();
-    // };
     // }
+    if (activeStep === 'success') {
+      const subscription = AppState.addEventListener('change', nextAppState => {
+        if (
+          appState.current.match(/inactive|background/) &&
+          nextAppState === 'active'
+        ) {
+          console.log('App has come to the foreground!');
+        }
+
+        appState.current = nextAppState;
+        setAppStateVisible(appState.current);
+
+        // console.log('AppState', appState.current, activeStep);
+        if (nextAppState === 'inactive' || nextAppState === 'background') {
+          if (Platform.OS === 'ios') {
+            console.log('Exit apps', activeStep);
+            RNExitApp.exitApp();
+          }
+        }
+      });
+
+      return () => {
+        subscription.remove();
+      };
+    }
   }, [activeStep]);
 
   const handleBack = () => {
