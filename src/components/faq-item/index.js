@@ -28,7 +28,8 @@ export default function FAQItem({item}) {
       </TouchableOpacity>
       {showItem && (
         <View style={styles.ctnAnswer}>
-          <TouchableWithoutFeedback
+          <TouchableOpacity
+            activeOpacity={1}
             onPress={() => {
               if (item.flag) {
                 push('SafetyGuideline', {
@@ -43,7 +44,7 @@ export default function FAQItem({item}) {
               }}
               content={item.answer}
             />
-          </TouchableWithoutFeedback>
+          </TouchableOpacity>
         </View>
       )}
     </View>
