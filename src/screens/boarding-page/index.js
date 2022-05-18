@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {
   View,
   ImageBackground,
@@ -7,6 +7,7 @@ import {
   Image,
 } from 'react-native';
 import Video from 'react-native-video';
+import {checkNotifications} from 'react-native-permissions';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import {navigate} from '../../helpers/navigationRef';
@@ -19,6 +20,12 @@ const notificationIcon = require('../../assets/icon/notification.png');
 const nftImage = require('../../assets/icon/media_boarding.png');
 
 export default function BoardingPage({route}) {
+  useEffect(() => {
+    checkNotifications().then(({status, settings}) => {
+      console.log('Check notif:', status);
+    });
+  }, []);
+
   function notificationBar() {
     if (isIphone) {
       return (

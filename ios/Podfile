@@ -7,6 +7,12 @@ install! 'cocoapods', :deterministic_uuids => false
 target 'nftdaily' do
   config = use_native_modules!
 
+
+  permissions_path = '../node_modules/react-native-permissions/ios'
+
+  #Permission
+  pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
+
   # #Deep link
   pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
 

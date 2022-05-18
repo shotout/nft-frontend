@@ -13,6 +13,7 @@ import RNExitApp from 'react-native-exit-app';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
+import {checkNotifications} from 'react-native-permissions';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -27,6 +28,8 @@ import LoadingIndicator from '../../components/loading-indicator';
 import {requestNotificationPermission} from '../../helpers/requestPermission';
 import RegisterAnimate from '../../components/register-animate';
 import dispatcher from './dispatcher';
+import FomoComponent from '../../components/fomo-component';
+import {isIphone} from '../../shared/devices';
 
 function Register({walletList, route, setProfileUser}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
@@ -45,6 +48,7 @@ function Register({walletList, route, setProfileUser}) {
     name: null,
     email: null,
   });
+  const [notificationStatus, setNotificationStatus] = useState('');
 
   const getToken = async () => {
     try {
@@ -76,9 +80,12 @@ function Register({walletList, route, setProfileUser}) {
   };
 
   useEffect(() => {
-    requestNotificationPermission();
     handleInitialEdit();
     getToken();
+    checkNotifications().then(({status, settings}) => {
+      console.log('Check notif:', status);
+      setNotificationStatus(status);
+    });
   }, []);
 
   useEffect(() => {
@@ -174,7 +181,11 @@ function Register({walletList, route, setProfileUser}) {
         Alert.alert(res?.message || 'Error');
       } else {
         setProfileUser(res);
-        setActiveStep('done');
+        if (isIphone && notificationStatus !== 'granted') {
+          setActiveStep('notification');
+        } else {
+          setActiveStep('done');
+        }
       }
       selectedLoading(false);
     } catch (err) {
@@ -211,6 +222,9 @@ function Register({walletList, route, setProfileUser}) {
     }
     if (activeStep === 'done') {
       return 'Start Exploring';
+    }
+    if (activeStep === 'notification') {
+      return 'ENABLE NOTIFICATION';
     }
     return 'Continue';
   }
@@ -255,6 +269,10 @@ function Register({walletList, route, setProfileUser}) {
             email: 'Please enter a valid email address.',
           });
         }
+        break;
+      case 'notification':
+        requestNotificationPermission();
+        setActiveStep('done');
         break;
       case 'done':
         reset('Homepage');
@@ -365,6 +383,10 @@ function Register({walletList, route, setProfileUser}) {
     if (loadingGetEdit) {
       return <LoadingIndicator fullscreen />;
     }
+
+    if (activeStep === 'notification') {
+      return <FomoComponent />;
+    }
     return <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>;
   }
 
@@ -379,8 +401,19 @@ function Register({walletList, route, setProfileUser}) {
           isLoading={isLoading}
           label={getLabel()}
           onPress={handleChangeStep}
-          btnStyle={styles.btnStyle}
+          btnStyle={
+            activeStep === 'notification' ? styles.pdBtmNormal : styles.btnStyle
+          }
         />
+      )}
+      {activeStep === 'notification' && (
+        <TouchableOpacity
+          style={styles.btnNoThanks}
+          onPress={() => {
+            setActiveStep('done');
+          }}>
+          <Text style={styles.txtNothanks}>No thanks</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
