@@ -22,7 +22,7 @@ import ValidateToken from './screens/validate-token';
 import {linking} from './helpers/linking';
 import DetailProduct from './screens/detail-product';
 import {appWokeUp} from './helpers/userInit';
-import Test from './screens/test';
+import ActivateNotification from './screens/activate-notification';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,8 +43,8 @@ function Homepage() {
 function Routes({handleFetchWallet, profile}) {
   useEffect(() => {
     handleFetchWallet();
-    const subscription = Linking.addEventListener('url', appWokeUp);
-    return () => subscription.remove();
+    // const subscription = Linking.addEventListener('url', appWokeUp);
+    // return () => subscription.remove();
   }, []);
 
   function getInitialRoute() {
@@ -109,8 +109,8 @@ function Routes({handleFetchWallet, profile}) {
         />
         <Stack.Screen
           options={navigationData.noHeader.options}
-          name="Test"
-          component={Test}
+          name="ActivateNotification"
+          component={ActivateNotification}
         />
       </Stack.Navigator>
     </NavigationContainer>

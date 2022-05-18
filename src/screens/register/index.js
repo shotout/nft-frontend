@@ -6,14 +6,17 @@ import {
   TouchableOpacity,
   ScrollView,
   AppState,
-  Platform,
+  Linking,
   Alert,
 } from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
-import {checkNotifications} from 'react-native-permissions';
+import {
+  checkNotifications,
+  requestNotifications,
+} from 'react-native-permissions';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -25,7 +28,6 @@ import states from './states';
 import {getProfile, postRegister, updateUser} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
 import LoadingIndicator from '../../components/loading-indicator';
-import {requestNotificationPermission} from '../../helpers/requestPermission';
 import RegisterAnimate from '../../components/register-animate';
 import dispatcher from './dispatcher';
 import FomoComponent from '../../components/fomo-component';
@@ -271,8 +273,10 @@ function Register({walletList, route, setProfileUser}) {
         }
         break;
       case 'notification':
-        requestNotificationPermission();
-        setActiveStep('done');
+        requestNotifications(['alert', 'sound']).then(({status, settings}) => {
+          setActiveStep('done');
+          console.log('Check status:', status);
+        });
         break;
       case 'done':
         reset('Homepage');
@@ -298,6 +302,10 @@ function Register({walletList, route, setProfileUser}) {
           </View>
         </>
       );
+    }
+
+    if (activeStep === 'notification') {
+      return <FomoComponent />;
     }
     if (activeStep === 'email') {
       return (
@@ -382,10 +390,6 @@ function Register({walletList, route, setProfileUser}) {
   function renderMainContent() {
     if (loadingGetEdit) {
       return <LoadingIndicator fullscreen />;
-    }
-
-    if (activeStep === 'notification') {
-      return <FomoComponent />;
     }
     return <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>;
   }

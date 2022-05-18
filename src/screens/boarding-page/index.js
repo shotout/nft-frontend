@@ -57,7 +57,7 @@ export default function BoardingPage({route}) {
           <Text style={styles.txtContent}>Never miss another</Text>
           <Text style={[styles.txtContent, styles.txtRed]}>Airdrop</Text>
         </View> */}
-        {notificationBar()}
+        {/* {notificationBar()} */}
       </View>
     );
   }

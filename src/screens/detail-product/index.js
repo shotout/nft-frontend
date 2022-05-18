@@ -37,7 +37,7 @@ import BarProduct from '../../components/bar-product';
 const iconVerified = require('../../assets/icon/verified_black.png');
 
 const instagram = require('../../assets/icon/instagram.png');
-const fb = require('../../assets/icon/fb.png');
+const openseaIcon = require('../../assets/icon/opensea.png');
 const twitter = require('../../assets/icon/twitter.png');
 const discord = require('../../assets/icon/discord.png');
 const telegram = require('../../assets/icon/telegram.png');
@@ -279,14 +279,14 @@ function DetailProduct({route, listHype, setHypeList}) {
               </View>
             </TouchableWithoutFeedback>
           )}
-          {detail.community?.facebook && (
+          {detail.community?.opensea && (
             <TouchableWithoutFeedback
               onPress={() => {
-                handleOpenURL(detail.community.facebook);
+                handleOpenURL(detail.community.opensea);
               }}>
               <View style={styles.ctnCommunity}>
-                <Image source={fb} style={styles.icnCommunity} />
-                <Text style={styles.txtCommunity}>Facebook</Text>
+                <Image source={openseaIcon} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Open Sea</Text>
                 <Image source={linkIcon} style={styles.socialIcon} />
               </View>
             </TouchableWithoutFeedback>

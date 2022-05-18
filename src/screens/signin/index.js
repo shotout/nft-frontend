@@ -23,9 +23,9 @@ export default function SignIn() {
     email: null,
   });
 
-  useEffect(() => {
-    requestNotificationPermission();
-  }, []);
+  // useEffect(() => {
+  //   requestNotificationPermission();
+  // }, []);
 
   useEffect(() => {
     // if (activeStep === 'success') {

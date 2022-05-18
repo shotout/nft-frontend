@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import {connect} from 'react-redux';
+import {checkNotifications} from 'react-native-permissions';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Title from '../../layout/auth/title';
@@ -14,7 +15,7 @@ import LoadingIndicator from '../../components/loading-indicator';
 function ValidateToken({route, setProfileUser}) {
   const [isLoading, selectedLoading] = useState(true);
   const [isError, setError] = useState(false);
-  const handleData = async () => {
+  const handleData = async status => {
     try {
       selectedLoading(true);
       const res = await verifyToken(route.params.id);
@@ -23,7 +24,11 @@ function ValidateToken({route, setProfileUser}) {
       } else {
         setProfileUser(res);
       }
-      reset('Homepage');
+      if (status === 'granted') {
+        reset('Homepage');
+      } else {
+        reset('ActivateNotification');
+      }
       selectedLoading(false);
     } catch (err) {
       console.log('Error verify:', err);
@@ -33,7 +38,10 @@ function ValidateToken({route, setProfileUser}) {
   };
 
   useEffect(() => {
-    handleData();
+    checkNotifications().then(({status, settings}) => {
+      console.log('Check notif:', status);
+      handleData(status);
+    });
   }, []);
 
   function renderContent() {
