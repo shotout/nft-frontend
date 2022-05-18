@@ -19,14 +19,16 @@ import Input from '../../components/input';
 import Title from '../../layout/auth/title';
 import styles from './styles';
 import {colors} from '../../shared/styling';
-import {goBack} from '../../helpers/navigationRef';
+import {goBack, reset} from '../../helpers/navigationRef';
 import states from './states';
 import {getProfile, postRegister, updateUser} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
 import LoadingIndicator from '../../components/loading-indicator';
 import {requestNotificationPermission} from '../../helpers/requestPermission';
+import RegisterAnimate from '../../components/register-animate';
+import dispatcher from './dispatcher';
 
-function Register({walletList, route}) {
+function Register({walletList, route, setProfileUser}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
@@ -80,36 +82,38 @@ function Register({walletList, route}) {
   }, []);
 
   useEffect(() => {
-    console.log('Active step change', activeStep);
     if (activeStep === 'done') {
-      setTimeout(() => {
-        console.log('Exit apps', activeStep);
-        RNExitApp.exitApp();
-      }, 5000);
-      // const subscription = AppState.addEventListener('change', nextAppState => {
-      //   if (
-      //     appState.current.match(/inactive|background/) &&
-      //     nextAppState === 'active'
-      //   ) {
-      //     console.log('App has come to the foreground!');
-      //   }
-
-      //   appState.current = nextAppState;
-      //   setAppStateVisible(appState.current);
-
-      //   console.log('AppState', appState.current, activeStep);
-      //   if (nextAppState === 'inactive' || nextAppState === 'background') {
-      //     if (Platform.OS === 'ios') {
-      //       console.log('Exit apps', activeStep);
-      //       RNExitApp.exitApp();
-      //     }
-      //   }
-      // });
-
-      // return () => {
-      //   subscription.remove();
-      // };
+      if (Platform.OS === 'ios') {
+        setTimeout(() => {
+          console.log('Exit apps', activeStep);
+          RNExitApp.exitApp();
+        }, 5000);
+      }
     }
+    // const subscription = AppState.addEventListener('change', nextAppState => {
+    //   if (
+    //     appState.current.match(/inactive|background/) &&
+    //     nextAppState === 'active'
+    //   ) {
+    //     console.log('App has come to the foreground!');
+    //   }
+
+    //   appState.current = nextAppState;
+    //   setAppStateVisible(appState.current);
+
+    //   console.log('AppState', appState.current, activeStep);
+    //   if (nextAppState === 'inactive' || nextAppState === 'background') {
+    //     if (Platform.OS === 'ios') {
+    //       console.log('Exit apps', activeStep);
+    //       RNExitApp.exitApp();
+    //     }
+    //   }
+    // });
+
+    // return () => {
+    //   subscription.remove();
+    // };
+    // }
   }, [activeStep]);
 
   const handleChangeText = (stateName, value) => {
@@ -172,6 +176,7 @@ function Register({walletList, route}) {
       if (res?.status === 'failed') {
         Alert.alert(res?.message || 'Error');
       } else {
+        setProfileUser(res);
         setActiveStep('done');
       }
       selectedLoading(false);
@@ -208,7 +213,7 @@ function Register({walletList, route}) {
       return 'Save';
     }
     if (activeStep === 'done') {
-      return 'Go Back';
+      return 'Start Exploring';
     }
     return 'Continue';
   }
@@ -251,7 +256,7 @@ function Register({walletList, route}) {
         }
         break;
       case 'done':
-        goBack();
+        reset('Homepage');
         break;
       default:
         break;
@@ -263,10 +268,13 @@ function Register({walletList, route}) {
     if (activeStep === 'done') {
       return (
         <>
-          <Title label="Success, an email with the register link has been sent to your account." />
-          <View style={styles.ctnDescDone}>
-            <Text style={styles.txtDescDone}>
-              {`To continue, open your emails and click on the link provided.\n\nMake sure to also check your spam folder, if you cannot find it.`}
+          <View style={styles.ctnBanner}>
+            <RegisterAnimate />
+          </View>
+          <Title label="All done!" />
+          <View style={styles.ctnDesc}>
+            <Text style={styles.txtDesc}>
+              {`Discover one new exclusively selected NFT project each day.\n\nVetted and guaranteed to be interesting.`}
             </Text>
           </View>
         </>
@@ -377,4 +385,4 @@ function Register({walletList, route}) {
   );
 }
 
-export default connect(states)(Register);
+export default connect(states, dispatcher)(Register);

@@ -14,7 +14,6 @@ import LoadingIndicator from '../../components/loading-indicator';
 function ValidateToken({route, setProfileUser}) {
   const [isLoading, selectedLoading] = useState(true);
   const [isError, setError] = useState(false);
-  console.log('Check token:', route.params);
   const handleData = async () => {
     try {
       selectedLoading(true);
