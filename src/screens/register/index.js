@@ -274,7 +274,11 @@ function Register({walletList, route, setProfileUser}) {
         break;
       case 'notification':
         requestNotifications(['alert', 'sound']).then(({status, settings}) => {
-          setActiveStep('done');
+          if (status === 'granted') {
+            setActiveStep('done');
+          } else {
+            Linking.openSettings();
+          }
           console.log('Check status:', status);
         });
         break;
