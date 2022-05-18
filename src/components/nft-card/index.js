@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {SvgUri} from 'react-native-svg';
+import {connect} from 'react-redux';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {navigate} from '../../helpers/navigationRef';
 import {addWatchlist, removeWatchlist} from '../../helpers/requests';
@@ -19,17 +20,21 @@ import {colors} from '../../shared/styling';
 import styles from './styles';
 import Flame from '../../assets/icon/svg/Flame';
 import HTMRenderer from '../html-renderer';
+import states from './states';
+import dispatcher from './dispatcher';
 
 const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
 
 const hypeIcon = require('../../assets/icon/hype_white.png');
 
-export default function NFTCard({
+function NFTCard({
   item,
   isActive,
   handleRefresh,
   selectAmountHype,
+  setHypeList,
+  listHype,
 }) {
   const [loadingFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
@@ -39,15 +44,28 @@ export default function NFTCard({
     `${URL_WEBSITE}${item.blockchain?.vektor}`,
   );
 
-  // console.log('SVG:', svgContent);
+  const handleHypeList = value => {
+    const restructureData = listHype.map(content => {
+      if (content.idProject === item.uuid) {
+        return {
+          ...content,
+          currentAmount: value,
+        };
+      }
+      return content;
+    });
+    setHypeList(restructureData);
+  };
 
   const handleFavorite = async () => {
     try {
       setFavorite(true);
       if (isFavorite) {
         await removeWatchlist(item.uuid);
+        handleHypeList((storedData?.currentAmount || 0) - 1);
       } else {
         await addWatchlist(item.uuid);
+        handleHypeList((storedData?.currentAmount || 0) + 1);
       }
       setIsFavorite(!isFavorite);
       setFavorite(false);
@@ -269,3 +287,5 @@ export default function NFTCard({
     </View>
   );
 }
+
+export default connect(states, dispatcher)(NFTCard);

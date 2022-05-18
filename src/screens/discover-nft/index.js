@@ -124,17 +124,17 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     });
     return (
       <View style={styles.cardWrapper}>
-        {/* <View style={styles.overalyWrapper}>
+        <View style={styles.overalyWrapper}>
           <View style={[styles.overlay, getDefaultColor(), styles.mgMin8]} />
           <View style={[styles.overlay, getDefaultColor(), styles.mgMin4]} />
           <View style={[styles.overlay, getDefaultColor()]} />
-        </View> */}
+        </View>
         <View style={styles.carouselWrapper}>
           <Carousel
             layout="tinder"
             layoutCardOffset={9}
             data={listData}
-            extraData={listData}
+            extraData={listData || listHype}
             renderItem={({item, index}) => (
               <NFTCard
                 handleRefresh={fetchData}

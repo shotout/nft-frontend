@@ -63,6 +63,8 @@ export default StyleSheet.create({
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
     elevation: 1,
+    borderColor: '#ccc',
+    borderWidth: 1,
   },
   mgMin4: {
     marginTop: moderateScale(22),
