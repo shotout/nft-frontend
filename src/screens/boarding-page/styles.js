@@ -19,7 +19,7 @@ export default StyleSheet.create({
   ctnWrapper: {
     flex: 1,
     justifyContent: 'center',
-    paddingTop: moderateScale(200),
+    // paddingTop: moderateScale(200),
     paddingHorizontal: moderateScale(20),
   },
   txtContent: {
@@ -47,7 +47,7 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(245, 245, 245, 0.8)',
     borderRadius: moderateScale(16),
     padding: moderateScale(16),
-    marginTop: moderateScale(30),
+    marginTop: moderateScale(120),
   },
   ctnNotification: {
     width: moderateScale(50),

@@ -57,7 +57,7 @@ export default StyleSheet.create({
   verifiedStyle: {
     width: moderateScale(12),
     height: moderateScale(12),
-    resizeMode: 'contain',
+    // resizeMode: 'contain',
   },
   cardanoIcon: {
     width: moderateScale(16),

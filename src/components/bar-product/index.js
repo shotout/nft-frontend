@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {View, Image, Text} from 'react-native';
 import {connect} from 'react-redux';
 import {moderateScale} from 'react-native-size-matters';
@@ -14,13 +14,16 @@ const groupIcon = require('../../assets/icon/user_group.png');
 const hypeGif = require('../../assets/icon/flame.gif');
 
 function BarProduct({detail, listHype, hypeAmount}) {
-  const selectAmountHype = id => {
-    const getItem = listHype.find(item => item.idProject === id);
+  const selectAmountHype = useCallback(() => {
+    const getItem = listHype.find(item => item.idProject === detail.uuid);
     // console.log('Cehck value getItem', getItem);
-    return getItem;
-  };
+    return {
+      ...getItem,
+      maxTotal: detail.nft_type,
+    };
+  });
 
-  const storedData = selectAmountHype(detail.uuid);
+  const storedData = selectAmountHype();
   const isHypeFlameActive = storedData?.dateAdded
     ? Date.now() - storedData.dateAdded > 60
     : false;

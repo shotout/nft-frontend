@@ -53,7 +53,6 @@ function DetailProduct({route, listHype, setHypeList}) {
   const [loadingFavorite, setFavorite] = useState(false);
 
   const handleRefresh = route.params?.handleRefresh;
-  const storedData = route.params?.storedData;
   let carouselRef = useRef();
   const hypeAmount = useRef();
 

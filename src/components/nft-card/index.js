@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import {SvgUri} from 'react-native-svg';
+import {SvgUri, SvgXml} from 'react-native-svg';
 import {connect} from 'react-redux';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {navigate} from '../../helpers/navigationRef';
@@ -22,8 +22,9 @@ import Flame from '../../assets/icon/svg/Flame';
 import HTMRenderer from '../html-renderer';
 import states from './states';
 import dispatcher from './dispatcher';
+import verifiedIcon from '../../assets/icon/verified.svg';
 
-const verifiedIcon = require('../../assets/icon/verified.png');
+// const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
 
 const hypeIcon = require('../../assets/icon/hype_white.png');
@@ -94,12 +95,32 @@ function NFTCard({
         source={{uri: `${URL_WEBSITE}${item.collections[0].image}`}}
         style={styles.nftContentStyle}>
         <View style={styles.ctnTitle}>
-          <Text style={styles.txtTitle}>{item.nft_title}</Text>
+          <Text
+            style={[
+              styles.txtTitle,
+              {color: item?.preferance?.headline_color || undefined},
+            ]}>
+            {item.nft_title}
+          </Text>
           <View style={styles.ctnRow}>
             {item.is_verified === 1 && (
               <View style={styles.ctnVerified}>
-                <Image source={verifiedIcon} style={styles.verifiedStyle} />
-                <Text style={styles.txtVerified}>Verified</Text>
+                <View style={styles.verifiedStyle}>
+                  <SvgXml
+                    xml={verifiedIcon}
+                    width="100%"
+                    height="100%"
+                    fill={item?.preferance?.headline_color}
+                    color={item?.preferance?.headline_color}
+                  />
+                </View>
+                <Text
+                  style={[
+                    styles.txtVerified,
+                    {color: item?.preferance?.headline_color || undefined},
+                  ]}>
+                  Verified
+                </Text>
               </View>
             )}
             <LinearGradient

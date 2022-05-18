@@ -82,14 +82,14 @@ function Register({walletList, route, setProfileUser}) {
   }, []);
 
   useEffect(() => {
-    if (activeStep === 'done') {
-      if (Platform.OS === 'ios') {
-        setTimeout(() => {
-          console.log('Exit apps', activeStep);
-          RNExitApp.exitApp();
-        }, 5000);
-      }
-    }
+    // if (activeStep === 'done') {
+    //   if (Platform.OS === 'ios') {
+    //     setTimeout(() => {
+    //       console.log('Exit apps', activeStep);
+    //       RNExitApp.exitApp();
+    //     }, 5000);
+    //   }
+    // }
     // const subscription = AppState.addEventListener('change', nextAppState => {
     //   if (
     //     appState.current.match(/inactive|background/) &&
@@ -97,10 +97,8 @@ function Register({walletList, route, setProfileUser}) {
     //   ) {
     //     console.log('App has come to the foreground!');
     //   }
-
     //   appState.current = nextAppState;
     //   setAppStateVisible(appState.current);
-
     //   console.log('AppState', appState.current, activeStep);
     //   if (nextAppState === 'inactive' || nextAppState === 'background') {
     //     if (Platform.OS === 'ios') {
@@ -109,7 +107,6 @@ function Register({walletList, route, setProfileUser}) {
     //     }
     //   }
     // });
-
     // return () => {
     //   subscription.remove();
     // };

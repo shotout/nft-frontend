@@ -146,18 +146,20 @@ export default function SignIn() {
         <Header hideLeft={activeStep === 'success'} backPress={handleBack} />
         <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
-      <Button
-        btnStyle={styles.btnStyle}
-        isLoading={isLoading}
-        label={getLabel()}
-        onPress={() => {
-          if (activeStep === 'success') {
-            goBack();
-          } else {
-            handleSubmit();
-          }
-        }}
-      />
+      {activeStep !== 'success' && (
+        <Button
+          btnStyle={styles.btnStyle}
+          isLoading={isLoading}
+          label={getLabel()}
+          onPress={() => {
+            if (activeStep === 'success') {
+              goBack();
+            } else {
+              handleSubmit();
+            }
+          }}
+        />
+      )}
     </View>
   );
 }
