@@ -6193,6 +6193,11 @@ react-localize-redux@3.5.3:
     prop-types "^15.6.1"
     reselect "^3.0.1"
 
+react-native-adjust@^4.29.6:
+  version "4.29.6"
+  resolved "https://registry.yarnpkg.com/react-native-adjust/-/react-native-adjust-4.29.6.tgz#cf7cc4fdfe516f10a4f42b9df73826c0898fd0c3"
+  integrity sha512-6XShRFrqx/kif0iPutaS4gj6LhZtzPIpH3MAxxKOoqwWWX0UPVQ9boQC4j2BtFjmerVQG1p2LGwsdylsGOiJ2g==
+
 react-native-codegen@*:
   version "0.0.14"
   resolved "https://registry.yarnpkg.com/react-native-codegen/-/react-native-codegen-0.0.14.tgz#1c8a9d39935e611a22765aefb06c2d81b2341672"

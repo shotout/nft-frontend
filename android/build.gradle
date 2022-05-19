@@ -46,5 +46,8 @@ allprojects {
                 includeModule("com.yqritc", "android-scalablevideoview")
             }
         }
+        // maven {
+        //     url "https://maven.google.com"
+        // }
     }
 }

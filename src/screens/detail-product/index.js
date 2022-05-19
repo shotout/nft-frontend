@@ -33,6 +33,15 @@ import dispatcher from './dispatcher';
 import states from './states';
 import HTMRenderer from '../../components/html-renderer';
 import BarProduct from '../../components/bar-product';
+import {
+  eventTracking,
+  HYPE_COLLECTION_ID,
+  OPEN_COLLECTION_DURATION_ID,
+  OPEN_COLLECTION_ID,
+  OPEN_MINT,
+  UNHYPE_COLLECTION_ID,
+} from '../../shared/eventTracking';
+import {dateToUnix} from '../../helpers/dateHelper';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 
@@ -55,6 +64,7 @@ function DetailProduct({route, listHype, setHypeList}) {
   const handleRefresh = route.params?.handleRefresh;
   let carouselRef = useRef();
   const hypeAmount = useRef();
+  const mountTime = dateToUnix(new Date());
 
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
 
@@ -62,6 +72,10 @@ function DetailProduct({route, listHype, setHypeList}) {
     setLoading(true);
     const res = await getDetailProduct(route.params.id);
     setDetail(res.data);
+    eventTracking(
+      OPEN_COLLECTION_ID,
+      `Open collection ${res.data?.nft_title || ''}`,
+    );
     setLoading(false);
   };
 
@@ -70,8 +84,10 @@ function DetailProduct({route, listHype, setHypeList}) {
       setFavorite(true);
       if (isFavorite) {
         await removeWatchlist(detail.uuid);
+        eventTracking(UNHYPE_COLLECTION_ID, `Unhype ${detail.nft_title || ''}`);
       } else {
         await addWatchlist(detail.uuid);
+        eventTracking(HYPE_COLLECTION_ID, `Hype ${detail.nft_title || ''}`);
       }
       setIsFavorite(!isFavorite);
       setFavorite(false);
@@ -100,6 +116,12 @@ function DetailProduct({route, listHype, setHypeList}) {
     fetchData();
     return () => {
       handleSetFlameState();
+      eventTracking(
+        OPEN_COLLECTION_DURATION_ID,
+        `Open collection duration ${
+          dateToUnix(new Date()) - mountTime
+        } seconds`,
+      );
     };
   }, []);
 
@@ -345,6 +367,7 @@ function DetailProduct({route, listHype, setHypeList}) {
           }}
           onPress={() => {
             handleOpenURL(detail.nft_mint);
+            eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
           }}
           label="Mint"
         />

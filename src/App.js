@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import {LocalizeProvider} from 'react-localize-redux';
+import {Adjust, AdjustConfig} from 'react-native-adjust';
 import Navigator from './Routes';
 import store, {persistor} from './store/configure-store';
 
@@ -34,8 +35,20 @@ const App = () => {
     }
   };
 
+  const configTracker = () => {
+    const adjustConfig = new AdjustConfig(
+      'aelirtp6kiyo',
+      // AdjustConfig.EnvironmentSandbox,
+      AdjustConfig.EnvironmentProduction,
+    );
+    adjustConfig.setLogLevel(AdjustConfig.LogLevelVerbose);
+    Adjust.create(adjustConfig);
+    console.log('Finish set configtracker');
+  };
+
   useEffect(() => {
     networkDebugger();
+    configTracker();
   }, []);
 
   return (

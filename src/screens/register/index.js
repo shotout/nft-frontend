@@ -33,6 +33,12 @@ import RegisterAnimate from '../../components/register-animate';
 import dispatcher from './dispatcher';
 import FomoComponent from '../../components/fomo-component';
 import {isIphone} from '../../shared/devices';
+import {
+  eventTracking,
+  SELECT_WALLET_ID,
+  SIGN_UP_SUCCESS_ID,
+  UNSELECT_WALLET_ID,
+} from '../../shared/eventTracking';
 
 function Register({walletList, route, setProfileUser}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
@@ -167,17 +173,19 @@ function Register({walletList, route, setProfileUser}) {
     return false;
   };
 
-  const handleSelectedWallet = name => {
+  const handleSelectedWallet = (name, walletName) => {
     const isThere = findSelectedWallet(name);
     if (isNone) {
       setNone(false);
     }
     if (isThere) {
       setSelectedWallet(selectedWallet.filter(item => item !== name));
+      eventTracking(UNSELECT_WALLET_ID, `Wallet: unselect ${walletName || ''}`);
     } else {
       const currrentData = [...selectedWallet];
       currrentData.push(name);
       setSelectedWallet(currrentData);
+      eventTracking(SELECT_WALLET_ID, `Wallet: select ${walletName || ''}`);
     }
   };
 
@@ -189,6 +197,10 @@ function Register({walletList, route, setProfileUser}) {
         wallet: selectedWallet,
       };
       const res = await postRegister(body);
+      eventTracking(
+        SIGN_UP_SUCCESS_ID,
+        `Sign up complete, user ${res?.data?.name || ''}`,
+      );
       if (res?.status === 'failed') {
         Alert.alert(res?.message || 'Error');
       } else {
@@ -352,7 +364,7 @@ function Register({walletList, route, setProfileUser}) {
                 <View style={styles.ctnWallet} key={wallet.uuid}>
                   <TouchableOpacity
                     onPress={() => {
-                      handleSelectedWallet(wallet.uuid);
+                      handleSelectedWallet(wallet.uuid, wallet.name);
                     }}>
                     <View
                       style={[

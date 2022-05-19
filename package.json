@@ -30,6 +30,7 @@
     "react": "17.0.2",
     "react-localize-redux": "3.5.3",
     "react-native": "0.68.0",
+    "react-native-adjust": "^4.29.6",
     "react-native-exit-app": "^1.1.0",
     "react-native-gesture-handler": "2.4.0",
     "react-native-keyboard-aware-scroll-view": "0.9.5",

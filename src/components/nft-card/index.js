@@ -23,6 +23,11 @@ import HTMRenderer from '../html-renderer';
 import states from './states';
 import dispatcher from './dispatcher';
 import verifiedIcon from '../../assets/icon/verified.svg';
+import {
+  eventTracking,
+  HYPE_COLLECTION_ID,
+  UNHYPE_COLLECTION_ID,
+} from '../../shared/eventTracking';
 
 // const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
@@ -64,9 +69,11 @@ function NFTCard({
       if (isFavorite) {
         await removeWatchlist(item.uuid);
         handleHypeList((storedData?.currentAmount || 0) - 1);
+        eventTracking(UNHYPE_COLLECTION_ID, `Unhype ${item.nft_title || ''}`);
       } else {
         await addWatchlist(item.uuid);
         handleHypeList((storedData?.currentAmount || 0) + 1);
+        eventTracking(HYPE_COLLECTION_ID, `Hype ${item.nft_title || ''}`);
       }
       setIsFavorite(!isFavorite);
       setFavorite(false);

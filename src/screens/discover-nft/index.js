@@ -14,6 +14,7 @@ import {getFutureDate} from '../../helpers/dateHelper';
 import states from './states';
 import {stringToNumber} from '../../helpers/parseNumber';
 import dispacher from './dispatcher';
+import {eventTracking, SWYPE_COLLECTION_ID} from '../../shared/eventTracking';
 
 function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const [isLoading, setLoading] = useState(true);
@@ -149,7 +150,13 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
               carouselRef = c;
             }}
             // loop
-            onBeforeSnapToItem={index => setActiveSlide(index)}
+            onBeforeSnapToItem={index => {
+              setActiveSlide(index);
+              eventTracking(
+                SWYPE_COLLECTION_ID,
+                `Swipe to ${listData[index]?.nft_title || index}`,
+              );
+            }}
           />
         </View>
       </View>
