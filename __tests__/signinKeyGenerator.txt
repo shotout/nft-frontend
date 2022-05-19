@@ -1,0 +1,19 @@
+sudo keytool -genkey -v -keystore nftdaily.keystore -alias nftdailyalias -keyalg RSA -keysize 2048 -validity 10000
+
+**DETAIL**
+Enter keystore password:  
+Re-enter new password: 
+What is your first and last name?
+  [Unknown]:  Jannik
+What is the name of your organizational unit?
+  [Unknown]:  NFT Daily Apps
+What is the name of your organization?
+  [Unknown]:  NFT Daily      
+What is the name of your City or Locality?
+  [Unknown]:  US
+What is the name of your State or Province?
+  [Unknown]:  US
+What is the two-letter country code for this unit?
+  [Unknown]:  US
+Is CN=Jannik, OU=NFT Daily Apps, O=NFT Daily, L=US, ST=US, C=US correct?
+  [no]:  yes
