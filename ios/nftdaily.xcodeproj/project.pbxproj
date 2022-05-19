@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* nftdailyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* nftdailyTests.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-nftdaily.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-nftdaily.a */; };
+		11585D852836AF9800EAAE15 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11585D842836AF9700EAAE15 /* iAd.framework */; };
+		11585D872836AF9C00EAAE15 /* AdServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11585D862836AF9C00EAAE15 /* AdServices.framework */; };
+		11585D892836AFA400EAAE15 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11585D882836AFA400EAAE15 /* AdSupport.framework */; };
+		11585D8B2836AFAB00EAAE15 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11585D8A2836AFAB00EAAE15 /* CoreTelephony.framework */; };
+		11585D8D2836AFB400EAAE15 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11585D8C2836AFB400EAAE15 /* StoreKit.framework */; };
+		11585D8F2836AFC200EAAE15 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 11585D8E2836AFC200EAAE15 /* AppTrackingTransparency.framework */; };
 		115D7A5F282D24190049A073 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 115D7A5E282D24180049A073 /* GoogleService-Info.plist */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -39,6 +45,12 @@
 		0362E74FA86C48C0AC112059 /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		06D74276C4A14F178FCAC3CF /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		0B46BC0BEC63465B99EC2C38 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		11585D842836AF9700EAAE15 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		11585D862836AF9C00EAAE15 /* AdServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdServices.framework; path = System/Library/Frameworks/AdServices.framework; sourceTree = SDKROOT; };
+		11585D882836AFA400EAAE15 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		11585D8A2836AFAB00EAAE15 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		11585D8C2836AFB400EAAE15 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		11585D8E2836AFC200EAAE15 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		115D7A5E282D24180049A073 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		11B16327282D150400D48A49 /* nftdaily.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = nftdaily.entitlements; path = nftdaily/nftdaily.entitlements; sourceTree = "<group>"; };
 		11B16328282D17C300D48A49 /* LinkingIOS */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LinkingIOS; path = "../node_modules/react-native/Libraries/LinkingIOS"; sourceTree = "<group>"; };
@@ -94,6 +106,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				11585D8F2836AFC200EAAE15 /* AppTrackingTransparency.framework in Frameworks */,
+				11585D8D2836AFB400EAAE15 /* StoreKit.framework in Frameworks */,
+				11585D8B2836AFAB00EAAE15 /* CoreTelephony.framework in Frameworks */,
+				11585D892836AFA400EAAE15 /* AdSupport.framework in Frameworks */,
+				11585D872836AF9C00EAAE15 /* AdServices.framework in Frameworks */,
+				11585D852836AF9800EAAE15 /* iAd.framework in Frameworks */,
 				0C80B921A6F3F58F76C31292 /* libPods-nftdaily.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -135,6 +153,12 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				11585D8E2836AFC200EAAE15 /* AppTrackingTransparency.framework */,
+				11585D8C2836AFB400EAAE15 /* StoreKit.framework */,
+				11585D8A2836AFAB00EAAE15 /* CoreTelephony.framework */,
+				11585D882836AFA400EAAE15 /* AdSupport.framework */,
+				11585D862836AF9C00EAAE15 /* AdServices.framework */,
+				11585D842836AF9700EAAE15 /* iAd.framework */,
 				11B16328282D17C300D48A49 /* LinkingIOS */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				5DCACB8F33CDC322A6C60F78 /* libPods-nftdaily.a */,

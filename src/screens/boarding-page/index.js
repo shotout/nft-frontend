@@ -13,6 +13,7 @@ import Header from '../../components/header';
 import {navigate} from '../../helpers/navigationRef';
 import {isIphone} from '../../shared/devices';
 import styles from './styles';
+import {askTrackingPermission} from '../../shared/eventTracking';
 
 const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 const notificationIcon = require('../../assets/icon/notification.png');
@@ -24,6 +25,7 @@ export default function BoardingPage({route}) {
     checkNotifications().then(({status, settings}) => {
       console.log('Check notif:', status);
     });
+    askTrackingPermission();
   }, []);
 
   // function notificationBar() {
