@@ -24,7 +24,11 @@ export default function FAQItem({item}) {
         <View style={styles.txtWrapper}>
           <Text style={styles.txtTitle}>{item.question}</Text>
         </View>
-        <AntDesign name="plus" color={colors.dark} size={23} />
+        <AntDesign
+          name={showItem ? 'minus' : 'plus'}
+          color={colors.dark}
+          size={23}
+        />
       </TouchableOpacity>
       {showItem && (
         <View style={styles.ctnAnswer}>

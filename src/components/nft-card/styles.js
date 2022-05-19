@@ -107,7 +107,7 @@ export default StyleSheet.create({
     backgroundColor: '#736198',
     marginTop: -1,
     paddingVertical: moderateScale(16),
-    borderBottomLeftRadius: moderateScale(20),
+    borderBottomLeftRadius: moderateScale(30),
     borderBottomRightRadius: moderateScale(30),
     overflow: 'hidden',
   },
