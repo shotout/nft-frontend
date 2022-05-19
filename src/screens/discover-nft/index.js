@@ -31,8 +31,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const handleHypeList = res => {
     if (res.length > 0) {
       if (listHype.length > 0) {
-        const hypeData = [];
-        res.map(item => {
+        const hypeData = res.map(item => {
           if (!selectAmountHype(item.uuid)?.currentAmount) {
             return {
               idProject: item.uuid,
@@ -40,7 +39,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
               dateAdded: Date.now(),
             };
           }
-          return item;
+          return selectAmountHype(item.uuid);
         });
         setHypeList(hypeData);
       } else {

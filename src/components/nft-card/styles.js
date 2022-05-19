@@ -55,8 +55,9 @@ export default StyleSheet.create({
     marginRight: moderateScale(12),
   },
   verifiedStyle: {
-    width: moderateScale(12),
-    height: moderateScale(12),
+    width: moderateScale(30),
+    height: moderateScale(30),
+    marginLeft: moderateScale(8),
     // resizeMode: 'contain',
   },
   cardanoIcon: {
@@ -212,5 +213,10 @@ export default StyleSheet.create({
   },
   pStyle: {
     color: '#fff',
+  },
+  rowTitle: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
 });

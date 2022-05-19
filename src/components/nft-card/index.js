@@ -95,38 +95,27 @@ function NFTCard({
         source={{uri: `${URL_WEBSITE}${item.collections[0].image}`}}
         style={styles.nftContentStyle}>
         <View style={styles.ctnTitle}>
-          <Text
-            style={[
-              styles.txtTitle,
-              {color: item?.preferance?.headline_color || undefined},
-            ]}>
-            {item.nft_title}
-          </Text>
-          <View style={styles.ctnRow}>
+          <View style={styles.rowTitle}>
+            <Text
+              style={[
+                styles.txtTitle,
+                {color: item?.preferance?.headline_color || undefined},
+              ]}>
+              {item.nft_title}
+            </Text>
             {item.is_verified === 1 && (
-              <View
-                style={[
-                  styles.ctnVerified,
-                  {borderColor: item?.preferance?.badge_color},
-                ]}>
-                <View style={styles.verifiedStyle}>
-                  <SvgXml
-                    xml={verifiedIcon}
-                    width="100%"
-                    height="100%"
-                    fill={item?.preferance?.badge_color}
-                    color={item?.preferance?.badge_color}
-                  />
-                </View>
-                <Text
-                  style={[
-                    styles.txtVerified,
-                    {color: item?.preferance?.badge_color || undefined},
-                  ]}>
-                  Verified
-                </Text>
+              <View style={styles.verifiedStyle}>
+                <SvgXml
+                  xml={verifiedIcon}
+                  width="100%"
+                  height="100%"
+                  fill={item?.preferance?.badge_color}
+                  color={item?.preferance?.badge_color}
+                />
               </View>
             )}
+          </View>
+          <View style={styles.ctnRow}>
             <LinearGradient
               colors={colorGradient}
               start={{x: 0, y: 0}}
