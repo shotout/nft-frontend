@@ -63,7 +63,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await getProduct({length: 3, page: currentPage});
+      const res = await getProduct({length: 12, page: currentPage});
       setTotalItem(res.data.total);
       setData(res.data.data);
       handleHypeList(res.data.data);
@@ -77,7 +77,8 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     try {
       setRefresh(true);
       carouselRef.snapToItem(0);
-      const res = await getProduct({length: 3, page: currentPage});
+      setPage(1);
+      const res = await getProduct({length: 12, page: 1});
       setTotalItem(res.data.total);
       setData(res.data.data);
       setRefresh(false);
@@ -91,7 +92,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     try {
       console.log('Load more run:', currentPage);
       setLoadMore(true);
-      const res = await getProduct({length: 3, page: currentPage});
+      const res = await getProduct({length: 12, page: currentPage});
       setTotalItem(res.data.total);
       setData([...listData, ...res.data.data]);
       setLoadMore(false);
@@ -106,7 +107,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   }, []);
 
   useEffect(() => {
-    if (listData.length) {
+    if (listData.length && !isRefresh) {
       handleLoadMore();
     }
   }, [currentPage]);
