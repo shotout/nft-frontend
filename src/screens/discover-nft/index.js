@@ -60,7 +60,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await getProduct({per_page: 8, page: 1});
+      const res = await getProduct({length: 8, page: 1});
       setData(res.data.data);
       handleHypeList(res.data.data);
       setLoading(false);

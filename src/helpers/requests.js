@@ -82,3 +82,23 @@ export const getDetailProduct = id =>
     url: `/products/${id}`,
     method: 'GET',
   });
+
+export const getContentHTML = id => {
+  Wrap({
+    url: `https://cdn.contentful.com/spaces/iekxawt54bzj/environments/master/entries/${id}`,
+    method: 'GET',
+    params: {
+      access_token: 'PnEziYatZ-FrHJ-vus9Uxry0gJNXMU2g0dd-EB2xKOQ',
+    },
+  });
+};
+
+export const getImageContentHTML = id => {
+  Wrap({
+    url: `https://cdn.contentful.com/spaces/iekxawt54bzj/environments/master/assets/${id}`,
+    method: 'GET',
+    params: {
+      access_token: 'PnEziYatZ-FrHJ-vus9Uxry0gJNXMU2g0dd-EB2xKOQ',
+    },
+  });
+};

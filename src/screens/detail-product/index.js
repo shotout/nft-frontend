@@ -10,10 +10,8 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
-import {moderateScale} from 'react-native-size-matters';
 import {connect} from 'react-redux';
 import styles from './styles';
-// import {detail} from './detail';
 import {URL_WEBSITE} from '../../helpers/static';
 import Button from '../../components/button';
 import {hexToRgbA} from '../../helpers/hexToRgba';
@@ -26,9 +24,6 @@ import LoadingIndicator from '../../components/loading-indicator';
 import Header from '../../components/header';
 import {useCountdown} from '../../hooks/useCountdown';
 import {getDimensionWidth} from '../../helpers/getDimensions';
-import Flame from '../../assets/icon/svg/Flame';
-import {colors} from '../../shared/styling';
-import {useHypeFlame} from '../../hooks/useHypeFlame';
 import dispatcher from './dispatcher';
 import states from './states';
 import HTMRenderer from '../../components/html-renderer';
@@ -42,6 +37,7 @@ import {
   UNHYPE_COLLECTION_ID,
 } from '../../shared/eventTracking';
 import {dateToUnix} from '../../helpers/dateHelper';
+import DivRender from '../../components/div-render';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 
@@ -195,7 +191,12 @@ function DetailProduct({route, listHype, setHypeList}) {
   function renderDescription() {
     return (
       <View style={styles.ctnDescription}>
-        <HTMRenderer content={detail.nft_description} />
+        <HTMRenderer
+          renderers={{
+            div: DivRender,
+          }}
+          content={detail.nft_description}
+        />
       </View>
     );
   }

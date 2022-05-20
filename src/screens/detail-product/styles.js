@@ -231,4 +231,12 @@ export default StyleSheet.create({
     width: moderateScale(20),
     height: moderateScale(20),
   },
+  ctnAsset: {
+    width: '100%',
+    aspectRatio: 1 / 1,
+  },
+  imgContentStyle: {
+    width: '100%',
+    height: '100%',
+  },
 });
