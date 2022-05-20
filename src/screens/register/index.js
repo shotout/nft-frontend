@@ -8,9 +8,10 @@ import {
   AppState,
   Linking,
   Alert,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import RNExitApp from 'react-native-exit-app';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import Fontisto from 'react-native-vector-icons/Fontisto';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
 import {
@@ -41,7 +42,7 @@ import {
 } from '../../shared/eventTracking';
 
 function Register({walletList, route, setProfileUser}) {
-  const [activeStep, setActiveStep] = useState('username'); // email,wallet
+  const [activeStep, setActiveStep] = useState('email'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
   const [isNone, setNone] = useState(false);
@@ -52,6 +53,7 @@ function Register({walletList, route, setProfileUser}) {
     name: '',
     email: '',
     fcm_token: '',
+    email_subscribe: false,
   });
   const [error, setError] = useState({
     name: null,
@@ -352,6 +354,32 @@ function Register({walletList, route, setProfileUser}) {
             autoCapitalize="none"
             error={error.email}
           />
+          <View style={styles.ctnReceiveEmail}>
+            <TouchableOpacity
+              onPress={() => {
+                handleChangeText('email_subscribe', !values.email_subscribe);
+              }}>
+              <View style={styles.ctnCheckbox}>
+                {values.email_subscribe && (
+                  <Fontisto
+                    name="close-a"
+                    color={colors.dark}
+                    size={moderateScale(12)}
+                  />
+                )}
+              </View>
+            </TouchableOpacity>
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleChangeText('email_subscribe', !values.email_subscribe);
+              }}>
+              <View style={styles.ctnTextEmail}>
+                <Text style={styles.txtEmail}>
+                  I want to receive the latest picks & updates via email.
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
         </>
       );
     }
@@ -390,7 +418,7 @@ function Register({walletList, route, setProfileUser}) {
                   setNone(true);
                 }}>
                 <View style={[styles.icnWallet, isNone && styles.redBorder]}>
-                  <AntDesign name="close" size={30} color={colors.dark} />
+                  <Fontisto name="close" size={30} color={colors.dark} />
                 </View>
               </TouchableOpacity>
               <Text style={styles.txtWallet}>None</Text>

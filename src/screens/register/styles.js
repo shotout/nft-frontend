@@ -113,4 +113,31 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratRegular,
     fontSize: moderateScale(14),
   },
+  ctnReceiveEmail: {
+    paddingHorizontal: moderateScale(32),
+    flexDirection: 'row',
+    marginTop: moderateScale(28),
+    alignItems: 'center',
+  },
+  ctnCheckbox: {
+    width: moderateScale(24),
+    height: moderateScale(24),
+    borderColor: colors.dark,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: moderateScale(1.2),
+    borderRadius: moderateScale(8),
+  },
+  ctnTextEmail: {
+    marginLeft: moderateScale(12),
+    // flexWrap: 'wrap',
+    // backgroundColor: 'red',
+    flex: 1,
+  },
+  txtEmail: {
+    fontSize: moderateScale(14),
+    fontFamily: fonts.MontserratRegular,
+    color: colors.dark,
+    flexShrink: 1,
+  },
 });
