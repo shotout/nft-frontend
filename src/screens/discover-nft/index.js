@@ -178,7 +178,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
             extraData={listData || listHype}
             renderItem={({item, index}) => (
               <NFTCard
-                handleRefresh={fetchData}
+                handleRefresh={handleRefresh}
                 isActive={index === activeSlide}
                 item={item}
                 selectAmountHype={selectAmountHype}
