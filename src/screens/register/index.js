@@ -41,8 +41,17 @@ import {
   UNSELECT_WALLET_ID,
 } from '../../shared/eventTracking';
 
+const androidProgress1 = require('../../assets/icon/progress_bar/android/progress_step_1.png');
+const androidProgress2 = require('../../assets/icon/progress_bar/android/progress_step_2.png');
+const androidProgress3 = require('../../assets/icon/progress_bar/android/progress_step_3.png');
+
+const iPhoneProgress1 = require('../../assets/icon/progress_bar/ios/progress_step_1.png');
+const iPhoneProgress2 = require('../../assets/icon/progress_bar/ios/progress_step_2.png');
+const iPhoneProgress3 = require('../../assets/icon/progress_bar/ios/progress_step_3.png');
+const iPhoneProgress4 = require('../../assets/icon/progress_bar/ios/progress_step_4.png');
+
 function Register({walletList, route, setProfileUser}) {
-  const [activeStep, setActiveStep] = useState('email'); // email,wallet
+  const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
   const [isNone, setNone] = useState(false);
@@ -317,6 +326,41 @@ function Register({walletList, route, setProfileUser}) {
     return true;
   };
 
+  function getProgressImage() {
+    if (isIphone) {
+      switch (activeStep) {
+        case 'wallet':
+          return iPhoneProgress2;
+        case 'email':
+          return iPhoneProgress3;
+        case 'notification':
+          return iPhoneProgress4;
+        default:
+          return iPhoneProgress1;
+      }
+    } else {
+      switch (activeStep) {
+        case 'wallet':
+          return androidProgress2;
+        case 'email':
+          return androidProgress3;
+        default:
+          return androidProgress1;
+      }
+    }
+  }
+
+  function renderProgress() {
+    if (activeStep === 'done') {
+      return null;
+    }
+    return (
+      <View style={styles.ctnProgress}>
+        <Image source={getProgressImage()} style={styles.progressStyle} />
+      </View>
+    );
+  }
+
   function renderContent() {
     if (activeStep === 'done') {
       return (
@@ -447,7 +491,12 @@ function Register({walletList, route, setProfileUser}) {
     if (loadingGetEdit) {
       return <LoadingIndicator fullscreen />;
     }
-    return <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>;
+    return (
+      <ScrollView style={styles.ctnRoot}>
+        {renderProgress()}
+        {renderContent()}
+      </ScrollView>
+    );
   }
 
   return (

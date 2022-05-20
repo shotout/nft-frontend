@@ -140,4 +140,11 @@ export default StyleSheet.create({
     color: colors.dark,
     flexShrink: 1,
   },
+  ctnProgress: {
+    marginHorizontal: moderateScale(20),
+  },
+  progressStyle: {
+    width: '100%',
+    resizeMode: 'contain',
+  },
 });
