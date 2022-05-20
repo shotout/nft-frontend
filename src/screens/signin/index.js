@@ -9,7 +9,7 @@ import styles from './styles';
 import {goBack} from '../../helpers/navigationRef';
 import {postLogin} from '../../helpers/requests';
 import arrayErrorResturctor from '../register/responseValidatorArr';
-import {requestNotificationPermission} from '../../helpers/requestPermission';
+// import {requestNotificationPermission} from '../../helpers/requestPermission';
 import {eventTracking, SIGN_IN_SUCCESS_ID} from '../../shared/eventTracking';
 
 export default function SignIn() {

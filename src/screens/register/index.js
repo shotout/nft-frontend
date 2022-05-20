@@ -295,14 +295,16 @@ function Register({walletList, route, setProfileUser}) {
         }
         break;
       case 'notification':
-        requestNotifications(['alert', 'sound']).then(({status, settings}) => {
-          if (status === 'granted') {
-            setActiveStep('done');
-          } else {
-            Linking.openSettings();
-          }
-          console.log('Check status:', status);
-        });
+        requestNotifications(['alert', 'sound', 'badge']).then(
+          ({status, settings}) => {
+            if (status === 'granted') {
+              setActiveStep('done');
+            } else {
+              Linking.openSettings();
+            }
+            console.log('Check status:', status);
+          },
+        );
         break;
       case 'done':
         reset('Homepage');

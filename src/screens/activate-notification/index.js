@@ -9,14 +9,16 @@ import styles from './styles';
 
 function ActivateNotification() {
   const activateNotification = () => {
-    requestNotifications(['alert', 'sound']).then(({status, settings}) => {
-      if (status === 'granted') {
-        reset('Homepage');
-      } else {
-        Linking.openSettings();
-      }
-      console.log('Check status:', status);
-    });
+    requestNotifications(['alert', 'sound', 'badge']).then(
+      ({status, settings}) => {
+        if (status === 'granted') {
+          reset('Homepage');
+        } else {
+          Linking.openSettings();
+        }
+        console.log('Check status:', status);
+      },
+    );
   };
 
   return (
