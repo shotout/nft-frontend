@@ -85,7 +85,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    minHeight: moderateScale(50),
+    height: moderateScale(60),
   },
   timeWrapper: {
     marginHorizontal: moderateScale(12),

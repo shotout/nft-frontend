@@ -21,6 +21,9 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const [isRefresh, setRefresh] = useState(false);
   const [listData, setData] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [totalItem, setTotalItem] = useState(0);
+  const [currentPage, setPage] = useState(1);
+  const [loadingMore, setLoadMore] = useState();
   let carouselRef = null;
 
   const selectAmountHype = id => {
@@ -60,7 +63,8 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await getProduct({length: 8, page: 1});
+      const res = await getProduct({length: 3, page: currentPage});
+      setTotalItem(res.data.total);
       setData(res.data.data);
       handleHypeList(res.data.data);
       setLoading(false);
@@ -73,7 +77,8 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     try {
       setRefresh(true);
       carouselRef.snapToItem(0);
-      const res = await getProduct({per_page: 8, page: 1});
+      const res = await getProduct({length: 3, page: currentPage});
+      setTotalItem(res.data.total);
       setData(res.data.data);
       setRefresh(false);
     } catch (err) {
@@ -82,9 +87,44 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     }
   };
 
+  const handleLoadMore = async () => {
+    try {
+      console.log('Load more run:', currentPage);
+      setLoadMore(true);
+      const res = await getProduct({length: 3, page: currentPage});
+      setTotalItem(res.data.total);
+      setData([...listData, ...res.data.data]);
+      setLoadMore(false);
+    } catch (err) {
+      console.log('Error refresh:', err);
+      setLoadMore(false);
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (listData.length) {
+      handleLoadMore();
+    }
+  }, [currentPage]);
+
+  useEffect(() => {
+    console.log(
+      'Listen activeSlide:',
+      activeSlide,
+      activeSlide >= listData.length - 1,
+    );
+    if (activeSlide >= listData.length - 1) {
+      if (listData.length < totalItem) {
+        if (!loadingMore) {
+          setPage(2);
+        }
+      }
+    }
+  }, [activeSlide]);
 
   function getDateItem() {
     if (listData?.length > 0 && listData[activeSlide]) {
