@@ -24,7 +24,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const [totalItem, setTotalItem] = useState(0);
   const [currentPage, setPage] = useState(1);
   const [loadingMore, setLoadMore] = useState();
-  let carouselRef = null;
+  const carouselRef = useRef();
 
   const selectAmountHype = id => {
     const getItem = listHype.find(item => item.idProject === id);
@@ -73,11 +73,11 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     }
   };
 
-  const handleRefresh = async (noDirectItem = false) => {
+  const handleRefresh = async (disableSnap = false) => {
     try {
-      setRefresh(true);
-      if (!noDirectItem) {
-        carouselRef.snapToItem(0);
+      if (!disableSnap) {
+        setRefresh(true);
+        carouselRef.current.snapToItem(0);
       }
       setPage(1);
       const res = await getProduct({length: 12, page: 1});
@@ -115,11 +115,11 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   }, [currentPage]);
 
   useEffect(() => {
-    console.log(
-      'Listen activeSlide:',
-      activeSlide,
-      activeSlide >= listData.length - 1,
-    );
+    // console.log(
+    //   'Listen activeSlide:',
+    //   activeSlide,
+    //   activeSlide >= listData.length - 1,
+    // );
     if (activeSlide >= listData.length - 1) {
       if (listData.length < totalItem) {
         if (!loadingMore) {
@@ -190,7 +190,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
             sliderWidth={getDimensionWidth(1)}
             itemWidth={getDimensionWidth(1)}
             ref={c => {
-              carouselRef = c;
+              carouselRef.current = c;
             }}
             // loop
             onBeforeSnapToItem={index => {

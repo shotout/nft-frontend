@@ -88,7 +88,7 @@ function DetailProduct({route, listHype, setHypeList}) {
       setIsFavorite(!isFavorite);
       setFavorite(false);
       if (handleRefresh && typeof handleRefresh === 'function') {
-        handleRefresh();
+        handleRefresh(true);
       }
     } catch (err) {
       setFavorite(false);

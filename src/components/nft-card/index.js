@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -50,6 +50,12 @@ function NFTCard({
     `${URL_WEBSITE}${item.blockchain?.vektor}`,
   );
 
+  useEffect(() => {
+    if (item.watch_list !== isFavorite) {
+      setIsFavorite(item.watch_list);
+    }
+  }, [item.watch_list]);
+
   const handleHypeList = value => {
     const restructureData = listHype.map(content => {
       if (content.idProject === item.uuid) {
@@ -68,10 +74,12 @@ function NFTCard({
       setFavorite(true);
       if (isFavorite) {
         await removeWatchlist(item.uuid);
+        handleRefresh(true);
         handleHypeList((storedData?.currentAmount || 0) - 1);
         eventTracking(UNHYPE_COLLECTION_ID, `Unhype ${item.nft_title || ''}`);
       } else {
         await addWatchlist(item.uuid);
+        handleRefresh(true);
         handleHypeList((storedData?.currentAmount || 0) + 1);
         eventTracking(HYPE_COLLECTION_ID, `Hype ${item.nft_title || ''}`);
       }
