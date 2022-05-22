@@ -73,10 +73,12 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     }
   };
 
-  const handleRefresh = async () => {
+  const handleRefresh = async (noDirectItem = false) => {
     try {
       setRefresh(true);
-      carouselRef.snapToItem(0);
+      if (!noDirectItem) {
+        carouselRef.snapToItem(0);
+      }
       setPage(1);
       const res = await getProduct({length: 12, page: 1});
       setTotalItem(res.data.total);
@@ -175,7 +177,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
             layout="tinder"
             layoutCardOffset={9}
             data={listData}
-            extraData={listData || listHype}
+            extraData={listData}
             renderItem={({item, index}) => (
               <NFTCard
                 handleRefresh={handleRefresh}
@@ -232,6 +234,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
         onPressDrawer={() => {
           navigation.openDrawer();
         }}
+        callbackRefresh={handleRefresh}
       />
       {renderContent()}
     </View>

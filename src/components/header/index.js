@@ -32,6 +32,7 @@ function Header({
   loadingFavorite,
   isFavorite,
   handleFavorite,
+  callbackRefresh,
 }) {
   function getIconApps() {
     switch (type) {
@@ -90,7 +91,7 @@ function Header({
         <TouchableOpacity
           style={styles.ctnWatchlist}
           onPress={() => {
-            navigate('Watchlist');
+            navigate('Watchlist', {callbackRefresh});
           }}>
           <Image source={hypeShadow} style={styles.hypeIconStyle} />
         </TouchableOpacity>

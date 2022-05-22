@@ -1,98 +1,111 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
-  View,
-  FlatList,
-  Image,
+  Animated,
+  Dimensions,
+  StyleSheet,
   Text,
-  TouchableWithoutFeedback,
+  TouchableHighlight,
+  View,
 } from 'react-native';
-import {connect} from 'react-redux';
-import Header from '../../components/header';
-import HTMRenderer from '../../components/html-renderer';
-import LoadingIndicator from '../../components/loading-indicator';
-import {navigate} from '../../helpers/navigationRef';
-import {listWatchlist} from '../../helpers/requests';
-import {URL_WEBSITE} from '../../helpers/static';
+import {SwipeListView} from 'react-native-swipe-list-view';
 import styles from './styles';
-import states from './states';
+import Header from '../../components/header';
+import HypeItem from '../../components/hype-item';
+import {listWatchlist, removeWatchlist} from '../../helpers/requests';
+import LoadingIndicator from '../../components/loading-indicator';
 
-const backIcon = require('../../assets/icon/forward_icon.png');
+const rowTranslateAnimatedValues = {};
+Array(20)
+  .fill('')
+  .forEach((_, i) => {
+    rowTranslateAnimatedValues[`${i}`] = new Animated.Value(1);
+  });
 
-function WatchList() {
+export default function HypeList({route}) {
   const [isLoading, setLoading] = useState(true);
-  const [listData, setData] = useState([]);
+  const [listData, setListData] = useState([]);
+  const callbackRefresh = route.params?.callbackRefresh;
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const res = await listWatchlist();
       setLoading(false);
-      setData(res.data.data);
+      const normalizeData = res.data.data.map((item, index) => ({
+        key: index.toString(),
+        ...item,
+      }));
+      setListData(normalizeData);
     } catch (err) {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchData();
+    return () => {
+      if (typeof callbackRefresh === 'function') callbackRefresh(true);
+    };
   }, []);
+
+  const animationIsRunning = useRef(false);
+
+  const onSwipeValueChange = swipeData => {
+    const {key, value} = swipeData;
+    if (
+      value < -Dimensions.get('window').width &&
+      !animationIsRunning.current
+    ) {
+      animationIsRunning.current = true;
+      Animated.timing(rowTranslateAnimatedValues[key], {
+        toValue: 0,
+        duration: 200,
+        useNativeDriver: false,
+      }).start(async () => {
+        const newData = [...listData];
+        const prevIndex = listData.findIndex(item => item.key === key);
+        newData.splice(prevIndex, 1);
+        setListData(newData);
+        const removeId = listData[prevIndex].product.uuid;
+        console.log('Check id:', removeId);
+        removeWatchlist(removeId);
+        animationIsRunning.current = false;
+      });
+    }
+  };
+
+  const renderItem = ({item}) => <HypeItem item={item} fetchData={fetchData} />;
+
+  const renderHiddenItem = () => <View />;
 
   return (
     <View style={styles.ctnRoot}>
       <Header title="Hypelist" />
-      <FlatList
+      <SwipeListView
         contentContainerStyle={styles.ctnScroll}
+        disableRightSwipe
         data={listData}
-        renderItem={({item}) => {
-          const handleRedirectProduct = () => {
-            navigate('DetailProduct', {
-              id: item.product.uuid,
-              isFavorite: true,
-              handleRefresh: fetchData,
-              exp_promo: item.product.nft_exp_promo,
-            });
-          };
-          return (
-            <View style={styles.ctnItem}>
-              <TouchableWithoutFeedback onPress={handleRedirectProduct}>
-                <View style={styles.ctnImage}>
-                  <Image
-                    source={{
-                      uri: `${URL_WEBSITE}${item.product.collections[0].image}`,
-                    }}
-                    style={styles.imgNft}
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={handleRedirectProduct}>
-                <View style={styles.centerItem}>
-                  <Text style={styles.txtTitle}>{item.product.nft_title}</Text>
-                  <HTMRenderer
-                    tagsStyles={{
-                      p: styles.txtDesc,
-                    }}
-                    content={
-                      item.product.nft_description.length > 100
-                        ? `${item.product.nft_description.substring(0, 45)}...`
-                        : item.product.nft_description
-                    }
-                  />
-                </View>
-              </TouchableWithoutFeedback>
-              <Image source={backIcon} style={styles.forwardIcon} />
-            </View>
-          );
+        renderItem={renderItem}
+        renderHiddenItem={renderHiddenItem}
+        rightOpenValue={-Dimensions.get('window').width}
+        onSwipeValueChange={onSwipeValueChange}
+        ListEmptyComponent={() => {
+          if (!isLoading) {
+            return (
+              <View style={styles.ctnEmpty}>
+                <Text style={styles.txtEmpty}>Your hypelist is empty.</Text>
+              </View>
+            );
+          }
+          return null;
         }}
-        keyExtractor={item => item}
         ListFooterComponent={() => {
           if (isLoading) {
             return <LoadingIndicator fullscreen stylesRoot={{marginTop: 20}} />;
           }
           return null;
         }}
+        useNativeDriver={false}
       />
     </View>
   );
 }
-
-export default connect(states)(WatchList);
