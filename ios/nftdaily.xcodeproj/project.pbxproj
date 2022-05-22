@@ -602,7 +602,7 @@
 				CODE_SIGN_ENTITLEMENTS = nftdaily/nftdaily.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = PQ7KYCJA35;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = nftdaily/Info.plist;
@@ -635,7 +635,7 @@
 				CODE_SIGN_ENTITLEMENTS = nftdaily/nftdaily.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 15;
+				CURRENT_PROJECT_VERSION = 16;
 				DEVELOPMENT_TEAM = PQ7KYCJA35;
 				INFOPLIST_FILE = nftdaily/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
