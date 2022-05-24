@@ -147,4 +147,7 @@ export default StyleSheet.create({
     width: '100%',
     resizeMode: 'contain',
   },
+  disableBg: {
+    backgroundColor: 'blue',
+  },
 });

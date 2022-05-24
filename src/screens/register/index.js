@@ -69,6 +69,7 @@ function Register({walletList, route, setProfileUser}) {
     email: null,
   });
   const [notificationStatus, setNotificationStatus] = useState('');
+  const noneId = '6S9k8lpoFy7M6heCsMElgD';
 
   const getToken = async () => {
     try {
@@ -185,6 +186,14 @@ function Register({walletList, route, setProfileUser}) {
     return false;
   };
 
+  function isDisableItem(id) {
+    const isNoneSelected = selectedWallet.find(wallet => wallet === noneId);
+    if (isNoneSelected && noneId !== id) {
+      return true;
+    }
+    return false;
+  }
+
   const handleSelectedWallet = (name, walletName) => {
     const isThere = findSelectedWallet(name);
     if (isNone) {
@@ -193,6 +202,8 @@ function Register({walletList, route, setProfileUser}) {
     if (isThere) {
       setSelectedWallet(selectedWallet.filter(item => item !== name));
       eventTracking(UNSELECT_WALLET_ID, `Wallet: unselect ${walletName || ''}`);
+    } else if (noneId === name) {
+      setSelectedWallet([name]);
     } else {
       const currrentData = [...selectedWallet];
       currrentData.push(name);
@@ -437,9 +448,11 @@ function Register({walletList, route, setProfileUser}) {
           <View style={styles.cntWallet}>
             {walletList.map(wallet => {
               const isWalletSelected = findSelectedWallet(wallet.uuid);
+              const isItemDisable = isDisableItem(wallet.uuid);
               return (
                 <View style={styles.ctnWallet} key={wallet.uuid}>
                   <TouchableOpacity
+                    disabled={isItemDisable}
                     onPress={() => {
                       handleSelectedWallet(wallet.uuid, wallet.name);
                     }}>
@@ -447,6 +460,7 @@ function Register({walletList, route, setProfileUser}) {
                       style={[
                         styles.icnWallet,
                         isWalletSelected && styles.redBorder,
+                        // isItemDisable && styles.disableBg,
                       ]}>
                       <Image
                         source={{uri: wallet.image_url}}
