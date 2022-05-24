@@ -16,6 +16,10 @@ export const setHypeList = payload => ({
   payload,
 });
 
+export const setOffFirstTimeRender = () => ({
+  type: types.SET_OFF_FIRST_TIME_RENDER,
+});
+
 export const fetchWallet =
   (params = {}) =>
   async dispatch => {

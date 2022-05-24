@@ -17,7 +17,14 @@ import {stringToNumber} from '../../helpers/parseNumber';
 import dispacher from './dispatcher';
 import {eventTracking, SWYPE_COLLECTION_ID} from '../../shared/eventTracking';
 
-function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
+function DiscoverNFT({
+  navigation,
+  userProfile,
+  listHype,
+  setHypeList,
+  setOffFirstTimeRender,
+  isFirstTimeRender,
+}) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
   const [listData, setData] = useState([]);
@@ -68,8 +75,18 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
       const res = await getProduct({length: 12, page: currentPage});
       const country = await axios.get('https://ipapi.co/json/');
       setCountryCode(country.data.country_code);
+
+      const additionalItem = isFirstTimeRender
+        ? [
+            {
+              isTutorial: true,
+              ...res.data.data[0],
+            },
+          ]
+        : [];
+      const listItem = [...additionalItem, ...res.data.data];
       setTotalItem(res.data.total);
-      setData(res.data.data);
+      setData(listItem);
       handleHypeList(res.data.data);
       setLoading(false);
     } catch (err) {
@@ -198,6 +215,12 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
             extraData={listData}
             renderItem={({item, index}) => (
               <NFTCard
+                shutOffTutorial={() => {
+                  setActiveSlide(activeSlide + 1);
+                  carouselRef.current.snapToItem(activeSlide + 1);
+                  setOffFirstTimeRender();
+                  setData(listData.filter(content => !content.isTutorial));
+                }}
                 handleRefresh={handleRefresh}
                 isActive={index === activeSlide}
                 item={item}
@@ -213,6 +236,10 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
             // loop
             onBeforeSnapToItem={index => {
               setActiveSlide(index);
+              if (listData[activeSlide].isTutorial) {
+                setOffFirstTimeRender();
+                setData(listData.filter(content => !content.isTutorial));
+              }
               eventTracking(
                 SWYPE_COLLECTION_ID,
                 `Swipe to ${listData[index]?.nft_title || index}`,

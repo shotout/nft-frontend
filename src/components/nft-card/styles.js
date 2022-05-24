@@ -84,7 +84,7 @@ export default StyleSheet.create({
     // flexDirection: 'row',
     // alignItems: 'center',
     // justifyContent: 'center',
-    height: moderateScale(80),
+    height: moderateScale(72),
   },
   ctnRowCenter: {
     flexDirection: 'row',
@@ -156,8 +156,8 @@ export default StyleSheet.create({
   },
   ctnDesc: {
     marginHorizontal: moderateScale(20),
-    marginTop: moderateScale(12),
-    height: moderateScale(100),
+    marginTop: moderateScale(0),
+    height: moderateScale(80),
   },
   txtDesc: {
     color: colors.white,

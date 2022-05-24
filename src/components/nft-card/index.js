@@ -28,6 +28,7 @@ import {
   HYPE_COLLECTION_ID,
   UNHYPE_COLLECTION_ID,
 } from '../../shared/eventTracking';
+import NFTWelcomeCard from '../nft-welcome-card';
 
 // const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
@@ -41,6 +42,7 @@ function NFTCard({
   selectAmountHype,
   setHypeList,
   listHype,
+  shutOffTutorial,
 }) {
   const [loadingFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
@@ -297,6 +299,9 @@ function NFTCard({
   }
 
   function renderBottom() {
+    if (item.isTutorial) {
+      return null;
+    }
     if (isActive) {
       return (
         <View style={styles.ctnBottomButton}>
@@ -333,6 +338,7 @@ function NFTCard({
           {renderBottom()}
         </View>
       </TouchableWithoutFeedback>
+      {item.isTutorial && <NFTWelcomeCard shutOffTutorial={shutOffTutorial} />}
     </View>
   );
 }

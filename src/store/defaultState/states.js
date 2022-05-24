@@ -20,6 +20,7 @@ const INITIAL_STATE = {
   listHype: [
     // {idProject: '', currentAmount: '', dateAdded: '',}
   ],
+  isFirstTimeRender: true,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -46,6 +47,11 @@ export default (state = INITIAL_STATE, action) => {
         listHype: action.payload,
       };
     }
+    case types.SET_OFF_FIRST_TIME_RENDER:
+      return {
+        ...state,
+        isFirstTimeRender: false,
+      };
     default:
       return state;
   }
