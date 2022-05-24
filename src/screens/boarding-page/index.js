@@ -1,24 +1,16 @@
 import React, {useEffect} from 'react';
-import {
-  View,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Video from 'react-native-video';
 import {checkNotifications} from 'react-native-permissions';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import {navigate} from '../../helpers/navigationRef';
-import {isIphone} from '../../shared/devices';
 import styles from './styles';
 import {askTrackingPermission} from '../../shared/eventTracking';
+import {isIphone} from '../../shared/devices';
 
 const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
-const notificationIcon = require('../../assets/icon/notification.png');
-
-const nftImage = require('../../assets/icon/media_boarding.png');
 
 export default function BoardingPage({route}) {
   useEffect(() => {
@@ -26,6 +18,9 @@ export default function BoardingPage({route}) {
       console.log('Check notif:', status);
     });
     askTrackingPermission();
+    if (isIphone) {
+      PushNotificationIOS.setApplicationIconBadgeNumber(0);
+    }
   }, []);
 
   // function notificationBar() {

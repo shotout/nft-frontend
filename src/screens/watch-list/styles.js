@@ -21,4 +21,13 @@ export default StyleSheet.create({
     color: colors.dark,
     marginTop: moderateScale(10),
   },
+  ctnInfo: {
+    paddingVertical: moderateScale(12),
+    paddingHorizontal: moderateScale(20),
+  },
+  txtInfo: {
+    textAlign: 'center',
+    fontFamily: fonts.MontserratRegular,
+    fontSize: moderateScale(14),
+  },
 });

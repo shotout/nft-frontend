@@ -106,6 +106,13 @@ export default function HypeList({route}) {
         }}
         useNativeDriver={false}
       />
+      {listData.length && (
+        <View style={styles.ctnInfo}>
+          <Text style={styles.txtInfo}>
+            To delete projects just swipe left on them.
+          </Text>
+        </View>
+      )}
     </View>
   );
 }

@@ -3,6 +3,7 @@ import {View, Text, ScrollView, RefreshControl} from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import moment from 'moment';
 import {connect} from 'react-redux';
+import axios from 'axios';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import NFTCard from '../../components/nft-card';
@@ -25,6 +26,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
   const [currentPage, setPage] = useState(1);
   const [loadingMore, setLoadMore] = useState();
   const carouselRef = useRef();
+  const [countryCode, setCountryCode] = useState('');
 
   const selectAmountHype = id => {
     const getItem = listHype.find(item => item.idProject === id);
@@ -64,6 +66,8 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     try {
       setLoading(true);
       const res = await getProduct({length: 12, page: currentPage});
+      const country = await axios.get('https://ipapi.co/json/');
+      setCountryCode(country.data.country_code);
       setTotalItem(res.data.total);
       setData(res.data.data);
       handleHypeList(res.data.data);
@@ -129,8 +133,24 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
     }
   }, [activeSlide]);
 
+  function handleDateFormat() {
+    switch (countryCode) {
+      case 'CN':
+        return 'YYYY-MM-DD';
+      case 'US':
+        return 'MM/DD/YYYY';
+      case 'JP':
+        return 'YYYY/MM/DD';
+      // case 'FR':
+      //   return 'DD/MM/YYYY';
+      default:
+        return 'DD.MM.YYYY';
+    }
+  }
+
   function getDateItem() {
     if (listData?.length > 0 && listData[activeSlide]) {
+      const dateFormat = handleDateFormat();
       const getYesterdayDate = getFutureDate(-1);
       const getToday = getFutureDate(0);
       const itemDate = moment(listData[activeSlide].nft_publish_date).format(
@@ -142,9 +162,7 @@ function DiscoverNFT({navigation, userProfile, listHype, setHypeList}) {
       if (itemDate === getToday) {
         return 'Today.';
       }
-      return moment(listData[activeSlide].nft_publish_date).format(
-        'DD.MM.YYYY',
-      );
+      return moment(listData[activeSlide].nft_publish_date).format(dateFormat);
     }
     return '';
   }
