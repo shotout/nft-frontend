@@ -4,6 +4,7 @@ export const colors = {
   gray: '#dfdfdf',
   dark: '#0a2753',
   grayText: '#39404B',
+  pink: '#FC095A',
 };
 
 export const fonts = {

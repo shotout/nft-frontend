@@ -9,6 +9,7 @@ export default StyleSheet.create({
   },
   ctnScroll: {
     paddingTop: moderateScale(20),
+    paddingBottom: moderateScale(40),
   },
   ctnEmpty: {
     flex: 1,
@@ -24,10 +25,33 @@ export default StyleSheet.create({
   ctnInfo: {
     paddingVertical: moderateScale(12),
     paddingHorizontal: moderateScale(20),
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
   },
   txtInfo: {
     textAlign: 'center',
     fontFamily: fonts.MontserratRegular,
     fontSize: moderateScale(14),
+  },
+  ctnHidden: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    backgroundColor: colors.pink,
+    marginHorizontal: moderateScale(20),
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    paddingRight: moderateScale(40),
+    marginTop: moderateScale(2),
+    marginBottom: moderateScale(18),
+    borderRadius: moderateScale(50),
+    height: moderateScale(100),
   },
 });

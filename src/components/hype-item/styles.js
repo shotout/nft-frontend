@@ -20,6 +20,7 @@ export default StyleSheet.create({
     marginTop: moderateScale(2),
     marginBottom: moderateScale(18),
     borderRadius: moderateScale(50),
+    height: moderateScale(100),
   },
   ctnImage: {
     width: moderateScale(60),

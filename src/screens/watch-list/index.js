@@ -1,13 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react';
-import {
-  Animated,
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableHighlight,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, Text, View} from 'react-native';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import {moderateScale} from 'react-native-size-matters';
 import styles from './styles';
 import Header from '../../components/header';
 import HypeItem from '../../components/hype-item';
@@ -75,11 +70,22 @@ export default function HypeList({route}) {
 
   const renderItem = ({item}) => <HypeItem item={item} fetchData={fetchData} />;
 
-  const renderHiddenItem = () => <View />;
+  const renderHiddenItem = () => (
+    <View style={styles.ctnHidden}>
+      <AntDesign name="delete" color="#fff" size={moderateScale(30)} />
+    </View>
+  );
 
   return (
     <View style={styles.ctnRoot}>
       <Header title="Hypelist" />
+      {listData.length > 0 && (
+        <View style={styles.ctnInfo}>
+          <Text style={styles.txtInfo}>
+            To delete projects just swipe left on them.
+          </Text>
+        </View>
+      )}
       <SwipeListView
         contentContainerStyle={styles.ctnScroll}
         disableRightSwipe
@@ -106,13 +112,6 @@ export default function HypeList({route}) {
         }}
         useNativeDriver={false}
       />
-      {listData.length && (
-        <View style={styles.ctnInfo}>
-          <Text style={styles.txtInfo}>
-            To delete projects just swipe left on them.
-          </Text>
-        </View>
-      )}
     </View>
   );
 }
