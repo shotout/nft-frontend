@@ -84,7 +84,7 @@ export default StyleSheet.create({
     // flexDirection: 'row',
     // alignItems: 'center',
     // justifyContent: 'center',
-    height: moderateScale(72),
+    height: moderateScale(80),
   },
   ctnRowCenter: {
     flexDirection: 'row',
@@ -157,7 +157,7 @@ export default StyleSheet.create({
   ctnDesc: {
     marginHorizontal: moderateScale(20),
     marginTop: moderateScale(0),
-    height: moderateScale(80),
+    height: moderateScale(90),
   },
   txtDesc: {
     color: colors.white,
@@ -232,14 +232,13 @@ export default StyleSheet.create({
     },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-
     elevation: 3,
     backgroundColor: '#fff',
-    top: 0,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: moderateScale(2),
+    marginBottom: moderateScale(4),
   },
   txtStartMint: {
     color: colors.white,

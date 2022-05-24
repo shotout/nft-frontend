@@ -167,6 +167,15 @@ function NFTCard({
   }
 
   function renderTime() {
+    const renderStartMint = () => (
+      <LinearGradient
+        colors={colorGradient}
+        start={{x: 0, y: 0}}
+        end={{x: 0.5, y: 0}}
+        style={styles.ctnStartMint}>
+        <Text style={styles.txtStartMint}>Mint starts in</Text>
+      </LinearGradient>
+    );
     if (days + hours + minutes + seconds <= 0) {
       return (
         <View style={styles.ctnTimer}>
@@ -175,13 +184,7 @@ function NFTCard({
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
             style={styles.ctnTime}>
-            <LinearGradient
-              colors={colorGradient}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              style={styles.ctnStartMint}>
-              <Text style={styles.txtStartMint}>Mint starts in</Text>
-            </LinearGradient>
+            {renderStartMint()}
             <View style={styles.ctnRowCenter}>
               <Text style={styles.txtExpired}>Expired</Text>
             </View>
@@ -195,13 +198,7 @@ function NFTCard({
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
         style={styles.ctnTime}>
-        <LinearGradient
-          colors={colorGradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
-          style={styles.ctnStartMint}>
-          <Text style={styles.txtStartMint}>Mint starts in</Text>
-        </LinearGradient>
+        {renderStartMint()}
         <View style={styles.ctnRowCenter}>
           <View style={styles.timeWrapper}>
             <Text style={styles.timeTitle}>{days}</Text>
