@@ -81,11 +81,16 @@ export default StyleSheet.create({
   },
   ctnTime: {
     width: '100%',
-    paddingVertical: moderateScale(8),
+    // flexDirection: 'row',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    height: moderateScale(80),
+  },
+  ctnRowCenter: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    height: moderateScale(60),
+    flex: 1,
   },
   timeWrapper: {
     marginHorizontal: moderateScale(12),
@@ -218,5 +223,28 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
+  },
+  ctnStartMint: {
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
+    backgroundColor: '#fff',
+    top: 0,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: moderateScale(2),
+  },
+  txtStartMint: {
+    color: colors.white,
+    fontFamily: fonts.MontserratRegular,
+    fontSize: moderateScale(14),
+    textAlign: 'center',
   },
 });

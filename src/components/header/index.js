@@ -147,7 +147,7 @@ function Header({
     return (
       <View style={styles.ctnTitle}>
         <Image source={getIconApps()} style={styles.ethRedStyle} />
-        <Text style={[styles.txtTitle, getTitleColor()]}>NFT of the Day</Text>
+        <Text style={[styles.txtTitle, getTitleColor()]}>NFT Daily</Text>
       </View>
     );
   }

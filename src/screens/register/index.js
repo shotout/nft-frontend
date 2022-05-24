@@ -93,6 +93,7 @@ function Register({walletList, route, setProfileUser}) {
         ...values,
         name: res.data.name,
         email: res.data.email,
+        email_subscribe: res.data.email_subscribe === 1,
       });
       setSelectedWallet(wallet);
       setEditLoading(false);
@@ -236,7 +237,9 @@ function Register({walletList, route, setProfileUser}) {
     try {
       selectedLoading(true);
       const body = {
-        ...values,
+        name: values.name,
+        email: values.email,
+        email_subscribe: values.email_subscribe,
         wallet: selectedWallet,
       };
       await updateUser(body);
@@ -351,7 +354,7 @@ function Register({walletList, route, setProfileUser}) {
   }
 
   function renderProgress() {
-    if (activeStep === 'done') {
+    if (activeStep === 'done' || route.params?.edit) {
       return null;
     }
     return (

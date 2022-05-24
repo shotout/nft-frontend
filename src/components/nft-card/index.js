@@ -167,13 +167,24 @@ function NFTCard({
   function renderTime() {
     if (days + hours + minutes + seconds <= 0) {
       return (
-        <LinearGradient
-          colors={colorGradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}
-          style={styles.ctnTime}>
-          <Text style={styles.txtExpired}>Expired</Text>
-        </LinearGradient>
+        <View style={styles.ctnTimer}>
+          <LinearGradient
+            colors={colorGradient}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            style={styles.ctnTime}>
+            <LinearGradient
+              colors={colorGradient}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              style={styles.ctnStartMint}>
+              <Text style={styles.txtStartMint}>Mint starts in</Text>
+            </LinearGradient>
+            <View style={styles.ctnRowCenter}>
+              <Text style={styles.txtExpired}>Expired</Text>
+            </View>
+          </LinearGradient>
+        </View>
       );
     }
     return (
@@ -182,21 +193,30 @@ function NFTCard({
         start={{x: 0, y: 0}}
         end={{x: 1, y: 0}}
         style={styles.ctnTime}>
-        <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>{days}</Text>
-          <Text style={styles.timeDesc}>Day</Text>
-        </View>
-        <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>{hours}</Text>
-          <Text style={styles.timeDesc}>Hrs</Text>
-        </View>
-        <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>{minutes}</Text>
-          <Text style={styles.timeDesc}>Min</Text>
-        </View>
-        <View style={styles.timeWrapper}>
-          <Text style={styles.timeTitle}>{seconds}</Text>
-          <Text style={styles.timeDesc}>Sec</Text>
+        <LinearGradient
+          colors={colorGradient}
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}
+          style={styles.ctnStartMint}>
+          <Text style={styles.txtStartMint}>Mint starts in</Text>
+        </LinearGradient>
+        <View style={styles.ctnRowCenter}>
+          <View style={styles.timeWrapper}>
+            <Text style={styles.timeTitle}>{days}</Text>
+            <Text style={styles.timeDesc}>Day</Text>
+          </View>
+          <View style={styles.timeWrapper}>
+            <Text style={styles.timeTitle}>{hours}</Text>
+            <Text style={styles.timeDesc}>Hrs</Text>
+          </View>
+          <View style={styles.timeWrapper}>
+            <Text style={styles.timeTitle}>{minutes}</Text>
+            <Text style={styles.timeDesc}>Min</Text>
+          </View>
+          <View style={styles.timeWrapper}>
+            <Text style={styles.timeTitle}>{seconds}</Text>
+            <Text style={styles.timeDesc}>Sec</Text>
+          </View>
         </View>
       </LinearGradient>
     );
