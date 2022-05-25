@@ -1,7 +1,6 @@
-import React, {useEffect, useRef} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {View, Text, TouchableOpacity, AppState} from 'react-native';
 import Video from 'react-native-video';
-import {checkNotifications} from 'react-native-permissions';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import {navigate} from '../../helpers/navigationRef';
@@ -11,11 +10,27 @@ const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 
 export default function BoardingPage({route}) {
   const player = useRef();
+  const appState = useRef(AppState.currentState);
+  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  const [isPaused, setPaused] = useState(false);
 
   useEffect(() => {
-    checkNotifications().then(({status, settings}) => {
-      console.log('Check notif:', status);
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        console.log('App has come to the foreground!');
+        setPaused(false);
+      }
+
+      appState.current = nextAppState;
+      setAppStateVisible(appState.current);
     });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   // function notificationBar() {
@@ -86,6 +101,8 @@ export default function BoardingPage({route}) {
         source={backgroundImage}
         resizeMode="cover"
         repeat
+        playWhenInactive
+        paused={isPaused}
       />
       <Header type="boarding" />
       {renderContent()}

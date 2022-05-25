@@ -51,7 +51,6 @@ function Routes({handleFetchWallet, profile}) {
 
     if (isIphone) {
       PushNotificationIOS.setApplicationIconBadgeNumber(0);
-      console.log('SET BADGE');
     }
     // const subscription = Linking.addEventListener('url', appWokeUp);
     // return () => subscription.remove();
