@@ -65,6 +65,11 @@ export default StyleSheet.create({
     color: colors.dark,
     fontSize: moderateScale(14),
   },
+  txtSkip: {
+    fontFamily: fonts.MontserratRegular,
+    color: colors.dark,
+    fontSize: moderateScale(14),
+  },
   txtWithTitle: {
     fontFamily: fonts.MontserratSemiBold,
     fontSize: moderateScale(18),

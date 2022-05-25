@@ -40,6 +40,7 @@ import {
   SIGN_UP_SUCCESS_ID,
   UNSELECT_WALLET_ID,
 } from '../../shared/eventTracking';
+import {guestUser} from '../../shared/guestUser';
 
 const androidProgress1 = require('../../assets/icon/progress_bar/android/progress_step_1.png');
 const androidProgress2 = require('../../assets/icon/progress_bar/android/progress_step_2.png');
@@ -519,7 +520,15 @@ function Register({walletList, route, setProfileUser}) {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
-        <Header hideLeft={activeStep === 'done'} backPress={handleBack} />
+        <Header
+          type={activeStep === 'done' ? undefined : 'skip-right-text'}
+          hideLeft={activeStep === 'done'}
+          backPress={handleBack}
+          onSkip={() => {
+            setProfileUser(guestUser);
+            reset('Homepage');
+          }}
+        />
         {renderMainContent()}
       </View>
       {!loadingGetEdit && (

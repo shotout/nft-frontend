@@ -33,6 +33,7 @@ function Header({
   isFavorite,
   handleFavorite,
   callbackRefresh,
+  onSkip,
 }) {
   function getIconApps() {
     switch (type) {
@@ -94,6 +95,13 @@ function Header({
             navigate('Watchlist', {callbackRefresh});
           }}>
           <Image source={hypeShadow} style={styles.hypeIconStyle} />
+        </TouchableOpacity>
+      );
+    }
+    if (type === 'skip-right-text') {
+      return (
+        <TouchableOpacity style={styles.ctnWatchlist} onPress={onSkip}>
+          <Text style={styles.txtSkip}>Skip</Text>
         </TouchableOpacity>
       );
     }
