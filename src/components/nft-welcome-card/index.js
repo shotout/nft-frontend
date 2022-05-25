@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Image, Text, TouchableOpacity} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import styles from './styles';
 
 const handIcon = require('../../assets/icon/tutorial_icon.png');
@@ -8,6 +9,10 @@ function NFTWelcomeCard({shutOffTutorial}) {
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnCard}>
+        <LinearGradient
+          colors={['rgba(237, 242, 239,0.95)', 'rgba(212, 212, 212,1)']}
+          style={styles.bgStyle}
+        />
         <View style={styles.txtWrapper}>
           <Text style={styles.txtTitle}>Get started asap</Text>
           <Text style={styles.txtExplore}>Explore</Text>

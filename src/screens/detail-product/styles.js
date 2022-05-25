@@ -118,6 +118,7 @@ export default StyleSheet.create({
   },
   ctnDescription: {
     padding: moderateScale(20),
+    paddingTop: 0,
   },
   txtDescription: {
     color: colors.dark,
@@ -131,7 +132,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginHorizontal: moderateScale(20),
-    marginTop: moderateScale(20),
+    marginVertical: moderateScale(20),
     borderRadius: moderateScale(30),
   },
   timeWrapper: {

@@ -5,6 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {connect} from 'react-redux';
+import PushNotificationIOS from '@react-native-community/push-notification-ios';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
 import navigationData from './shared/navigationData';
@@ -23,6 +24,7 @@ import {linking} from './helpers/linking';
 import DetailProduct from './screens/detail-product';
 import {appWokeUp} from './helpers/userInit';
 import ActivateNotification from './screens/activate-notification';
+import {isIphone} from './shared/devices';
 
 const Stack = createNativeStackNavigator();
 
@@ -43,6 +45,11 @@ function Homepage() {
 function Routes({handleFetchWallet, profile}) {
   useEffect(() => {
     handleFetchWallet();
+
+    if (isIphone) {
+      PushNotificationIOS.setApplicationIconBadgeNumber(0);
+      console.log('SET BADGE');
+    }
     // const subscription = Linking.addEventListener('url', appWokeUp);
     // return () => subscription.remove();
   }, []);

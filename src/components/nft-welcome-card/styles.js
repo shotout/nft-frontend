@@ -10,7 +10,8 @@ export default StyleSheet.create({
     marginBottom: moderateScale(80),
   },
   ctnCard: {
-    // backgroundColor: '#fff',
+    borderWidth: moderateScale(12),
+    borderColor: '#fff',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -23,12 +24,9 @@ export default StyleSheet.create({
     position: 'relative',
     marginHorizontal: moderateScale(20),
     marginVertical: moderateScale(20),
-    backgroundColor: 'rgba(237, 242, 239,0.95)',
     flex: 1,
-    padding: moderateScale(20),
-    // justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: moderateScale(80),
   },
   imgStyle: {
     position: 'absolute',
@@ -40,13 +38,13 @@ export default StyleSheet.create({
   },
   txtTitle: {
     color: colors.dark,
-    fontSize: moderateScale(26),
+    fontSize: moderateScale(28),
     fontFamily: fonts.MontserratBold,
     textAlign: 'center',
   },
   txtExplore: {
     color: colors.dark,
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(20),
     fontFamily: fonts.MontserratBold,
     marginTop: moderateScale(12),
   },
@@ -54,22 +52,22 @@ export default StyleSheet.create({
     color: colors.dark,
     fontSize: moderateScale(16),
     fontFamily: fonts.MontserratSemiBold,
-    lineHeight: moderateScale(22),
+    lineHeight: moderateScale(24),
     marginTop: moderateScale(6),
   },
   txtWrapper: {
-    width: '86%',
     alignSelf: 'center',
+    padding: moderateScale(20),
   },
   mgTop16: {
-    marginTop: moderateScale(16),
+    marginTop: moderateScale(24),
   },
   handIconStyle: {
     width: moderateScale(80),
     height: moderateScale(80),
     resizeMode: 'contain',
     alignSelf: 'center',
-    marginTop: moderateScale(20),
+    // marginTop: moderateScale(20),
   },
   ctnBottomButton: {
     marginBottom: moderateScale(-8),
@@ -93,5 +91,11 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontSize: moderateScale(16),
     fontFamily: fonts.MontserratSemiBold,
+  },
+  bgStyle: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    borderRadius: moderateScale(18),
   },
 });

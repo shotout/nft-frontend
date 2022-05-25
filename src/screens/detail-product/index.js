@@ -211,6 +211,9 @@ function DetailProduct({route, listHype, setHypeList}) {
   }
 
   function renderTime() {
+    if (!route.params.exp_promo) {
+      return null;
+    }
     if (days + hours + minutes + seconds <= 0) {
       return (
         <LinearGradient
@@ -370,7 +373,7 @@ function DetailProduct({route, listHype, setHypeList}) {
             handleOpenURL(detail.nft_mint);
             eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
           }}
-          label="Mint"
+          label={detail.preferance.button_label}
         />
       </LinearGradient>
     </View>

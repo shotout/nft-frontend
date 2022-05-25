@@ -167,15 +167,36 @@ function NFTCard({
   }
 
   function renderTime() {
+    const isNoExpiredTime = !item.nft_exp_promo;
+    // const isNoExpiredTime = true;
+
     const renderStartMint = () => (
       <LinearGradient
         colors={colorGradient}
         start={{x: 0, y: 0}}
         end={{x: 0.5, y: 0}}
         style={styles.ctnStartMint}>
-        <Text style={styles.txtStartMint}>Mint starts in</Text>
+        <Text style={styles.txtStartMint}>{item.preferance?.timer_title}</Text>
       </LinearGradient>
     );
+    if (isNoExpiredTime) {
+      return (
+        <View style={styles.ctnTimer}>
+          <LinearGradient
+            colors={colorGradient}
+            start={{x: 0, y: 0}}
+            end={{x: 1, y: 0}}
+            style={[styles.ctnTime, styles.ctnNoExpireTime]}>
+            <Text
+              numberOfLines={4}
+              ellipsizeMode="tail"
+              style={styles.txtStartMint}>
+              {item.preferance?.timer_title}
+            </Text>
+          </LinearGradient>
+        </View>
+      );
+    }
     if (days + hours + minutes + seconds <= 0) {
       return (
         <View style={styles.ctnTimer}>

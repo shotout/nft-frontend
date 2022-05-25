@@ -79,8 +79,9 @@ function DiscoverNFT({
       const additionalItem = isFirstTimeRender
         ? [
             {
-              isTutorial: true,
               ...res.data.data[0],
+              isTutorial: true,
+              uuid: 'sdasd123',
             },
           ]
         : [];
@@ -102,8 +103,18 @@ function DiscoverNFT({
       }
       setPage(1);
       const res = await getProduct({length: 12, page: 1});
+      const additionalItem = isFirstTimeRender
+        ? [
+            {
+              ...res.data.data[0],
+              isTutorial: true,
+              uuid: 'sdasd123',
+            },
+          ]
+        : [];
+      const listItem = [...additionalItem, ...res.data.data];
       setTotalItem(res.data.total);
-      setData(res.data.data);
+      setData(listItem);
       setRefresh(false);
     } catch (err) {
       console.log('Error refresh:', err);

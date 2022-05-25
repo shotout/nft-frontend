@@ -246,4 +246,12 @@ export default StyleSheet.create({
     fontSize: moderateScale(14),
     textAlign: 'center',
   },
+  noMgBtm: {
+    marginBottom: 0,
+  },
+  ctnNoExpireTime: {
+    paddingHorizontal: moderateScale(20),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

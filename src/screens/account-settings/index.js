@@ -7,10 +7,12 @@ import {
   TouchableWithoutFeedback,
   Linking,
 } from 'react-native';
+import {checkNotifications} from 'react-native-permissions';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import {navigate} from '../../helpers/navigationRef';
 import {getProfile} from '../../helpers/requests';
+import {isIphone} from '../../shared/devices';
 import styles from './styles';
 
 const forwardIcon = require('../../assets/icon/forward_icon.png');
@@ -53,7 +55,17 @@ export default function AccountSettings() {
       title: 'Notifications',
       desc: 'Change your notifications settings',
       onPress: () => {
-        Linking.openSettings();
+        if (isIphone) {
+          checkNotifications().then(({status, settings}) => {
+            if (status === 'granted') {
+              Linking.openSettings();
+            } else {
+              navigate('ActivateNotification');
+            }
+          });
+        } else {
+          Linking.openSettings();
+        }
       },
     },
     {

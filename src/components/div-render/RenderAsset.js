@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {View, Image} from 'react-native';
+import {moderateScale} from 'react-native-size-matters';
 import LoadingIndicator from '../loading-indicator';
 
 export default function RenderAsset({id}) {
@@ -32,7 +33,12 @@ export default function RenderAsset({id}) {
   return (
     <Image
       source={{uri: urlAsset}}
-      style={{width: '100%', aspectRatio: 1 / 1, resizeMode: 'contain'}}
+      style={{
+        width: '100%',
+        aspectRatio: 1 / 1,
+        resizeMode: 'contain',
+        borderRadius: moderateScale(20),
+      }}
     />
   );
 }
