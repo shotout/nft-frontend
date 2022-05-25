@@ -27,7 +27,12 @@ import styles from './styles';
 import {colors} from '../../shared/styling';
 import {goBack, reset} from '../../helpers/navigationRef';
 import states from './states';
-import {getProfile, postRegister, updateUser} from '../../helpers/requests';
+import {
+  getProfile,
+  getSkipResult,
+  postRegister,
+  updateUser,
+} from '../../helpers/requests';
 import arrayErrorResturctor from './responseValidatorArr';
 import LoadingIndicator from '../../components/loading-indicator';
 import RegisterAnimate from '../../components/register-animate';
@@ -40,7 +45,6 @@ import {
   SIGN_UP_SUCCESS_ID,
   UNSELECT_WALLET_ID,
 } from '../../shared/eventTracking';
-import {guestUser} from '../../shared/guestUser';
 
 const androidProgress1 = require('../../assets/icon/progress_bar/android/progress_step_1.png');
 const androidProgress2 = require('../../assets/icon/progress_bar/android/progress_step_2.png');
@@ -58,7 +62,7 @@ function Register({walletList, route, setProfileUser}) {
   const [isNone, setNone] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
   const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
+  const [isSkiped, setSkiped] = useState(true);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -94,7 +98,7 @@ function Register({walletList, route, setProfileUser}) {
       setValues({
         ...values,
         name: res.data.name,
-        email: res.data.email,
+        email: route.params?.isGuest ? '' : res.data.email,
         email_subscribe: res.data.email_subscribe,
       });
       setSelectedWallet(wallet);
@@ -102,8 +106,17 @@ function Register({walletList, route, setProfileUser}) {
     }
   };
 
+  const getSetting = async () => {
+    if (!route.params?.edit) {
+      const res = await getSkipResult();
+      setSkiped(res.data[0].skip_button === '1');
+    }
+  };
+
+  console.log('IS SKIPPED :', isSkiped);
   useEffect(() => {
     handleInitialEdit();
+    getSetting();
     getToken();
     checkNotifications().then(({status, settings}) => {
       console.log('Check notif:', status);
@@ -210,11 +223,12 @@ function Register({walletList, route, setProfileUser}) {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async isSkip => {
     try {
       selectedLoading(true);
       const body = {
         ...values,
+        email: isSkip ? `guest${Date.now()}@mail.com` : values.email,
         wallet: selectedWallet,
       };
       const res = await postRegister(body);
@@ -276,14 +290,17 @@ function Register({walletList, route, setProfileUser}) {
     return 'Continue';
   }
 
-  const handleChangeStep = () => {
+  const handleChangeStep = skip => {
     if (route.params?.edit) {
       handleUpdate();
       return true;
     }
     switch (activeStep) {
       case 'username':
-        if (values.name) {
+        if (values.name || skip) {
+          if (skip) {
+            handleChangeText('name', 'Guest');
+          }
           setActiveStep('wallet');
           setError({
             ...error,
@@ -297,15 +314,18 @@ function Register({walletList, route, setProfileUser}) {
         }
         break;
       case 'wallet':
-        if (selectedWallet.length === 0) {
+        if (selectedWallet.length === 0 && !skip) {
           Alert.alert('Wallet must be selected.');
         } else {
+          if (skip) {
+            setSelectedWallet([noneId]);
+          }
           setActiveStep('email');
         }
         break;
       case 'email':
-        if (values.email) {
-          handleSubmit();
+        if (values.email || skip) {
+          handleSubmit(skip);
           setError({
             ...error,
             email: null,
@@ -521,13 +541,14 @@ function Register({walletList, route, setProfileUser}) {
           type={
             activeStep === 'done' || route.params?.edit
               ? undefined
-              : 'skip-right-text'
+              : isSkiped
+              ? 'skip-right-text'
+              : null
           }
           hideLeft={activeStep === 'done'}
           backPress={handleBack}
           onSkip={() => {
-            setProfileUser(guestUser);
-            reset('ActivateNotification');
+            handleChangeStep(true);
           }}
         />
         {renderMainContent()}

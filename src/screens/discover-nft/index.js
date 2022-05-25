@@ -211,7 +211,7 @@ function DiscoverNFT({
           <Text style={styles.txtName}>{`Hi ${
             userProfile?.data?.name || ''
           },`}</Text>
-          <Text style={styles.txtTitle}>Here is our pick</Text>
+          <Text style={styles.txtTitle}>Here is your quick</Text>
           <Text style={styles.txtDayTitle}>tutorial.</Text>
         </View>
       );

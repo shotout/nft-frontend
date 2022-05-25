@@ -35,7 +35,6 @@ export default function AccountSettings() {
     getInitialData();
   }, []);
 
-  console.log('Check detail :', detail);
   const menuItem = [
     {
       title: detail.name,
@@ -45,10 +44,13 @@ export default function AccountSettings() {
       },
     },
     {
-      title: detail.email,
+      title: detail.email.includes('guest') ? 'Email' : detail.email,
       desc: 'Update your email address linked to this account',
       onPress: () => {
-        navigate('Register', {edit: 'email'});
+        navigate('Register', {
+          edit: 'email',
+          isGuest: detail.email.includes('guest'),
+        });
       },
     },
     {

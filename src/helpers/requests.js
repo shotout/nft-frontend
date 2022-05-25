@@ -83,6 +83,12 @@ export const getDetailProduct = id =>
     method: 'GET',
   });
 
+export const getSkipResult = id =>
+  Wrap({
+    url: `/setting`,
+    method: 'GET',
+  });
+
 export const getContentHTML = id => {
   Wrap({
     url: `https://cdn.contentful.com/spaces/iekxawt54bzj/environments/master/entries/${id}`,
