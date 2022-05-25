@@ -527,7 +527,7 @@ function Register({walletList, route, setProfileUser}) {
           backPress={handleBack}
           onSkip={() => {
             setProfileUser(guestUser);
-            reset('Homepage');
+            reset('ActivateNotification');
           }}
         />
         {renderMainContent()}

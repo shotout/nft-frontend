@@ -4,7 +4,6 @@ import {requestNotifications} from 'react-native-permissions';
 import Button from '../../components/button';
 import FomoComponent from '../../components/fomo-component';
 import {reset} from '../../helpers/navigationRef';
-import {askTrackingPermission} from '../../shared/eventTracking';
 
 import styles from './styles';
 
@@ -13,8 +12,7 @@ function ActivateNotification() {
     requestNotifications(['alert', 'sound', 'badge']).then(
       ({status, settings}) => {
         if (status === 'granted') {
-          askTrackingPermission();
-          reset('Homepage');
+          reset('Homepage', {askTrackingPermission: true});
         } else {
           Linking.openSettings();
         }
@@ -34,8 +32,7 @@ function ActivateNotification() {
       <TouchableOpacity
         style={styles.btnNoThanks}
         onPress={() => {
-          askTrackingPermission();
-          reset('Homepage');
+          reset('Homepage', {askTrackingPermission: true});
         }}>
         <Text style={styles.txtNothanks}>No thanks</Text>
       </TouchableOpacity>

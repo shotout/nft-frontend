@@ -15,7 +15,11 @@ import {getFutureDate} from '../../helpers/dateHelper';
 import states from './states';
 import {stringToNumber} from '../../helpers/parseNumber';
 import dispacher from './dispatcher';
-import {eventTracking, SWYPE_COLLECTION_ID} from '../../shared/eventTracking';
+import {
+  askTrackingPermission,
+  eventTracking,
+  SWYPE_COLLECTION_ID,
+} from '../../shared/eventTracking';
 
 function DiscoverNFT({
   navigation,
@@ -24,6 +28,7 @@ function DiscoverNFT({
   setHypeList,
   setOffFirstTimeRender,
   isFirstTimeRender,
+  route,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -34,6 +39,7 @@ function DiscoverNFT({
   const [loadingMore, setLoadMore] = useState();
   const carouselRef = useRef();
   const [countryCode, setCountryCode] = useState('');
+  const askPermission = route.params?.askTrackingPermission;
 
   const selectAmountHype = id => {
     const getItem = listHype.find(item => item.idProject === id);
@@ -135,8 +141,11 @@ function DiscoverNFT({
       setLoadMore(false);
     }
   };
-
   useEffect(() => {
+    if (askPermission) {
+      console.log('ASK TRACKING PERMISSION');
+      askTrackingPermission();
+    }
     fetchData();
   }, []);
 

@@ -30,13 +30,16 @@ const Stack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
 
-function Homepage() {
+function Homepage({route}) {
   return (
     <Drawer.Navigator drawerContent={props => <Sidebar {...props} />}>
       <Drawer.Screen
         options={navigationData.noHeader.options}
         name="DiscoverNFT"
         component={DiscoverNFT}
+        initialParams={{
+          askTrackingPermission: route.params?.askTrackingPermission,
+        }}
       />
     </Drawer.Navigator>
   );
