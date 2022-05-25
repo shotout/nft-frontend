@@ -95,7 +95,7 @@ function Register({walletList, route, setProfileUser}) {
         ...values,
         name: res.data.name,
         email: res.data.email,
-        email_subscribe: res.data.email_subscribe === 1,
+        email_subscribe: res.data.email_subscribe,
       });
       setSelectedWallet(wallet);
       setEditLoading(false);
@@ -197,9 +197,6 @@ function Register({walletList, route, setProfileUser}) {
 
   const handleSelectedWallet = (name, walletName) => {
     const isThere = findSelectedWallet(name);
-    if (isNone) {
-      setNone(false);
-    }
     if (isThere) {
       setSelectedWallet(selectedWallet.filter(item => item !== name));
       eventTracking(UNSELECT_WALLET_ID, `Wallet: unselect ${walletName || ''}`);
@@ -208,7 +205,7 @@ function Register({walletList, route, setProfileUser}) {
     } else {
       const currrentData = [...selectedWallet];
       currrentData.push(name);
-      setSelectedWallet(currrentData);
+      setSelectedWallet(currrentData.filter(ctn => ctn !== noneId));
       eventTracking(SELECT_WALLET_ID, `Wallet: select ${walletName || ''}`);
     }
   };
@@ -453,7 +450,7 @@ function Register({walletList, route, setProfileUser}) {
               return (
                 <View style={styles.ctnWallet} key={wallet.uuid}>
                   <TouchableOpacity
-                    disabled={isItemDisable}
+                    // disabled={isItemDisable}
                     onPress={() => {
                       handleSelectedWallet(wallet.uuid, wallet.name);
                     }}>
@@ -521,7 +518,11 @@ function Register({walletList, route, setProfileUser}) {
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
         <Header
-          type={activeStep === 'done' ? undefined : 'skip-right-text'}
+          type={
+            activeStep === 'done' || route.params?.edit
+              ? undefined
+              : 'skip-right-text'
+          }
           hideLeft={activeStep === 'done'}
           backPress={handleBack}
           onSkip={() => {

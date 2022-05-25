@@ -49,7 +49,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSUserTrackingUsageDescription</key>
 	<string>Your data will be used to check if you are using in-app features, this will be used for future updates and development purposes.</string>
 	<key>UIAppFonts</key>
@@ -75,6 +75,7 @@
 		<string>Octicons.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
+		<string>Montserrat-Italic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

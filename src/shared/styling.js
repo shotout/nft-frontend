@@ -12,5 +12,6 @@ export const fonts = {
   MontserratBold: 'Montserrat-Bold',
   MontserratLight: 'Montserrat-Light',
   MontserratRegular: 'Montserrat-Regular',
+  MontserratItalic: 'Montserrat-Italic',
   MontserratSemiBold: 'Montserrat-SemiBold',
 };

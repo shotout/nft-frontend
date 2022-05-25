@@ -32,9 +32,8 @@ export default StyleSheet.create({
   },
   txtInfo: {
     textAlign: 'center',
-    fontFamily: fonts.MontserratRegular,
+    fontFamily: fonts.MontserratItalic,
     fontSize: moderateScale(14),
-    fontStyle: 'italic',
   },
   ctnHidden: {
     flexDirection: 'row',
