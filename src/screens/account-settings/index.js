@@ -8,26 +8,28 @@ import {
   Linking,
 } from 'react-native';
 import {checkNotifications} from 'react-native-permissions';
+import {connect} from 'react-redux';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import {navigate} from '../../helpers/navigationRef';
 import {getProfile} from '../../helpers/requests';
 import {isIphone} from '../../shared/devices';
 import styles from './styles';
+import dispatcher from './dispatcher';
+import states from './states';
 
 const forwardIcon = require('../../assets/icon/forward_icon.png');
 
-export default function AccountSettings() {
+function AccountSettings({setProfileUser, userProfile}) {
   const [loadingGetEdit, setEditLoading] = useState(false);
-  const [detail, setDetail] = useState({
-    name: '',
-    email: '',
-  });
 
   const getInitialData = async () => {
     setEditLoading(true);
     const res = await getProfile();
-    setDetail(res.data);
+    setProfileUser({
+      ...userProfile,
+      ...res,
+    });
     setEditLoading(false);
   };
 
@@ -37,19 +39,21 @@ export default function AccountSettings() {
 
   const menuItem = [
     {
-      title: detail.name,
+      title: userProfile.data.name,
       desc: 'Change your display name',
       onPress: () => {
         navigate('Register', {edit: 'username'});
       },
     },
     {
-      title: detail.email.includes('guest') ? 'Email' : detail.email,
+      title: userProfile.data.email.includes('guest')
+        ? 'Email'
+        : userProfile.data.email,
       desc: 'Update your email address linked to this account',
       onPress: () => {
         navigate('Register', {
           edit: 'email',
-          isGuest: detail.email.includes('guest'),
+          isGuest: userProfile.data.email.includes('guest'),
         });
       },
     },
@@ -111,3 +115,5 @@ export default function AccountSettings() {
     </View>
   );
 }
+
+export default connect(states, dispatcher)(AccountSettings);

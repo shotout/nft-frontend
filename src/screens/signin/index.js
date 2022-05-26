@@ -94,7 +94,7 @@ function SignIn({setProfileUser}) {
       );
       if (values.email === 'gian.devx@gmail.com') {
         setProfileUser(res);
-        reset('Homepage');
+        reset('Homepage', {askTrackingPermission: true});
         return true;
       }
       if (res?.status === 'failed') {

@@ -25,7 +25,7 @@ function ValidateToken({route, setProfileUser}) {
         setProfileUser(res);
       }
       if (status === 'granted') {
-        reset('Homepage');
+        reset('Homepage', {askTrackingPermission: true});
       } else {
         reset('ActivateNotification');
       }
@@ -96,7 +96,7 @@ function ValidateToken({route, setProfileUser}) {
           if (isError) {
             reset('BoardingPage');
           } else {
-            reset('Homepage');
+            reset('Homepage', {askTrackingPermission: true});
           }
         }}
       />

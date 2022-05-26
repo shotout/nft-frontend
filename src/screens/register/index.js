@@ -55,14 +55,14 @@ const iPhoneProgress2 = require('../../assets/icon/progress_bar/ios/progress_ste
 const iPhoneProgress3 = require('../../assets/icon/progress_bar/ios/progress_step_3.png');
 const iPhoneProgress4 = require('../../assets/icon/progress_bar/ios/progress_step_4.png');
 
-function Register({walletList, route, setProfileUser}) {
+function Register({walletList, route, setProfileUser, userProfile}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
-  const [isNone, setNone] = useState(false);
+  const [isLoadingSetting, setLoadingSetting] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
   const appState = useRef(AppState.currentState);
-  const [isSkiped, setSkiped] = useState(true);
+  const [isSkiped, setSkiped] = useState(false);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -108,18 +108,18 @@ function Register({walletList, route, setProfileUser}) {
 
   const getSetting = async () => {
     if (!route.params?.edit) {
+      setLoadingSetting(true);
       const res = await getSkipResult();
       setSkiped(res.data[0].skip_button === '1');
+      setLoadingSetting(false);
     }
   };
 
-  console.log('IS SKIPPED :', isSkiped);
   useEffect(() => {
     handleInitialEdit();
     getSetting();
     getToken();
     checkNotifications().then(({status, settings}) => {
-      console.log('Check notif:', status);
       setNotificationStatus(status);
     });
   }, []);
@@ -197,6 +197,16 @@ function Register({walletList, route, setProfileUser}) {
         return true;
       }
     }
+    if (activeStep === 'username') {
+      if (values.name.length === 0) {
+        return true;
+      }
+    }
+    if (activeStep === 'email') {
+      if (values.email.length === 0) {
+        return true;
+      }
+    }
     return false;
   };
 
@@ -224,6 +234,7 @@ function Register({walletList, route, setProfileUser}) {
   };
 
   const handleSubmit = async isSkip => {
+    console.log('IS SKIP:', isSkip);
     try {
       selectedLoading(true);
       const body = {
@@ -265,7 +276,11 @@ function Register({walletList, route, setProfileUser}) {
         email_subscribe: values.email_subscribe,
         wallet: selectedWallet,
       };
-      await updateUser(body);
+      const user = await updateUser(body);
+      setProfileUser({
+        ...userProfile,
+        ...user,
+      });
       selectedLoading(false);
       goBack();
     } catch (err) {
@@ -290,7 +305,7 @@ function Register({walletList, route, setProfileUser}) {
     return 'Continue';
   }
 
-  const handleChangeStep = skip => {
+  const handleChangeStep = (skip = false) => {
     if (route.params?.edit) {
       handleUpdate();
       return true;
@@ -325,6 +340,7 @@ function Register({walletList, route, setProfileUser}) {
         break;
       case 'email':
         if (values.email || skip) {
+          console.log('Check submit skip :', skip);
           handleSubmit(skip);
           setError({
             ...error,
@@ -350,7 +366,7 @@ function Register({walletList, route, setProfileUser}) {
         );
         break;
       case 'done':
-        reset('Homepage');
+        reset('Homepage', {askTrackingPermission: true});
         break;
       default:
         break;
@@ -428,7 +444,11 @@ function Register({walletList, route, setProfileUser}) {
             placeholder="Your Email"
             keyboardType="email-address"
             autoCapitalize="none"
-            error={error.email}
+            error={
+              route.params?.edit === 'email' && !values.email.length
+                ? 'Please enter your Email'
+                : error.email
+            }
           />
           <View style={styles.ctnReceiveEmail}>
             <TouchableOpacity
@@ -516,14 +536,18 @@ function Register({walletList, route, setProfileUser}) {
           }}
           maxLength={30}
           placeholder="Your name"
-          error={error.name}
+          error={
+            route.params?.edit === 'username' && !values.name.length
+              ? 'Please enter your name'
+              : error.name
+          }
         />
       </>
     );
   }
 
   function renderMainContent() {
-    if (loadingGetEdit) {
+    if (loadingGetEdit || isLoadingSetting) {
       return <LoadingIndicator fullscreen />;
     }
     return (
@@ -539,13 +563,15 @@ function Register({walletList, route, setProfileUser}) {
       <View style={styles.ctnTop}>
         <Header
           type={
-            activeStep === 'done' || route.params?.edit
+            activeStep === 'done' ||
+            route.params?.edit ||
+            activeStep === 'notification'
               ? undefined
               : isSkiped
               ? 'skip-right-text'
               : null
           }
-          hideLeft={activeStep === 'done'}
+          hideLeft={activeStep === 'done' || activeStep === 'notification'}
           backPress={handleBack}
           onSkip={() => {
             handleChangeStep(true);
@@ -557,7 +583,9 @@ function Register({walletList, route, setProfileUser}) {
         <Button
           isLoading={isLoading}
           label={getLabel()}
-          onPress={handleChangeStep}
+          onPress={() => {
+            handleChangeStep(false);
+          }}
           isDisable={getDisable()}
           btnStyle={
             activeStep === 'notification' ? styles.pdBtmNormal : styles.btnStyle
