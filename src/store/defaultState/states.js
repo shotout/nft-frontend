@@ -21,10 +21,16 @@ const INITIAL_STATE = {
     // {idProject: '', currentAmount: '', dateAdded: '',}
   ],
   isFirstTimeRender: true,
+  openAppsCounter: 0,
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case types.ADD_OPEN_APPS_COUNTER:
+      return {
+        ...state,
+        openAppsCounter: state.openAppsCounter + 1,
+      };
     case types.SET_STORAGE_STATUS:
       return {
         ...state,

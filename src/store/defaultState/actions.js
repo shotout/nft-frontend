@@ -20,6 +20,10 @@ export const setOffFirstTimeRender = () => ({
   type: types.SET_OFF_FIRST_TIME_RENDER,
 });
 
+export const increaseOpenAppsCounter = () => ({
+  type: types.ADD_OPEN_APPS_COUNTER,
+});
+
 export const fetchWallet =
   (params = {}) =>
   async dispatch => {

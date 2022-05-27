@@ -33,7 +33,7 @@ export default StyleSheet.create({
   },
   ctnMain: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'red',
   },
   cardWrapper: {
     position: 'relative',
@@ -79,5 +79,9 @@ export default StyleSheet.create({
   carouselWrapper: {
     elevation: isAndroid ? 10 : undefined,
     zIndex: 10,
+  },
+  ctnLoader: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
 });

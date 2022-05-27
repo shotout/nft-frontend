@@ -4,6 +4,7 @@ import Carousel from 'react-native-snap-carousel';
 import moment from 'moment';
 import {connect} from 'react-redux';
 import axios from 'axios';
+import {checkNotifications} from 'react-native-permissions';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import NFTCard from '../../components/nft-card';
@@ -29,6 +30,8 @@ function DiscoverNFT({
   setOffFirstTimeRender,
   isFirstTimeRender,
   route,
+  openAppsCounter,
+  increaseOpenAppsCounter,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -39,6 +42,7 @@ function DiscoverNFT({
   const [loadingMore, setLoadMore] = useState();
   const carouselRef = useRef();
   const [countryCode, setCountryCode] = useState('');
+  const [loadingContent, setLoadingContent] = useState(false);
   const askPermission = route.params?.askTrackingPermission;
 
   const selectAmountHype = id => {
@@ -141,12 +145,35 @@ function DiscoverNFT({
       setLoadMore(false);
     }
   };
-  useEffect(() => {
+
+  const handleInitialData = () => {
     if (askPermission) {
       console.log('ASK TRACKING PERMISSION');
       askTrackingPermission();
     }
     fetchData();
+  };
+
+  const handleOpenApps = () => {
+    const currentTotalOpenApps = openAppsCounter + 1;
+    if (currentTotalOpenApps % 3 === 0) {
+      checkNotifications().then(({status, settings}) => {
+        if (status !== 'granted') {
+          setTimeout(() => {
+            reset('ActivateNotification');
+          }, 1000);
+        } else {
+          handleInitialData();
+        }
+      });
+    } else {
+      handleInitialData();
+    }
+    increaseOpenAppsCounter(currentTotalOpenApps);
+  };
+
+  useEffect(() => {
+    handleOpenApps();
   }, []);
 
   useEffect(() => {
@@ -247,10 +274,13 @@ function DiscoverNFT({
             renderItem={({item, index}) => (
               <NFTCard
                 shutOffTutorial={() => {
-                  setActiveSlide(activeSlide + 1);
-                  carouselRef.current.snapToItem(activeSlide + 1);
+                  setActiveSlide(0);
                   setOffFirstTimeRender();
                   setData(listData.filter(content => !content.isTutorial));
+                  setLoadingContent(true);
+                  setTimeout(() => {
+                    setLoadingContent(false);
+                  }, 2000);
                 }}
                 handleRefresh={handleRefresh}
                 isActive={index === activeSlide}
@@ -270,6 +300,11 @@ function DiscoverNFT({
               if (listData[activeSlide].isTutorial) {
                 setOffFirstTimeRender();
                 setData(listData.filter(content => !content.isTutorial));
+                setLoadingContent(true);
+                setTimeout(() => {
+                  setActiveSlide(0);
+                  setLoadingContent(false);
+                }, 2000);
               }
               eventTracking(
                 SWYPE_COLLECTION_ID,
@@ -283,6 +318,13 @@ function DiscoverNFT({
   }
 
   function renderContent() {
+    if (loadingContent) {
+      return (
+        <View style={styles.ctnLoader}>
+          <LoadingIndicator fullscreen />
+        </View>
+      );
+    }
     return (
       <ScrollView
         refreshControl={
@@ -304,7 +346,7 @@ function DiscoverNFT({
     );
   }
   return (
-    <View styles={styles.ctnMain}>
+    <View style={styles.ctnMain}>
       <Header
         type="drawer"
         onPressDrawer={() => {
