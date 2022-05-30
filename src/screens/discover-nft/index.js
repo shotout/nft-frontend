@@ -21,6 +21,7 @@ import {
   eventTracking,
   SWYPE_COLLECTION_ID,
 } from '../../shared/eventTracking';
+import {askRating} from '../../shared/askRating';
 
 function DiscoverNFT({
   navigation,
@@ -32,6 +33,8 @@ function DiscoverNFT({
   route,
   openAppsCounter,
   increaseOpenAppsCounter,
+  haveBeenAskRating,
+  changeAskRatingParameter,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -156,6 +159,13 @@ function DiscoverNFT({
 
   const handleOpenApps = () => {
     const currentTotalOpenApps = openAppsCounter + 1;
+    const currentDate = moment().format('YYYY-MM-DD');
+    if (currentTotalOpenApps % 6 === 0 && currentDate !== haveBeenAskRating) {
+      setTimeout(() => {
+        askRating();
+        changeAskRatingParameter();
+      }, 3000);
+    }
     if (currentTotalOpenApps % 3 === 0) {
       checkNotifications().then(({status, settings}) => {
         if (status !== 'granted') {

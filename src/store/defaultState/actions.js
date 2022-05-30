@@ -24,6 +24,10 @@ export const increaseOpenAppsCounter = () => ({
   type: types.ADD_OPEN_APPS_COUNTER,
 });
 
+export const changeAskRatingParameter = () => ({
+  type: types.CHANGE_ASK_RATING_PARAMETER,
+});
+
 export const fetchWallet =
   (params = {}) =>
   async dispatch => {

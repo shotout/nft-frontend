@@ -1,3 +1,4 @@
+import moment from 'moment';
 import {STORAGE_STATUS} from '../../helpers/static';
 import * as types from './types';
 
@@ -22,6 +23,7 @@ const INITIAL_STATE = {
   ],
   isFirstTimeRender: true,
   openAppsCounter: 0,
+  haveBeenAskRating: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -57,6 +59,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         isFirstTimeRender: false,
+      };
+    case types.CHANGE_ASK_RATING_PARAMETER:
+      return {
+        ...state,
+        haveBeenAskRating: moment().format('YYYY-MM-DD'),
       };
     default:
       return state;
