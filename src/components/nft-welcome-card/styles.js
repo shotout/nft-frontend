@@ -37,22 +37,22 @@ export default StyleSheet.create({
     resizeMode: 'cover',
   },
   txtTitle: {
-    color: colors.dark,
+    color: colors.white,
     fontSize: moderateScale(28),
     fontFamily: fonts.MontserratBold,
     textAlign: 'center',
   },
   txtExplore: {
-    color: colors.dark,
+    color: colors.white,
     fontSize: moderateScale(20),
     fontFamily: fonts.MontserratBold,
     marginTop: moderateScale(12),
   },
   txtDesc: {
-    color: colors.dark,
-    fontSize: moderateScale(16),
+    color: colors.white,
+    fontSize: moderateScale(15),
     fontFamily: fonts.MontserratSemiBold,
-    lineHeight: moderateScale(24),
+    lineHeight: moderateScale(23),
     marginTop: moderateScale(6),
   },
   txtWrapper: {
@@ -60,11 +60,11 @@ export default StyleSheet.create({
     padding: moderateScale(20),
   },
   mgTop16: {
-    marginTop: moderateScale(24),
+    marginTop: moderateScale(18),
   },
   handIconStyle: {
-    width: moderateScale(80),
-    height: moderateScale(80),
+    width: moderateScale(60),
+    height: moderateScale(60),
     resizeMode: 'contain',
     alignSelf: 'center',
     // marginTop: moderateScale(20),

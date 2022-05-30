@@ -61,7 +61,7 @@ function DetailProduct({route, listHype, setHypeList}) {
   let carouselRef = useRef();
   const hypeAmount = useRef();
   const mountTime = dateToUnix(new Date());
-
+  const showMintButton = route.params?.showMint;
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
 
   const fetchData = async () => {
@@ -360,22 +360,24 @@ function DetailProduct({route, listHype, setHypeList}) {
         {renderSlider()}
         {renderContent()}
       </ScrollView>
-      <LinearGradient
-        colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
-        style={styles.ctnGradient}>
-        <Button
-          btnStyle={{
-            marginTop: 0,
-            marginBottom: 0,
-            backgroundColor: detail.preferance.main_color,
-          }}
-          onPress={() => {
-            handleOpenURL(detail.nft_mint);
-            eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
-          }}
-          label={detail.preferance.button_label}
-        />
-      </LinearGradient>
+      {showMintButton && (
+        <LinearGradient
+          colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
+          style={styles.ctnGradient}>
+          <Button
+            btnStyle={{
+              marginTop: 0,
+              marginBottom: 0,
+              backgroundColor: detail.preferance.main_color,
+            }}
+            onPress={() => {
+              handleOpenURL(detail.nft_mint);
+              eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
+            }}
+            label={detail.preferance.button_label}
+          />
+        </LinearGradient>
+      )}
     </View>
   );
 }

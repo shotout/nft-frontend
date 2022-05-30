@@ -43,6 +43,7 @@ function NFTCard({
   setHypeList,
   listHype,
   shutOffTutorial,
+  index,
 }) {
   const [loadingFavorite, setFavorite] = useState(false);
   const [isFavorite, setIsFavorite] = useState(item.watch_list);
@@ -51,6 +52,8 @@ function NFTCard({
   const [svgContent, setSvgContent] = useState(
     `${URL_WEBSITE}${item.blockchain?.vektor}`,
   );
+
+  const isNoExpiredTime = !item.nft_exp_promo;
 
   useEffect(() => {
     if (item.watch_list !== isFavorite) {
@@ -167,7 +170,6 @@ function NFTCard({
   }
 
   function renderTime() {
-    const isNoExpiredTime = !item.nft_exp_promo;
     // const isNoExpiredTime = true;
 
     const renderStartMint = () => (
@@ -179,6 +181,9 @@ function NFTCard({
         <Text style={styles.txtStartMint}>{item.preferance?.timer_title}</Text>
       </LinearGradient>
     );
+    if (isNoExpiredTime && !item.preferance?.timer_title) {
+      return null;
+    }
     if (isNoExpiredTime) {
       return (
         <View style={styles.ctnTimer}>
@@ -296,7 +301,13 @@ function NFTCard({
             </View>
           </View>
         </View>
-        <View style={styles.ctnDesc}>
+        <View
+          style={[
+            styles.ctnDesc,
+            isNoExpiredTime &&
+              !item.preferance?.timer_title &&
+              styles.moreDescHeight,
+          ]}>
           <HTMRenderer
             tagsStyles={{
               p: styles.pStyle,

@@ -283,6 +283,7 @@ function DiscoverNFT({
             extraData={listData}
             renderItem={({item, index}) => (
               <NFTCard
+                index={index}
                 shutOffTutorial={() => {
                   setActiveSlide(0);
                   setOffFirstTimeRender();

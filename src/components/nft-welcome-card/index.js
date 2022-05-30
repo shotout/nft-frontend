@@ -10,19 +10,21 @@ function NFTWelcomeCard({shutOffTutorial}) {
     <View style={styles.ctnRoot}>
       <View style={styles.ctnCard}>
         <LinearGradient
-          colors={['rgba(237, 242, 239,0.95)', 'rgba(212, 212, 212,1)']}
+          colors={['rgba(119, 121, 168,0.95)', 'rgba(142, 0, 59,1)']}
           style={styles.bgStyle}
         />
         <View style={styles.txtWrapper}>
           <Text style={styles.txtTitle}>Get started asap</Text>
-          <Text style={styles.txtExplore}>Explore</Text>
+          <Text style={styles.txtExplore}>NO FOMO</Text>
           <Text style={styles.txtDesc}>
-            Each day we release a new “card” about an NFT project. To view the
-            extended article simply click on the card or on the button below.
+            Lean back and relax, no need to ape in anymore. We do the research
+            for you! Stay up-to-date on the most promising NFT projects by
+            reading our one article every day.
           </Text>
-          <Text style={[styles.txtExplore, styles.mgTop16]}>Discover</Text>
+          <Text style={[styles.txtExplore, styles.mgTop16]}>NO FUD</Text>
           <Text style={styles.txtDesc}>
-            To explore previous projects simply swipe the current card away.
+            Our team of crypto veterans gives each project a thorough
+            investigation before we write about it.
           </Text>
         </View>
         <Image source={handIcon} style={styles.handIconStyle} />

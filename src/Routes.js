@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Linking} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -25,6 +25,7 @@ import DetailProduct from './screens/detail-product';
 import {appWokeUp} from './helpers/userInit';
 import ActivateNotification from './screens/activate-notification';
 import {isIphone} from './shared/devices';
+import {getSkipResult} from './helpers/requests';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,14 +47,36 @@ function Homepage({route}) {
 }
 
 function Routes({handleFetchWallet, profile}) {
+  const [setting, setSetting] = useState({});
+  const getSetting = async () => {
+    const res = await getSkipResult();
+    setSetting(res.data[0]);
+  };
+
+  const handleAddBadgeNotification = count => {
+    console.log('ADD BADGE NUMBER:', count + 1);
+    PushNotificationIOS.setApplicationIconBadgeNumber(count + 1);
+  };
+
+  const onRemoteNotification = () => {
+    PushNotificationIOS.getApplicationIconBadgeNumber(
+      handleAddBadgeNotification,
+    );
+  };
+
   useEffect(() => {
     handleFetchWallet();
-
+    getSetting();
     if (isIphone) {
       PushNotificationIOS.setApplicationIconBadgeNumber(0);
+      PushNotificationIOS.addEventListener(
+        'notification',
+        onRemoteNotification,
+      );
+      return () => {
+        PushNotificationIOS.removeEventListener('notification');
+      };
     }
-    // const subscription = Linking.addEventListener('url', appWokeUp);
-    // return () => subscription.remove();
   }, []);
 
   function getInitialRoute() {
@@ -115,6 +138,7 @@ function Routes({handleFetchWallet, profile}) {
           options={navigationData.noHeader.options}
           name="DetailProduct"
           component={DetailProduct}
+          initialParams={{showMint: setting?.mint_button === '1'}}
         />
         <Stack.Screen
           options={navigationData.noHeader.options}
