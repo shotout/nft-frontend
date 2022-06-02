@@ -25,7 +25,9 @@ import DetailProduct from './screens/detail-product';
 import {appWokeUp} from './helpers/userInit';
 import ActivateNotification from './screens/activate-notification';
 import {isIphone} from './shared/devices';
-import {getSkipResult} from './helpers/requests';
+import {getSkipResult, getVersionApps} from './helpers/requests';
+import {APP_VERSION} from './shared/constant';
+import LoadingIndicator from './components/loading-indicator';
 
 const Stack = createNativeStackNavigator();
 
@@ -40,6 +42,7 @@ function Homepage({route}) {
         component={DiscoverNFT}
         initialParams={{
           askTrackingPermission: route.params?.askTrackingPermission,
+          isStaging: route.params?.isStaging,
         }}
       />
     </Drawer.Navigator>
@@ -48,9 +51,17 @@ function Homepage({route}) {
 
 function Routes({handleFetchWallet, profile}) {
   const [setting, setSetting] = useState({});
+  const [isStaging, setStagingMode] = useState(false);
+  const [isLoading, setLoader] = useState(true);
+
   const getSetting = async () => {
     const res = await getSkipResult();
+    const version = await getVersionApps({
+      app_version: APP_VERSION,
+    });
+    // setStagingMode(version.data.status === 0);
     setSetting(res.data[0]);
+    setLoader(false);
   };
 
   const handleAddBadgeNotification = count => {
@@ -69,13 +80,13 @@ function Routes({handleFetchWallet, profile}) {
     getSetting();
     if (isIphone) {
       PushNotificationIOS.setApplicationIconBadgeNumber(0);
-      PushNotificationIOS.addEventListener(
-        'notification',
-        onRemoteNotification,
-      );
-      return () => {
-        PushNotificationIOS.removeEventListener('notification');
-      };
+      // PushNotificationIOS.addEventListener(
+      //   'notification',
+      //   onRemoteNotification,
+      // );
+      // return () => {
+      //   PushNotificationIOS.removeEventListener('notification');
+      // };
     }
   }, []);
 
@@ -84,6 +95,10 @@ function Routes({handleFetchWallet, profile}) {
       return 'Homepage';
     }
     return 'BoardingPage';
+  }
+
+  if (isLoading) {
+    return <LoadingIndicator fullscreen />;
   }
 
   return (
@@ -127,6 +142,7 @@ function Routes({handleFetchWallet, profile}) {
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="Homepage"
+          initialParams={{isStaging}}
           component={Homepage}
         />
         <Stack.Screen
@@ -138,7 +154,7 @@ function Routes({handleFetchWallet, profile}) {
           options={navigationData.noHeader.options}
           name="DetailProduct"
           component={DetailProduct}
-          initialParams={{showMint: setting?.mint_button === '1'}}
+          initialParams={{showMint: setting?.mint_button === '1' || !isStaging}}
         />
         <Stack.Screen
           options={navigationData.noHeader.options}

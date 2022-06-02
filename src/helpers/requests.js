@@ -89,6 +89,13 @@ export const getSkipResult = id =>
     method: 'GET',
   });
 
+export const getVersionApps = params =>
+  Wrap({
+    url: `/setting/version`,
+    method: 'GET',
+    params,
+  });
+
 export const getContentHTML = id => {
   Wrap({
     url: `https://cdn.contentful.com/spaces/iekxawt54bzj/environments/master/entries/${id}`,

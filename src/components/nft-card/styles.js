@@ -159,6 +159,9 @@ export default StyleSheet.create({
     marginTop: moderateScale(0),
     height: moderateScale(90),
   },
+  altMoreDescHeight: {
+    height: moderateScale(90 + 58),
+  },
   txtDesc: {
     color: colors.white,
     fontSize: moderateScale(12),

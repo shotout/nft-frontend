@@ -9,7 +9,7 @@ import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import NFTCard from '../../components/nft-card';
 import {reset} from '../../helpers/navigationRef';
-import {getProduct} from '../../helpers/requests';
+import {getProduct, updateUser} from '../../helpers/requests';
 import styles from './styles';
 import {getDimensionWidth} from '../../helpers/getDimensions';
 import {getFutureDate} from '../../helpers/dateHelper';
@@ -47,6 +47,7 @@ function DiscoverNFT({
   const [countryCode, setCountryCode] = useState('');
   const [loadingContent, setLoadingContent] = useState(false);
   const askPermission = route.params?.askTrackingPermission;
+  const isStaging = route.params?.isStaging;
 
   const selectAmountHype = id => {
     const getItem = listHype.find(item => item.idProject === id);
@@ -81,11 +82,14 @@ function DiscoverNFT({
       }
     }
   };
-
+  console.log('IS STAGING:', isStaging);
   const fetchData = async () => {
     try {
       setLoading(true);
-      const res = await getProduct({length: 12, page: currentPage});
+      const res = await getProduct({
+        length: isStaging ? 1 : 12,
+        page: currentPage,
+      });
       const country = await axios.get('https://ipapi.co/json/');
       setCountryCode(country.data.country_code);
 
@@ -182,12 +186,19 @@ function DiscoverNFT({
     increaseOpenAppsCounter(currentTotalOpenApps);
   };
 
+  const resetNotificationBadge = () => {
+    updateUser({
+      notif_count: 0,
+    });
+  };
+
   useEffect(() => {
     handleOpenApps();
+    resetNotificationBadge();
   }, []);
 
   useEffect(() => {
-    if (listData.length && !isRefresh) {
+    if (listData.length && !isRefresh && !isStaging) {
       handleLoadMore();
     }
   }, [currentPage]);

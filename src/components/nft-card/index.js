@@ -11,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import {SvgUri, SvgXml} from 'react-native-svg';
 import {connect} from 'react-redux';
+import {moderateScale} from 'react-native-size-matters';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {navigate} from '../../helpers/navigationRef';
 import {addWatchlist, removeWatchlist} from '../../helpers/requests';
@@ -172,12 +173,12 @@ function NFTCard({
   function renderTime() {
     // const isNoExpiredTime = true;
 
-    const renderStartMint = () => (
+    const renderStartMint = (ctnMint = {}) => (
       <LinearGradient
         colors={colorGradient}
         start={{x: 0, y: 0}}
         end={{x: 0.5, y: 0}}
-        style={styles.ctnStartMint}>
+        style={[styles.ctnStartMint, ctnMint]}>
         <Text style={styles.txtStartMint}>{item.preferance?.timer_title}</Text>
       </LinearGradient>
     );
@@ -191,13 +192,8 @@ function NFTCard({
             colors={colorGradient}
             start={{x: 0, y: 0}}
             end={{x: 1, y: 0}}
-            style={[styles.ctnTime, styles.ctnNoExpireTime]}>
-            <Text
-              numberOfLines={4}
-              ellipsizeMode="tail"
-              style={styles.txtStartMint}>
-              {item.preferance?.timer_title}
-            </Text>
+            style={[styles.ctnTime, {height: moderateScale(22)}]}>
+            {renderStartMint({marginBottom: 0})}
           </LinearGradient>
         </View>
       );
@@ -304,9 +300,10 @@ function NFTCard({
         <View
           style={[
             styles.ctnDesc,
+            isNoExpiredTime && styles.moreDescHeight,
             isNoExpiredTime &&
-              !item.preferance?.timer_title &&
-              styles.moreDescHeight,
+              item.preferance?.timer_title &&
+              styles.altMoreDescHeight,
           ]}>
           <HTMRenderer
             tagsStyles={{
