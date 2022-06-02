@@ -51,6 +51,10 @@ export default function Sidebar({navigation, route}) {
       name: 'Instagram',
       url: 'https://instagram.com/nftdaily.app?igshid=YmMyMTA2M2Y=',
     },
+    {
+      name: 'Website',
+      url: 'https://nftdaily.app/',
+    },
   ];
 
   function renderMenu() {

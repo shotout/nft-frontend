@@ -59,7 +59,7 @@ function Routes({handleFetchWallet, profile}) {
     const version = await getVersionApps({
       app_version: APP_VERSION,
     });
-    // setStagingMode(version.data.status === 0);
+    setStagingMode(version.data.status === 0);
     setSetting(res.data[0]);
     setLoader(false);
   };
@@ -117,6 +117,7 @@ function Routes({handleFetchWallet, profile}) {
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="Register"
+          initialParams={{showSkipButton: isStaging}}
           component={Register}
         />
         <Stack.Screen
@@ -154,7 +155,7 @@ function Routes({handleFetchWallet, profile}) {
           options={navigationData.noHeader.options}
           name="DetailProduct"
           component={DetailProduct}
-          initialParams={{showMint: setting?.mint_button === '1' || !isStaging}}
+          initialParams={{showMint: !isStaging}}
         />
         <Stack.Screen
           options={navigationData.noHeader.options}

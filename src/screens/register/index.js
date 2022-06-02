@@ -59,10 +59,8 @@ function Register({walletList, route, setProfileUser, userProfile}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
-  const [isLoadingSetting, setLoadingSetting] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
   const appState = useRef(AppState.currentState);
-  const [isSkiped, setSkiped] = useState(false);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -73,6 +71,7 @@ function Register({walletList, route, setProfileUser, userProfile}) {
     name: null,
     email: null,
   });
+  const showSkipButton = route.params?.showSkipButton;
   const [notificationStatus, setNotificationStatus] = useState('');
   const noneId = '6S9k8lpoFy7M6heCsMElgD';
 
@@ -103,15 +102,6 @@ function Register({walletList, route, setProfileUser, userProfile}) {
       });
       setSelectedWallet(wallet);
       setEditLoading(false);
-    }
-  };
-
-  const getSetting = async () => {
-    if (!route.params?.edit) {
-      setLoadingSetting(true);
-      const res = await getSkipResult();
-      setSkiped(res.data[0].skip_button === '1');
-      setLoadingSetting(false);
     }
   };
 
@@ -547,7 +537,7 @@ function Register({walletList, route, setProfileUser, userProfile}) {
   }
 
   function renderMainContent() {
-    if (loadingGetEdit || isLoadingSetting) {
+    if (loadingGetEdit) {
       return <LoadingIndicator fullscreen />;
     }
     return (
@@ -567,7 +557,7 @@ function Register({walletList, route, setProfileUser, userProfile}) {
             route.params?.edit ||
             activeStep === 'notification'
               ? undefined
-              : isSkiped
+              : showSkipButton
               ? 'skip-right-text'
               : null
           }

@@ -47,6 +47,7 @@ const twitter = require('../../assets/icon/twitter.png');
 const discord = require('../../assets/icon/discord.png');
 const telegram = require('../../assets/icon/telegram.png');
 const linkIcon = require('../../assets/icon/social.png');
+const websiteIcon = require('../../assets/icon/website.png');
 
 function DetailProduct({route, listHype, setHypeList}) {
   const [isLoading, setLoading] = useState(true);
@@ -313,6 +314,18 @@ function DetailProduct({route, listHype, setHypeList}) {
               <View style={styles.ctnCommunity}>
                 <Image source={openseaIcon} style={styles.icnCommunity} />
                 <Text style={styles.txtCommunity}>Open Sea</Text>
+                <Image source={linkIcon} style={styles.socialIcon} />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
+          {!showMintButton && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleOpenURL(detail.nft_mint);
+              }}>
+              <View style={styles.ctnCommunity}>
+                <Image source={websiteIcon} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Website</Text>
                 <Image source={linkIcon} style={styles.socialIcon} />
               </View>
             </TouchableWithoutFeedback>
