@@ -318,10 +318,10 @@ function DetailProduct({route, listHype, setHypeList}) {
               </View>
             </TouchableWithoutFeedback>
           )}
-          {!showMintButton && (
+          {detail.nft_website && (
             <TouchableWithoutFeedback
               onPress={() => {
-                handleOpenURL(detail.nft_mint);
+                handleOpenURL(detail.nft_website);
               }}>
               <View style={styles.ctnCommunity}>
                 <Image source={websiteIcon} style={styles.icnCommunity} />

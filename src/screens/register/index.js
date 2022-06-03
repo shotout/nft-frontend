@@ -107,7 +107,6 @@ function Register({walletList, route, setProfileUser, userProfile}) {
 
   useEffect(() => {
     handleInitialEdit();
-    getSetting();
     getToken();
     checkNotifications().then(({status, settings}) => {
       setNotificationStatus(status);

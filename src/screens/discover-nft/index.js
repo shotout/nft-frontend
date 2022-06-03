@@ -49,6 +49,8 @@ function DiscoverNFT({
   const askPermission = route.params?.askTrackingPermission;
   const isStaging = route.params?.isStaging;
 
+  const params = {nft_level: isStaging ? 0 : 1};
+
   const selectAmountHype = id => {
     const getItem = listHype.find(item => item.idProject === id);
     // console.log('Cehck value getItem', getItem);
@@ -89,6 +91,7 @@ function DiscoverNFT({
       const res = await getProduct({
         length: isStaging ? 1 : 12,
         page: currentPage,
+        ...params,
       });
       const country = await axios.get('https://ipapi.co/json/');
       setCountryCode(country.data.country_code);
@@ -119,7 +122,7 @@ function DiscoverNFT({
         carouselRef.current.snapToItem(0);
       }
       setPage(1);
-      const res = await getProduct({length: 12, page: 1});
+      const res = await getProduct({length: 12, page: 1, ...params});
       const additionalItem = isFirstTimeRender
         ? [
             {
@@ -143,7 +146,7 @@ function DiscoverNFT({
     try {
       console.log('Load more run:', currentPage);
       setLoadMore(true);
-      const res = await getProduct({length: 12, page: currentPage});
+      const res = await getProduct({length: 12, page: currentPage, ...params});
       setTotalItem(res.data.total);
       setData([...listData, ...res.data.data]);
       setLoadMore(false);
