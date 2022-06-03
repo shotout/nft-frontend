@@ -89,7 +89,7 @@ function DiscoverNFT({
     try {
       setLoading(true);
       const res = await getProduct({
-        length: isStaging ? 1 : 12,
+        length: 12,
         page: currentPage,
         ...params,
       });
