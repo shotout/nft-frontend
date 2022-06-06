@@ -25,6 +25,10 @@ export const setOffFirstTimeRender = () => ({
   type: types.SET_OFF_FIRST_TIME_RENDER,
 });
 
+export const increaseOpenArticleCounter = () => ({
+  type: types.ADD_OPEN_ARTICLE_COUNTER,
+});
+
 export const increaseOpenAppsCounter = () => ({
   type: types.ADD_OPEN_APPS_COUNTER,
 });

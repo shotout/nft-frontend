@@ -23,6 +23,7 @@ const INITIAL_STATE = {
   ],
   isFirstTimeRender: true,
   openAppsCounter: 0,
+  openArticleCounter: 0,
   haveBeenAskRating: null,
   appVersion: null,
 };
@@ -33,6 +34,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         openAppsCounter: state.openAppsCounter + 1,
+      };
+    case types.ADD_OPEN_ARTICLE_COUNTER:
+      return {
+        ...state,
+        openArticleCounter: state.openArticleCounter + 1,
       };
     case types.SET_APP_VERSION:
       return {

@@ -16,6 +16,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: moderateScale(20),
+    paddingTop: moderateScale(58),
     borderRadius: moderateScale(20),
   },
   txtTitle: {
@@ -44,5 +45,23 @@ export default StyleSheet.create({
     fontSize: moderateScale(20),
     color: colors.red,
     fontFamily: fonts.MontserratSemiBold,
+  },
+  ratingStyle: {
+    marginTop: moderateScale(20),
+  },
+  ratingImageStyle: {
+    width: moderateScale(35),
+    height: moderateScale(35),
+    resizeMode: 'contain',
+    marginTop: moderateScale(20),
+  },
+  ctnIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  ctnClose: {
+    position: 'absolute',
+    top: moderateScale(24),
+    right: moderateScale(20),
   },
 });

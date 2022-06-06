@@ -11,6 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {connect} from 'react-redux';
+import moment from 'moment';
 import styles from './styles';
 import {URL_WEBSITE} from '../../helpers/static';
 import Button from '../../components/button';
@@ -36,7 +37,7 @@ import {
   OPEN_MINT,
   UNHYPE_COLLECTION_ID,
 } from '../../shared/eventTracking';
-import {dateToUnix} from '../../helpers/dateHelper';
+import {dateToUnix, getFutureDate} from '../../helpers/dateHelper';
 import DivRender from '../../components/div-render';
 import ModalNotification from '../../components/modal-notification';
 
@@ -50,7 +51,15 @@ const telegram = require('../../assets/icon/telegram.png');
 const linkIcon = require('../../assets/icon/social.png');
 const websiteIcon = require('../../assets/icon/website.png');
 
-function DetailProduct({route, listHype, setHypeList}) {
+function DetailProduct({
+  route,
+  listHype,
+  setHypeList,
+  increaseOpenArticleCounter,
+  openArticleCounter,
+  changeAskRatingParameter,
+  haveBeenAskRating,
+}) {
   const [isLoading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
   const [detail, setDetail] = useState({});
@@ -58,6 +67,7 @@ function DetailProduct({route, listHype, setHypeList}) {
     route.params?.isFavorite || false,
   );
   const [loadingFavorite, setFavorite] = useState(false);
+  const [ratingVisible, showRating] = useState(false);
 
   const handleRefresh = route.params?.handleRefresh;
   let carouselRef = useRef();
@@ -110,8 +120,22 @@ function DetailProduct({route, listHype, setHypeList}) {
     setHypeList(restructureData);
   };
 
+  const handleOpenRating = () => {
+    const currentTotalOpenArticle = openArticleCounter + 1;
+    console.log('Check counter', currentTotalOpenArticle);
+    if (
+      currentTotalOpenArticle % 3 === 0 &&
+      (haveBeenAskRating === null || haveBeenAskRating === getFutureDate(-10))
+    ) {
+      showRating(true);
+      changeAskRatingParameter();
+    }
+    increaseOpenArticleCounter();
+  };
+
   useEffect(() => {
     fetchData();
+    handleOpenRating();
     return () => {
       handleSetFlameState();
       eventTracking(
@@ -392,7 +416,12 @@ function DetailProduct({route, listHype, setHypeList}) {
           />
         </LinearGradient>
       )}
-      <ModalNotification />
+      <ModalNotification
+        visible={ratingVisible}
+        handleClose={() => {
+          showRating(false);
+        }}
+      />
     </View>
   );
 }
