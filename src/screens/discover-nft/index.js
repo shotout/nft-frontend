@@ -61,11 +61,21 @@ function DiscoverNFT({
     if (res.length > 0) {
       if (listHype.length > 0) {
         const hypeData = res.map(item => {
-          if (!selectAmountHype(item.uuid)?.currentAmount) {
+          const fixAmount =
+            stringToNumber(item.nft_type) > 0
+              ? stringToNumber(item.nft_type)
+              : 0;
+          const storedHype = selectAmountHype(item.uuid);
+          if (
+            !storedHype.currentAmount ||
+            stringToNumber(item.nft_type) !== storedHype.fixAmount
+          ) {
+            const getAmount = fixAmount > 0 ? Math.round(fixAmount / 3) : 0;
             return {
               idProject: item.uuid,
-              currentAmount: Math.round(stringToNumber(item.nft_type) / 3),
+              currentAmount: getAmount,
               dateAdded: Date.now(),
+              fixAmount,
             };
           }
           return selectAmountHype(item.uuid);
@@ -74,16 +84,23 @@ function DiscoverNFT({
       } else {
         const hypeData = [];
         res.forEach(item => {
+          const fixAmount =
+            stringToNumber(item.nft_type) > 0
+              ? stringToNumber(item.nft_type)
+              : 0;
+          const getAmount = fixAmount > 0 ? Math.round(fixAmount / 3) : 0;
           hypeData.push({
             idProject: item.uuid,
-            currentAmount: Math.round(stringToNumber(item.nft_type) / 3),
+            currentAmount: getAmount,
             dateAdded: Date.now(),
+            fixAmount,
           });
         });
         setHypeList(hypeData);
       }
     }
   };
+
   console.log('IS STAGING:', isStaging);
   const fetchData = async () => {
     try {
@@ -134,6 +151,7 @@ function DiscoverNFT({
         : [];
       const listItem = [...additionalItem, ...res.data.data];
       setTotalItem(res.data.total);
+      handleHypeList(res.data.data);
       setData(listItem);
       setRefresh(false);
     } catch (err) {
