@@ -208,7 +208,9 @@ function NFTCard({
             style={styles.ctnTime}>
             {renderStartMint()}
             <View style={styles.ctnRowCenter}>
-              <Text style={styles.txtExpired}>Expired</Text>
+              <Text style={styles.txtExpired}>
+                {item.preferance.expired_label}
+              </Text>
             </View>
           </LinearGradient>
         </View>

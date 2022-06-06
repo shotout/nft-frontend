@@ -38,6 +38,7 @@ import {
 } from '../../shared/eventTracking';
 import {dateToUnix} from '../../helpers/dateHelper';
 import DivRender from '../../components/div-render';
+import ModalNotification from '../../components/modal-notification';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 
@@ -391,6 +392,7 @@ function DetailProduct({route, listHype, setHypeList}) {
           />
         </LinearGradient>
       )}
+      <ModalNotification />
     </View>
   );
 }

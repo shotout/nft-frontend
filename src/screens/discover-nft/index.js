@@ -184,13 +184,13 @@ function DiscoverNFT({
 
   const handleOpenApps = () => {
     const currentTotalOpenApps = openAppsCounter + 1;
-    const currentDate = moment().format('YYYY-MM-DD');
-    if (currentTotalOpenApps % 6 === 0 && currentDate !== haveBeenAskRating) {
-      setTimeout(() => {
-        askRating();
-        changeAskRatingParameter();
-      }, 3000);
-    }
+    // const currentDate = moment().format('YYYY-MM-DD');
+    // if (currentTotalOpenApps % 6 === 0 && currentDate !== haveBeenAskRating) {
+    //   setTimeout(() => {
+    //     askRating();
+    //     changeAskRatingParameter();
+    //   }, 3000);
+    // }
     if (currentTotalOpenApps % 3 === 0) {
       checkNotifications().then(({status, settings}) => {
         if (status !== 'granted') {
