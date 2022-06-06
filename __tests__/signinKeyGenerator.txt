@@ -1,5 +1,8 @@
 sudo keytool -genkey -v -keystore nftdaily.keystore -alias nftdailyalias -keyalg RSA -keysize 2048 -validity 10000
 
+keytool -exportcert -alias nftdailyalias -keystore android/app/nftdaily.keystore | openssl sha1 -binary | openssl base64
+
+
 **DETAIL**
 Enter keystore password:  
 Re-enter new password: 
