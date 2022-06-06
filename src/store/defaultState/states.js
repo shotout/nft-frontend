@@ -24,6 +24,7 @@ const INITIAL_STATE = {
   isFirstTimeRender: true,
   openAppsCounter: 0,
   haveBeenAskRating: null,
+  appVersion: null,
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -32,6 +33,11 @@ export default (state = INITIAL_STATE, action) => {
       return {
         ...state,
         openAppsCounter: state.openAppsCounter + 1,
+      };
+    case types.SET_APP_VERSION:
+      return {
+        ...state,
+        appVersion: action.payload,
       };
     case types.SET_STORAGE_STATUS:
       return {
@@ -44,6 +50,16 @@ export default (state = INITIAL_STATE, action) => {
         walletList: action.payload,
       };
     case types.SET_PROFILE_USER: {
+      if (action.payload === null) {
+        console.log('STATE RESET');
+        return {
+          ...state,
+          walletList: [],
+          userProfile: {},
+          listHype: [],
+          isFirstTimeRender: true,
+        };
+      }
       return {
         ...state,
         userProfile: action.payload,

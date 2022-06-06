@@ -17,8 +17,15 @@ import FAQ from './screens/faq';
 import SafetyGuideline from './screens/safety-guideline';
 import DiscoverNFT from './screens/discover-nft';
 import Sidebar from './components/sidebar';
-import {fetchWallet} from './store/defaultState/actions';
-import {userCredentialSelector} from './store/defaultState/selector';
+import {
+  fetchWallet,
+  setProfileUser,
+  setAppVersion,
+} from './store/defaultState/actions';
+import {
+  userCredentialSelector,
+  appVersion,
+} from './store/defaultState/selector';
 import ValidateToken from './screens/validate-token';
 import {linking} from './helpers/linking';
 import DetailProduct from './screens/detail-product';
@@ -49,7 +56,13 @@ function Homepage({route}) {
   );
 }
 
-function Routes({handleFetchWallet, profile}) {
+function Routes({
+  handleFetchWallet,
+  profile,
+  getAppVersion,
+  handleProfilUser,
+  handleAppVersion,
+}) {
   const [setting, setSetting] = useState({});
   const [isStaging, setStagingMode] = useState(false);
   const [isLoading, setLoader] = useState(true);
@@ -75,19 +88,28 @@ function Routes({handleFetchWallet, profile}) {
     );
   };
 
-  useEffect(() => {
+  const handleInitialData = () => {
     handleFetchWallet();
     getSetting();
-    if (isIphone) {
-      PushNotificationIOS.setApplicationIconBadgeNumber(0);
-      // PushNotificationIOS.addEventListener(
-      //   'notification',
-      //   onRemoteNotification,
-      // );
-      // return () => {
-      //   PushNotificationIOS.removeEventListener('notification');
-      // };
+    if (getAppVersion === APP_VERSION) {
+      if (isIphone) {
+        PushNotificationIOS.setApplicationIconBadgeNumber(0);
+        // PushNotificationIOS.addEventListener(
+        //   'notification',
+        //   onRemoteNotification,
+        // );
+        // return () => {
+        //   PushNotificationIOS.removeEventListener('notification');
+        // };
+      }
+    } else {
+      handleProfilUser(null);
+      handleAppVersion(APP_VERSION);
     }
+  };
+
+  useEffect(() => {
+    handleInitialData();
   }, []);
 
   function getInitialRoute() {
@@ -96,6 +118,8 @@ function Routes({handleFetchWallet, profile}) {
     }
     return 'BoardingPage';
   }
+
+  console.log('Check getAppVersion:', getAppVersion);
 
   if (isLoading) {
     return <LoadingIndicator fullscreen />;
@@ -169,8 +193,11 @@ function Routes({handleFetchWallet, profile}) {
 
 const mapStateToProps = state => ({
   profile: userCredentialSelector(state),
+  getAppVersion: appVersion(state),
 });
 
 export default connect(mapStateToProps, {
   handleFetchWallet: fetchWallet,
+  handleProfilUser: setProfileUser,
+  handleAppVersion: setAppVersion,
 })(Routes);

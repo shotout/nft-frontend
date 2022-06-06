@@ -1,6 +1,11 @@
 import {getWallet} from '../../helpers/requests';
 import * as types from './types';
 
+export const setAppVersion = payload => ({
+  type: types.SET_APP_VERSION,
+  payload,
+});
+
 export const setStorageStatus = payload => ({
   type: types.SET_STORAGE_STATUS,
   payload,
