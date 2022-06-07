@@ -122,13 +122,14 @@ function DiscoverNFT({
             },
           ]
         : [];
-      const listItem = [...additionalItem, ...res.data.data];
+      const listItem = [...additionalItem, ...(res?.data?.data || [])];
       setTotalItem(res.data.total);
       setData(listItem);
       handleHypeList(res.data.data);
       setLoading(false);
     } catch (err) {
-      reset('BoardingPage');
+      console.log('Err homepage:', err);
+      // reset('BoardingPage');
     }
   };
 
