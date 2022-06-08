@@ -60,9 +60,10 @@ export default (state = INITIAL_STATE, action) => {
         console.log('STATE RESET');
         return {
           ...state,
-          walletList: [],
-          userProfile: {},
-          listHype: [],
+          // walletList: [],
+          // userProfile: {},
+          // listHype: [],
+          openArticleCounter: 0,
           isFirstTimeRender: true,
         };
       }

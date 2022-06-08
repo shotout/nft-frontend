@@ -67,8 +67,8 @@ function DiscoverNFT({
               : 0;
           const storedHype = selectAmountHype(item.uuid);
           if (
-            !storedHype.currentAmount ||
-            stringToNumber(item.nft_type) !== storedHype.fixAmount
+            !storedHype?.currentAmount ||
+            stringToNumber(item.nft_type) !== storedHype?.fixAmount
           ) {
             const getAmount = fixAmount > 0 ? Math.round(fixAmount / 3) : 0;
             return {
