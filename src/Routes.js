@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, {useEffect, useState} from 'react';
-import {Linking} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -29,11 +28,10 @@ import {
 import ValidateToken from './screens/validate-token';
 import {linking} from './helpers/linking';
 import DetailProduct from './screens/detail-product';
-import {appWokeUp} from './helpers/userInit';
 import ActivateNotification from './screens/activate-notification';
 import {isIphone} from './shared/devices';
 import {getSkipResult, getVersionApps} from './helpers/requests';
-import {APP_VERSION} from './shared/constant';
+import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
 import LoadingIndicator from './components/loading-indicator';
 
 const Stack = createNativeStackNavigator();
@@ -66,11 +64,12 @@ function Routes({
   const [setting, setSetting] = useState({});
   const [isStaging, setStagingMode] = useState(false);
   const [isLoading, setLoader] = useState(true);
+  const currentAppVersion = isIphone ? IOS_APP_VERSION : ANDROID_APP_VERSION;
 
   const getSetting = async () => {
     const res = await getSkipResult();
     const version = await getVersionApps({
-      app_version: APP_VERSION,
+      app_version: currentAppVersion,
     });
     setStagingMode(version.data.status === 0);
     setSetting(res.data[0]);
@@ -91,7 +90,7 @@ function Routes({
   const handleInitialData = () => {
     handleFetchWallet();
     getSetting();
-    if (getAppVersion === APP_VERSION) {
+    if (getAppVersion === currentAppVersion) {
       if (isIphone) {
         PushNotificationIOS.setApplicationIconBadgeNumber(0);
         // PushNotificationIOS.addEventListener(
@@ -104,7 +103,7 @@ function Routes({
       }
     } else {
       handleProfilUser(null);
-      handleAppVersion(APP_VERSION);
+      handleAppVersion(currentAppVersion);
     }
   };
 
