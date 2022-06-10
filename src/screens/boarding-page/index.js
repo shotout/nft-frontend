@@ -102,6 +102,9 @@ export default function BoardingPage({route}) {
         resizeMode="cover"
         repeat
         playWhenInactive
+        ignoreSilentSwitch="ignore"
+        mixWithOthers="mix"
+        muted
         paused={isPaused}
       />
       <Header type="boarding" />

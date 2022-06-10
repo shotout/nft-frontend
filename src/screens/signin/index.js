@@ -51,8 +51,8 @@ function SignIn({setProfileUser}) {
         appState.current = nextAppState;
         setAppStateVisible(appState.current);
 
-        // console.log('AppState', appState.current, activeStep);
-        if (nextAppState === 'inactive' || nextAppState === 'background') {
+        console.log('nextAppState', nextAppState);
+        if (nextAppState === 'background') {
           if (Platform.OS === 'ios') {
             console.log('Exit apps', activeStep);
             RNExitApp.exitApp();
