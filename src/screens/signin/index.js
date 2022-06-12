@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {View, Text, ScrollView, AppState, Platform, Alert} from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import {connect} from 'react-redux';
+import {openInbox} from 'react-native-email-link';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -115,7 +116,7 @@ function SignIn({setProfileUser}) {
 
   function getLabel() {
     if (activeStep === 'success') {
-      return 'Go Back';
+      return 'Open Email';
     }
     return 'Continue';
   }
@@ -159,20 +160,18 @@ function SignIn({setProfileUser}) {
         <Header hideLeft={activeStep === 'success'} backPress={handleBack} />
         <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
       </View>
-      {activeStep !== 'success' && (
-        <Button
-          btnStyle={styles.btnStyle}
-          isLoading={isLoading}
-          label={getLabel()}
-          onPress={() => {
-            if (activeStep === 'success') {
-              goBack();
-            } else {
-              handleSubmit();
-            }
-          }}
-        />
-      )}
+      <Button
+        btnStyle={styles.btnStyle}
+        isLoading={isLoading}
+        label={getLabel()}
+        onPress={() => {
+          if (activeStep === 'success') {
+            openInbox();
+          } else {
+            handleSubmit();
+          }
+        }}
+      />
     </View>
   );
 }
