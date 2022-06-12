@@ -164,6 +164,7 @@ function Header({
     <View style={[styles.ctnRoot, getShadow()]}>
       <StatusBar
         barStyle={type === 'boarding' ? 'light-content' : 'dark-content'}
+        backgroundColor={type === 'boarding' ? '#000' : '#fff'}
       />
       {getContent()}
       {renderLeft()}
