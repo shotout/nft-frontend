@@ -4,13 +4,14 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  ScrollView,
   AppState,
   Linking,
   Alert,
   TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
-import RNExitApp from 'react-native-exit-app';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import RNAndroidKeyboardAdjust from 'rn-android-keyboard-adjust';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
@@ -60,6 +61,7 @@ function Register({walletList, route, setProfileUser, userProfile}) {
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
+  const [keyboardShow, setKeyboardShow] = useState(false);
   const appState = useRef(AppState.currentState);
   const [values, setValues] = useState({
     name: '',
@@ -111,6 +113,12 @@ function Register({walletList, route, setProfileUser, userProfile}) {
     checkNotifications().then(({status, settings}) => {
       setNotificationStatus(status);
     });
+    if (Platform.OS === 'android') {
+      RNAndroidKeyboardAdjust.setAdjustResize();
+      return () => {
+        RNAndroidKeyboardAdjust.setAdjustPan();
+      };
+    }
   }, []);
 
   useEffect(() => {
@@ -540,10 +548,18 @@ function Register({walletList, route, setProfileUser, userProfile}) {
       return <LoadingIndicator fullscreen />;
     }
     return (
-      <ScrollView style={styles.ctnRoot}>
+      <KeyboardAwareScrollView
+        onKeyboardDidShow={() => {
+          setKeyboardShow(true);
+        }}
+        onKeyboardDidHide={() => {
+          setKeyboardShow(false);
+        }}
+        contentContainerStyle={styles.scrollStyle}
+        style={styles.ctnRoot}>
         {renderProgress()}
         {renderContent()}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     );
   }
 
@@ -568,7 +584,7 @@ function Register({walletList, route, setProfileUser, userProfile}) {
         />
         {renderMainContent()}
       </View>
-      {!loadingGetEdit && (
+      {!loadingGetEdit && !keyboardShow && (
         <Button
           isLoading={isLoading}
           label={getLabel()}

@@ -24,4 +24,7 @@ export default StyleSheet.create({
   btnStyle: {
     marginBottom: isIphoneXorAbove() ? moderateScale(28) : moderateScale(20),
   },
+  scrollStyle: {
+    paddingBottom: moderateScale(40),
+  },
 });

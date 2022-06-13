@@ -150,4 +150,7 @@ export default StyleSheet.create({
   disableBg: {
     backgroundColor: 'blue',
   },
+  scrollStyle: {
+    paddingBottom: moderateScale(40),
+  },
 });

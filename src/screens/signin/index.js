@@ -1,8 +1,10 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {View, Text, ScrollView, AppState, Platform, Alert} from 'react-native';
+import {View, Text, AppState, Platform, Alert} from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import {connect} from 'react-redux';
 import {openInbox} from 'react-native-email-link';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import RNAndroidKeyboardAdjust from 'rn-android-keyboard-adjust';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -18,6 +20,7 @@ import dispatcher from './dispatcher';
 function SignIn({setProfileUser}) {
   const [activeStep, setActiveStep] = useState('signin');
   const [isLoading, selectedLoading] = useState(false);
+  const [keyboardShow, setKeyboardShow] = useState(false);
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [values, setValues] = useState({
@@ -27,19 +30,16 @@ function SignIn({setProfileUser}) {
     email: null,
   });
 
-  // useEffect(() => {
-  //   requestNotificationPermission();
-  // }, []);
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      RNAndroidKeyboardAdjust.setAdjustResize();
+      return () => {
+        RNAndroidKeyboardAdjust.setAdjustPan();
+      };
+    }
+  }, []);
 
   useEffect(() => {
-    // if (activeStep === 'success') {
-    //   if (Platform.OS === 'ios') {
-    //     setTimeout(() => {
-    //       console.log('Exit apps', activeStep);
-    //       RNExitApp.exitApp();
-    //     }, 5000);
-    //   }
-    // }
     if (activeStep === 'success') {
       const subscription = AppState.addEventListener('change', nextAppState => {
         if (
@@ -158,20 +158,32 @@ function SignIn({setProfileUser}) {
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
         <Header hideLeft={activeStep === 'success'} backPress={handleBack} />
-        <ScrollView style={styles.ctnRoot}>{renderContent()}</ScrollView>
+        <KeyboardAwareScrollView
+          onKeyboardDidShow={() => {
+            setKeyboardShow(true);
+          }}
+          onKeyboardDidHide={() => {
+            setKeyboardShow(false);
+          }}
+          contentContainerStyle={styles.scrollStyle}
+          style={styles.ctnRoot}>
+          {renderContent()}
+        </KeyboardAwareScrollView>
       </View>
-      <Button
-        btnStyle={styles.btnStyle}
-        isLoading={isLoading}
-        label={getLabel()}
-        onPress={() => {
-          if (activeStep === 'success') {
-            openInbox();
-          } else {
-            handleSubmit();
-          }
-        }}
-      />
+      {!keyboardShow && (
+        <Button
+          btnStyle={styles.btnStyle}
+          isLoading={isLoading}
+          label={getLabel()}
+          onPress={() => {
+            if (activeStep === 'success') {
+              openInbox();
+            } else {
+              handleSubmit();
+            }
+          }}
+        />
+      )}
     </View>
   );
 }
