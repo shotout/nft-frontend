@@ -226,7 +226,7 @@ function NFTCard({
         <View style={styles.ctnRowCenter}>
           <View style={styles.timeWrapper}>
             <Text style={styles.timeTitle}>{days}</Text>
-            <Text style={styles.timeDesc}>{days > 1 ? 'Days' : 'Day'}</Text>
+            <Text style={styles.timeDesc}>{days === 1 ? 'Day' : 'Days'}</Text>
           </View>
           <View style={styles.timeWrapper}>
             <Text style={styles.timeTitle}>{hours}</Text>
