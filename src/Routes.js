@@ -76,30 +76,12 @@ function Routes({
     setLoader(false);
   };
 
-  const handleAddBadgeNotification = count => {
-    console.log('ADD BADGE NUMBER:', count + 1);
-    PushNotificationIOS.setApplicationIconBadgeNumber(count + 1);
-  };
-
-  const onRemoteNotification = () => {
-    PushNotificationIOS.getApplicationIconBadgeNumber(
-      handleAddBadgeNotification,
-    );
-  };
-
   const handleInitialData = () => {
     handleFetchWallet();
     getSetting();
     if (getAppVersion === currentAppVersion) {
       if (isIphone) {
         PushNotificationIOS.setApplicationIconBadgeNumber(0);
-        // PushNotificationIOS.addEventListener(
-        //   'notification',
-        //   onRemoteNotification,
-        // );
-        // return () => {
-        //   PushNotificationIOS.removeEventListener('notification');
-        // };
       }
     } else {
       handleProfilUser(null);
@@ -117,8 +99,6 @@ function Routes({
     }
     return 'BoardingPage';
   }
-
-  console.log('Check getAppVersion:', getAppVersion);
 
   if (isLoading) {
     return <LoadingIndicator fullscreen />;
