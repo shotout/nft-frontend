@@ -20,6 +20,7 @@ import {
   requestNotifications,
 } from 'react-native-permissions';
 import {moderateScale} from 'react-native-size-matters';
+import RNExitApp from 'react-native-exit-app';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -113,12 +114,22 @@ function Register({walletList, route, setProfileUser, userProfile}) {
     checkNotifications().then(({status, settings}) => {
       setNotificationStatus(status);
     });
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'background') {
+        if (Platform.OS === 'ios') {
+          RNExitApp.exitApp();
+        }
+      }
+    });
     if (Platform.OS === 'android') {
       RNAndroidKeyboardAdjust.setAdjustResize();
-      return () => {
-        RNAndroidKeyboardAdjust.setAdjustPan();
-      };
     }
+    return () => {
+      if (Platform.OS === 'android') {
+        RNAndroidKeyboardAdjust.setAdjustPan();
+      }
+      subscription.remove();
+    };
   }, []);
 
   useEffect(() => {
@@ -584,7 +595,7 @@ function Register({walletList, route, setProfileUser, userProfile}) {
         />
         {renderMainContent()}
       </View>
-      {!loadingGetEdit && !keyboardShow && (
+      {!loadingGetEdit && ((!keyboardShow && !isIphone) || isIphone) && (
         <Button
           isLoading={isLoading}
           label={getLabel()}

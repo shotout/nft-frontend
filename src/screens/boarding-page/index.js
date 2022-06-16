@@ -1,5 +1,6 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, TouchableOpacity, AppState} from 'react-native';
+import {View, Text, TouchableOpacity, AppState, Platform} from 'react-native';
+import RNExitApp from 'react-native-exit-app';
 import Video from 'react-native-video';
 import Button from '../../components/button';
 import Header from '../../components/header';
@@ -10,24 +11,15 @@ const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 
 export default function BoardingPage({route}) {
   const player = useRef();
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const [isPaused, setPaused] = useState(false);
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', nextAppState => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
-        console.log('App has come to the foreground!');
-        setPaused(false);
+      if (nextAppState === 'background') {
+        if (Platform.OS === 'ios') {
+          RNExitApp.exitApp();
+        }
       }
-
-      appState.current = nextAppState;
-      setAppStateVisible(appState.current);
     });
-
     return () => {
       subscription.remove();
     };
@@ -105,7 +97,7 @@ export default function BoardingPage({route}) {
         ignoreSilentSwitch="ignore"
         mixWithOthers="mix"
         muted
-        paused={isPaused}
+        paused={false}
       />
       <Header type="boarding" />
       {renderContent()}

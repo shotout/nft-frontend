@@ -16,13 +16,12 @@ import arrayErrorResturctor from '../register/responseValidatorArr';
 // import {requestNotificationPermission} from '../../helpers/requestPermission';
 import {eventTracking, SIGN_IN_SUCCESS_ID} from '../../shared/eventTracking';
 import dispatcher from './dispatcher';
+import {isIphone} from '../../shared/devices';
 
 function SignIn({setProfileUser}) {
   const [activeStep, setActiveStep] = useState('signin');
   const [isLoading, selectedLoading] = useState(false);
   const [keyboardShow, setKeyboardShow] = useState(false);
-  const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [values, setValues] = useState({
     email: '',
   });
@@ -31,41 +30,25 @@ function SignIn({setProfileUser}) {
   });
 
   useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'background') {
+        if (Platform.OS === 'ios') {
+          RNExitApp.exitApp();
+        }
+      }
+    });
+
     if (Platform.OS === 'android') {
       RNAndroidKeyboardAdjust.setAdjustResize();
-      return () => {
+    }
+
+    return () => {
+      subscription.remove();
+      if (Platform.OS === 'android') {
         RNAndroidKeyboardAdjust.setAdjustPan();
-      };
-    }
+      }
+    };
   }, []);
-
-  useEffect(() => {
-    if (activeStep === 'success') {
-      const subscription = AppState.addEventListener('change', nextAppState => {
-        if (
-          appState.current.match(/inactive|background/) &&
-          nextAppState === 'active'
-        ) {
-          console.log('App has come to the foreground!');
-        }
-
-        appState.current = nextAppState;
-        setAppStateVisible(appState.current);
-
-        console.log('nextAppState', nextAppState);
-        if (nextAppState === 'background') {
-          if (Platform.OS === 'ios') {
-            console.log('Exit apps', activeStep);
-            RNExitApp.exitApp();
-          }
-        }
-      });
-
-      return () => {
-        subscription.remove();
-      };
-    }
-  }, [activeStep]);
 
   const handleBack = () => {
     switch (activeStep) {
@@ -170,7 +153,7 @@ function SignIn({setProfileUser}) {
           {renderContent()}
         </KeyboardAwareScrollView>
       </View>
-      {!keyboardShow && (
+      {((!keyboardShow && !isIphone) || isIphone) && (
         <Button
           btnStyle={styles.btnStyle}
           isLoading={isLoading}
