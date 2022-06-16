@@ -101,7 +101,6 @@ function DiscoverNFT({
     }
   };
 
-  console.log('IS STAGING:', isStaging);
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -129,7 +128,7 @@ function DiscoverNFT({
       setLoading(false);
     } catch (err) {
       console.log('Err homepage:', err);
-      // reset('BoardingPage');
+      reset('BoardingPage');
     }
   };
 

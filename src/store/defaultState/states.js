@@ -62,7 +62,7 @@ export default (state = INITIAL_STATE, action) => {
           ...state,
           // walletList: [],
           // userProfile: {},
-          // listHype: [],
+          listHype: [],
           openArticleCounter: 0,
           isFirstTimeRender: true,
         };

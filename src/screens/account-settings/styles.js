@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
@@ -47,5 +48,11 @@ export default StyleSheet.create({
     height: moderateScale(22),
     resizeMode: 'contain',
     // marginLeft: moderateScale(16),
+  },
+  ctnScrollStyle: {
+    flexGrow: 1,
+  },
+  btnStyle: {
+    marginBottom: isIphoneXorAbove() ? moderateScale(28) : moderateScale(20),
   },
 });

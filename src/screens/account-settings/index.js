@@ -11,12 +11,13 @@ import {checkNotifications} from 'react-native-permissions';
 import {connect} from 'react-redux';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
-import {navigate} from '../../helpers/navigationRef';
+import {navigate, reset} from '../../helpers/navigationRef';
 import {getProfile} from '../../helpers/requests';
 import {isIphone} from '../../shared/devices';
 import styles from './styles';
 import dispatcher from './dispatcher';
 import states from './states';
+import Button from '../../components/button';
 
 const forwardIcon = require('../../assets/icon/forward_icon.png');
 
@@ -111,7 +112,16 @@ function AccountSettings({setProfileUser, userProfile}) {
   return (
     <View style={styles.ctnRoot}>
       <Header title="Account & Settings" />
-      {renderContent()}
+      <View style={styles.ctnScrollStyle}>{renderContent()}</View>
+
+      {/* <Button
+        btnStyle={styles.btnStyle}
+        label="Logout"
+        onPress={() => {
+          setProfileUser({});
+          reset('BoardingPage');
+        }}
+      /> */}
     </View>
   );
 }
