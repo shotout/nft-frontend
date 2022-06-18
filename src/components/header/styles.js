@@ -1,17 +1,26 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import {isIphone, isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
+
+const getHeaderHeight = () => {
+  if (Platform.isPad) {
+    return moderateScale(60);
+  }
+  if (isIphoneXorAbove()) {
+    return moderateScale(80);
+  }
+  if (isIphone) {
+    return moderateScale(90);
+  }
+  return moderateScale(60);
+};
 
 export default StyleSheet.create({
   ctnRoot: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: isIphoneXorAbove()
-      ? moderateScale(80)
-      : isIphone
-      ? moderateScale(90)
-      : moderateScale(60),
+    height: getHeaderHeight(),
     paddingTop: isIphoneXorAbove() ? moderateScale(40) : undefined,
   },
   shadowHeader: {
