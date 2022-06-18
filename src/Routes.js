@@ -1,10 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+import messaging from '@react-native-firebase/messaging';
 import {connect} from 'react-redux';
-import PushNotificationIOS from '@react-native-community/push-notification-ios';
+import notifee from '@notifee/react-native';
+import {Alert, AppState} from 'react-native';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
 import navigationData from './shared/navigationData';
@@ -61,29 +63,30 @@ function Routes({
   handleProfilUser,
   handleAppVersion,
 }) {
-  const [setting, setSetting] = useState({});
   const [isStaging, setStagingMode] = useState(false);
   const [isLoading, setLoader] = useState(true);
   const currentAppVersion = isIphone ? IOS_APP_VERSION : ANDROID_APP_VERSION;
+  const appState = useRef(AppState.currentState);
 
   const getSetting = async () => {
-    const res = await getSkipResult();
     const version = await getVersionApps({
       app_version: currentAppVersion,
     });
     setStagingMode(version.data.status === 0);
-    setSetting(res.data[0]);
     setLoader(false);
+  };
+
+  const resetNotificationBadge = () => {
+    if (isIphone) {
+      notifee.setBadgeCount(0).then(() => console.log('Badge count set to 0!'));
+    }
   };
 
   const handleInitialData = () => {
     handleFetchWallet();
     getSetting();
-    if (getAppVersion === currentAppVersion) {
-      if (isIphone) {
-        PushNotificationIOS.setApplicationIconBadgeNumber(0);
-      }
-    } else {
+    resetNotificationBadge();
+    if (getAppVersion !== currentAppVersion) {
       handleProfilUser(null);
       handleAppVersion(currentAppVersion);
     }
@@ -91,6 +94,21 @@ function Routes({
 
   useEffect(() => {
     handleInitialData();
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (appState.current.match('background') && nextAppState === 'active') {
+        resetNotificationBadge();
+      }
+
+      appState.current = nextAppState;
+    });
+
+    messaging().onMessage(async remoteMessage => {
+      notifee.incrementBadgeCount();
+    });
+
+    return () => {
+      subscription.remove();
+    };
   }, []);
 
   function getInitialRoute() {
