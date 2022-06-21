@@ -31,6 +31,12 @@ const config = {
         id: id => `${id}`,
       },
     },
+    DeleteAccount: {
+      path: 'api/v1/users/unregister/:id',
+      parse: {
+        id: id => `${id}`,
+      },
+    },
     Register: {
       path: 'register',
       parse: {

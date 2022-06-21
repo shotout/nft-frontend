@@ -56,11 +56,24 @@ export default (state = INITIAL_STATE, action) => {
         walletList: action.payload,
       };
     case types.SET_PROFILE_USER: {
+      if (action.payload === 'reset') {
+        console.log('STATE LOGOUT');
+        return {
+          ...state,
+          // walletList: [],
+          listHype: [],
+          isFirstTimeRender: true,
+          openAppsCounter: 0,
+          openArticleCounter: 0,
+          haveBeenAskRating: null,
+          userProfile: {},
+        };
+      }
       if (action.payload === null) {
         console.log('STATE RESET');
         return {
           ...state,
-          walletList: [],
+          // walletList: [],
           listHype: [],
           isFirstTimeRender: true,
           openAppsCounter: 0,

@@ -92,7 +92,10 @@ function SignIn({setProfileUser}) {
         SIGN_IN_SUCCESS_ID,
         `Sign in complete, user ${res?.data?.name || ''}`,
       );
-      if (values.email === 'gian.devx@gmail.com') {
+      if (
+        values.email === 'gian.devx@gmail.com' ||
+        values.email === 'nstegwart@gmail.com'
+      ) {
         setProfileUser(res);
         reset('Homepage', {askTrackingPermission: true});
         return true;

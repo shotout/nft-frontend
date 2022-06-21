@@ -82,6 +82,13 @@ function AccountSettings({setProfileUser, userProfile}) {
         navigate('Register', {edit: 'wallet'});
       },
     },
+    {
+      title: 'Delete Account',
+      desc: 'Delete your account',
+      onPress: () => {
+        navigate('DeleteConfirmation');
+      },
+    },
   ];
 
   function renderContent() {

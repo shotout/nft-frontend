@@ -35,6 +35,8 @@ import {isIphone} from './shared/devices';
 import {getSkipResult, getVersionApps} from './helpers/requests';
 import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
 import LoadingIndicator from './components/loading-indicator';
+import ConfirmDelete from './screens/confirm-delete';
+import DeleteAccount from './screens/delete-account';
 
 const Stack = createNativeStackNavigator();
 
@@ -182,6 +184,16 @@ function Routes({
           options={navigationData.noHeader.options}
           name="ActivateNotification"
           component={ActivateNotification}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="DeleteConfirmation"
+          component={ConfirmDelete}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="DeleteAccount"
+          component={DeleteAccount}
         />
       </Stack.Navigator>
     </NavigationContainer>

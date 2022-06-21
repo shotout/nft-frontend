@@ -36,7 +36,7 @@ export default StyleSheet.create({
   },
   txtDesc: {
     fontSize: moderateScale(12),
-    // color: colors.dark,
+    color: colors.dark,
     fontFamily: fonts.MontserratRegular,
   },
   ctnLeft: {

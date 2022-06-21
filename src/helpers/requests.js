@@ -39,6 +39,18 @@ export const updateUser = data =>
     data,
   });
 
+export const deleteUser = () =>
+  Wrap({
+    url: '/users',
+    method: 'DELETE',
+  });
+
+export const confirmDeleteUser = id =>
+  Wrap({
+    url: `/users/unregister/${id}`,
+    method: 'GET',
+  });
+
 export const addWatchlist = id =>
   Wrap({
     url: `/watchlists/${id}`,
