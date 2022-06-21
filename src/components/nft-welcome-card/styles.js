@@ -7,7 +7,7 @@ export default StyleSheet.create({
     position: 'absolute',
     height: '100%',
     width: '100%',
-    marginBottom: moderateScale(80),
+    // marginBottom: moderateScale(80),
   },
   ctnCard: {
     borderWidth: moderateScale(12),
@@ -23,7 +23,7 @@ export default StyleSheet.create({
     borderRadius: moderateScale(30),
     position: 'relative',
     marginHorizontal: moderateScale(20),
-    marginVertical: moderateScale(20),
+    marginBottom: moderateScale(20),
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
