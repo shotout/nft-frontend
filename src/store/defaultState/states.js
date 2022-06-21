@@ -60,11 +60,13 @@ export default (state = INITIAL_STATE, action) => {
         console.log('STATE RESET');
         return {
           ...state,
-          // walletList: [],
-          // userProfile: {},
+          walletList: [],
           listHype: [],
-          openArticleCounter: 0,
           isFirstTimeRender: true,
+          openAppsCounter: 0,
+          openArticleCounter: 0,
+          haveBeenAskRating: null,
+          // appVersion: null,
         };
       }
       return {
