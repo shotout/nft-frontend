@@ -13,7 +13,7 @@ const getHeaderHeight = () => {
   if (isIphone) {
     return moderateScale(90);
   }
-  return moderateScale(60);
+  return moderateScale(50);
 };
 
 export default StyleSheet.create({

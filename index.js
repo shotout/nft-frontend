@@ -11,22 +11,22 @@ import {isIphone} from './src/shared/devices';
 
 // Register background handler
 
-const handleAddBadgeNotification = count => {
-  console.log('ADD BADGE NUMBER:', count + 1);
-  PushNotificationIOS.setApplicationIconBadgeNumber(count + 1);
-};
+// const handleAddBadgeNotification = count => {
+//   console.log('ADD BADGE NUMBER:', count + 1);
+//   PushNotificationIOS.setApplicationIconBadgeNumber(count + 1);
+// };
 
-const onRemoteNotification = () => {
-  if (isIphone) {
-    PushNotificationIOS.getApplicationIconBadgeNumber(
-      handleAddBadgeNotification,
-    );
-  }
-};
+// const onRemoteNotification = () => {
+//   if (isIphone) {
+//     PushNotificationIOS.getApplicationIconBadgeNumber(
+//       handleAddBadgeNotification,
+//     );
+//   }
+// };
 
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Message handled in the background!', remoteMessage);
-  onRemoteNotification();
-});
+// messaging().setBackgroundMessageHandler(async remoteMessage => {
+//   console.log('Message handled in the background!', remoteMessage);
+//   onRemoteNotification();
+// });
 
 AppRegistry.registerComponent(appName, () => App);

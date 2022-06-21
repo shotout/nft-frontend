@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import {openInbox} from 'react-native-email-link';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import RNAndroidKeyboardAdjust from 'rn-android-keyboard-adjust';
+import messaging from '@react-native-firebase/messaging';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -24,12 +25,27 @@ function SignIn({setProfileUser}) {
   const [keyboardShow, setKeyboardShow] = useState(false);
   const [values, setValues] = useState({
     email: '',
+    fcm_token: '',
   });
   const [error, setError] = useState({
     email: null,
   });
 
+  const getToken = async () => {
+    try {
+      const fcmToken = await messaging().getToken();
+      setValues({
+        ...values,
+        fcm_token: fcmToken,
+      });
+      console.log('Check fcm:', fcmToken);
+    } catch (err) {
+      console.log('firebase error', err);
+    }
+  };
+
   useEffect(() => {
+    getToken();
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'background') {
         if (Platform.OS === 'ios') {

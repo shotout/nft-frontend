@@ -5,7 +5,7 @@ import {colors, fonts} from '../../shared/styling';
 export default StyleSheet.create({
   ctnRoot: {
     position: 'relative',
-    marginBottom: moderateScale(80),
+    marginBottom: moderateScale(10),
   },
   ctnCard: {
     backgroundColor: '#fff',
@@ -18,6 +18,7 @@ export default StyleSheet.create({
     shadowRadius: 2.22,
     elevation: 3,
     margin: moderateScale(20),
+    marginTop: moderateScale(12),
     borderRadius: moderateScale(30),
     position: 'relative',
   },

@@ -13,11 +13,13 @@ export default StyleSheet.create({
     color: colors.dark,
     fontSize: moderateScale(28),
     fontFamily: fonts.MontserratSemiBold,
+    lineHeight: moderateScale(34),
   },
   txtDayTitle: {
     color: colors.dark,
     fontSize: moderateScale(30),
     fontFamily: fonts.MontserratBold,
+    lineHeight: moderateScale(34),
   },
   txtName: {
     color: colors.dark,
@@ -25,7 +27,7 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratRegular,
   },
   ctnScroll: {
-    paddingBottom: moderateScale(20),
+    // paddingBottom: moderateScale(20),
   },
   ctnRoot: {
     // flex: 1,
@@ -37,6 +39,7 @@ export default StyleSheet.create({
   },
   cardWrapper: {
     position: 'relative',
+    // backgroundColor: 'red',
   },
   overalyWrapper: {
     position: 'absolute',
@@ -44,8 +47,8 @@ export default StyleSheet.create({
     height: '100%',
     paddingRight: moderateScale(20),
     paddingLeft: moderateScale(20),
-    paddingBottom: moderateScale(126),
-    marginTop: moderateScale(12),
+    paddingBottom: moderateScale(58),
+    marginTop: moderateScale(6),
   },
   overlay: {
     alignSelf: 'center',
