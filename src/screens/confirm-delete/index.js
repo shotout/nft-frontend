@@ -13,12 +13,14 @@ import {deleteUser} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
 import {colors} from '../../shared/styling';
 
-function ConfirmDelete({setProfileUser, route}) {
-  const [isLoading, setLoading] = useState(true);
+function ConfirmDelete({setProfileUser, route, setDeleteUserStatus}) {
+  const [isLoading, setLoading] = useState(false);
 
   const handleInitial = async () => {
     try {
+      setLoading(true);
       await deleteUser();
+      setDeleteUserStatus(true);
       setLoading(false);
     } catch (err) {
       console.log('Err initial', err);
@@ -27,7 +29,6 @@ function ConfirmDelete({setProfileUser, route}) {
   };
 
   useEffect(() => {
-    handleInitial();
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'background') {
         if (Platform.OS === 'ios') {
@@ -41,14 +42,6 @@ function ConfirmDelete({setProfileUser, route}) {
     };
   }, []);
 
-  if (isLoading) {
-    return (
-      <LoadingIndicator
-        fullscreen
-        stylesRoot={{backgroundColor: colors.white}}
-      />
-    );
-  }
   return (
     <View style={styles.ctnRoot}>
       <View style={styles.ctnTop}>
@@ -56,10 +49,12 @@ function ConfirmDelete({setProfileUser, route}) {
         <KeyboardAwareScrollView
           contentContainerStyle={styles.scrollStyle}
           style={styles.ctnRoot}>
-          <Title label="Sad to see you go, confirm that you want to delete the account by clicking the link we sent to you." />
+          <Title label="Sad to see you go! " />
           <View style={styles.ctnDesc}>
             <Text style={styles.txtDesc}>
-              To continue, open your emails and click on the link provided.
+              After clicking the “Delete Account” button at the bottom of this
+              page, please confirm your account deletion by clicking the link
+              that was sent to your email inbox.
             </Text>
             <Text style={styles.txtDesc}>
               Make sure to also check your spam folder, if you cannot find it.
@@ -70,9 +65,9 @@ function ConfirmDelete({setProfileUser, route}) {
       <Button
         btnStyle={styles.btnStyle}
         isLoading={isLoading}
-        label="Open Email"
+        label="DELETE ACCOUNT"
         onPress={() => {
-          openInbox();
+          handleInitial();
         }}
       />
     </View>

@@ -2,17 +2,25 @@ import React, {useEffect, useRef, useState} from 'react';
 import {View, Text, TouchableOpacity, AppState, Platform} from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import Video from 'react-native-video';
+import {connect} from 'react-redux';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import {navigate} from '../../helpers/navigationRef';
 import styles from './styles';
+import dispatcher from './dispatcher';
+import ModalDelete from '../../components/modal-delete';
 
 const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 
-export default function BoardingPage({route}) {
+function BoardingPage({route, setDeleteUserStatus, isDeleteUser}) {
   const player = useRef();
+  const [showModalDelete, setModalDelete] = useState(false);
 
   useEffect(() => {
+    if (isDeleteUser) {
+      setModalDelete(true);
+      setDeleteUserStatus(false);
+    }
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'background') {
         if (Platform.OS === 'ios') {
@@ -102,6 +110,18 @@ export default function BoardingPage({route}) {
       <Header type="boarding" />
       {renderContent()}
       {renderButton()}
+      <ModalDelete
+        visible={showModalDelete}
+        handleClose={() => {
+          setModalDelete(false);
+        }}
+      />
     </View>
   );
 }
+
+const mapStateToProps = state => ({
+  isDeleteUser: state.defaultState.isDeleteUser,
+});
+
+export default connect(mapStateToProps, dispatcher)(BoardingPage);

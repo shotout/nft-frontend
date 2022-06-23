@@ -7,6 +7,7 @@ import messaging from '@react-native-firebase/messaging';
 import {connect} from 'react-redux';
 import notifee from '@notifee/react-native';
 import {Alert, AppState} from 'react-native';
+import RNExitApp from 'react-native-exit-app';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
 import navigationData from './shared/navigationData';
@@ -32,7 +33,7 @@ import {linking} from './helpers/linking';
 import DetailProduct from './screens/detail-product';
 import ActivateNotification from './screens/activate-notification';
 import {isIphone} from './shared/devices';
-import {getSkipResult, getVersionApps} from './helpers/requests';
+import {getVersionApps} from './helpers/requests';
 import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
 import LoadingIndicator from './components/loading-indicator';
 import ConfirmDelete from './screens/confirm-delete';
@@ -64,6 +65,7 @@ function Routes({
   getAppVersion,
   handleProfilUser,
   handleAppVersion,
+  isDeleteUser,
 }) {
   const [isStaging, setStagingMode] = useState(false);
   const [isLoading, setLoader] = useState(true);
@@ -112,6 +114,24 @@ function Routes({
       subscription.remove();
     };
   }, []);
+
+  useEffect(() => {
+    const subscription = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'background') {
+        if (isDeleteUser) {
+          RNExitApp.exitApp();
+        }
+      }
+    });
+    if (!isDeleteUser) {
+      subscription.remove();
+    }
+    return () => {
+      if (typeof subscription.remove === 'function') {
+        subscription.remove();
+      }
+    };
+  }, [isDeleteUser]);
 
   function getInitialRoute() {
     if (profile.token) {
@@ -203,6 +223,7 @@ function Routes({
 const mapStateToProps = state => ({
   profile: userCredentialSelector(state),
   getAppVersion: appVersion(state),
+  isDeleteUser: state.defaultState.isDeleteUser,
 });
 
 export default connect(mapStateToProps, {

@@ -1,6 +1,10 @@
 import {getWallet} from '../../helpers/requests';
 import * as types from './types';
 
+export const setDeleteUserStatus = payload => ({
+  type: types.SET_DELETE_USER_STATUS,
+  payload,
+});
 export const setAppVersion = payload => ({
   type: types.SET_APP_VERSION,
   payload,

@@ -26,10 +26,16 @@ const INITIAL_STATE = {
   openArticleCounter: 0,
   haveBeenAskRating: null,
   appVersion: null,
+  isDeleteUser: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case types.SET_DELETE_USER_STATUS:
+      return {
+        ...state,
+        isDeleteUser: action.payload,
+      };
     case types.ADD_OPEN_APPS_COUNTER:
       return {
         ...state,
