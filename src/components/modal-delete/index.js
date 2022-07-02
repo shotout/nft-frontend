@@ -8,7 +8,7 @@ import Button from '../button';
 
 const appsIcon = require('../../assets/icon/notification.png');
 
-function ModalDelete({handleClose, visible}) {
+function ModalDelete({handleClose, visible, title}) {
   return (
     <Modal
       animationType="slide"
@@ -18,10 +18,9 @@ function ModalDelete({handleClose, visible}) {
       <View style={styles.ctnContent}>
         <View style={styles.itemWrapper}>
           <Image source={appsIcon} style={styles.headerImageStyle} />
-          <Text
-            style={
-              styles.txtTitle
-            }>{`Success.\nYour account has\nbeen deleted.`}</Text>
+          <Text style={styles.txtTitle}>
+            {title || `Success.\nYour account has\nbeen deleted.`}
+          </Text>
           <Button
             btnStyle={styles.btnStyle}
             label="Close"

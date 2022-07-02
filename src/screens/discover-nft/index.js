@@ -22,6 +22,7 @@ import {
   SWYPE_COLLECTION_ID,
 } from '../../shared/eventTracking';
 import {askRating} from '../../shared/askRating';
+import ModalDelete from '../../components/modal-delete';
 
 function DiscoverNFT({
   navigation,
@@ -33,8 +34,8 @@ function DiscoverNFT({
   route,
   openAppsCounter,
   increaseOpenAppsCounter,
-  haveBeenAskRating,
-  changeAskRatingParameter,
+  showModalDelete,
+  setModalDeleteStatus,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -398,6 +399,14 @@ function DiscoverNFT({
         callbackRefresh={handleRefresh}
       />
       {renderContent()}
+
+      <ModalDelete
+        visible={showModalDelete}
+        title={`Success.\nPlease check your inbox to confirm your account deletion.`}
+        handleClose={() => {
+          setModalDeleteStatus(false);
+        }}
+      />
     </View>
   );
 }

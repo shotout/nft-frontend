@@ -27,10 +27,16 @@ const INITIAL_STATE = {
   haveBeenAskRating: null,
   appVersion: null,
   isDeleteUser: false,
+  showModalDelete: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case types.SET_MODAL_DELETE_STATUS:
+      return {
+        ...state,
+        showModalDelete: action.payload,
+      };
     case types.SET_DELETE_USER_STATUS:
       return {
         ...state,

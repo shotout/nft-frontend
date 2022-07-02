@@ -3,6 +3,7 @@ import {
   setOffFirstTimeRender,
   increaseOpenAppsCounter,
   changeAskRatingParameter,
+  setModalDeleteStatus,
 } from '../../store/defaultState/actions';
 
 export default dispatch => ({
@@ -12,4 +13,5 @@ export default dispatch => ({
   setOffFirstTimeRender: (...args) => dispatch(setOffFirstTimeRender(...args)),
   increaseOpenAppsCounter: (...args) =>
     dispatch(increaseOpenAppsCounter(...args)),
+  setModalDeleteStatus: (...args) => dispatch(setModalDeleteStatus(...args)),
 });

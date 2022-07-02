@@ -1,6 +1,11 @@
 import {getWallet} from '../../helpers/requests';
 import * as types from './types';
 
+export const setModalDeleteStatus = payload => ({
+  type: types.SET_MODAL_DELETE_STATUS,
+  payload,
+});
+
 export const setDeleteUserStatus = payload => ({
   type: types.SET_DELETE_USER_STATUS,
   payload,

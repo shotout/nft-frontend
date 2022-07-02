@@ -13,7 +13,13 @@ import {deleteUser} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
 import {colors} from '../../shared/styling';
 
-function ConfirmDelete({setProfileUser, route, setDeleteUserStatus}) {
+function ConfirmDelete({
+  setProfileUser,
+  route,
+  setDeleteUserStatus,
+  navigation,
+  setModalDeleteStatus,
+}) {
   const [isLoading, setLoading] = useState(false);
 
   const handleInitial = async () => {
@@ -22,6 +28,8 @@ function ConfirmDelete({setProfileUser, route, setDeleteUserStatus}) {
       await deleteUser();
       setDeleteUserStatus(true);
       setLoading(false);
+      navigation.popToTop();
+      setModalDeleteStatus(true);
     } catch (err) {
       console.log('Err initial', err);
       // reset('BoardingPage');
