@@ -9,12 +9,17 @@ import dispatcher from './dispatcher';
 const loadingImage = require('../../assets/icon/load_image_loading.json');
 
 function ModalLoadingInitial({
-  hideLoadingModal,
   setCounterNumber,
   loadingModal,
+  hideLoadingModal,
 }) {
-  const initalState = 0;
-  const [count, setCount] = useState(initalState);
+  const [activeText, setActiveText] = useState(0);
+  const textToRender = [
+    'Loading amazingness...',
+    'NO FOMO...\nScanning the chain for hottest NFT...',
+    'Fire projects inbound...',
+    'Unique NFTs take time...',
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,9 +27,19 @@ function ModalLoadingInitial({
     }, 1000);
     if (loadingModal.counter >= 100) {
       clearInterval(interval);
-      hideLoadingModal();
+      // hideLoadingModal();
     }
-    return () => clearInterval(interval);
+
+    const textInterval = setInterval(() => {
+      setActiveText(currentValue =>
+        currentValue === 3 ? 0 : currentValue + 1,
+      );
+    }, 1800);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(textInterval);
+    };
   }, [loadingModal.counter]);
 
   return (
@@ -35,8 +50,9 @@ function ModalLoadingInitial({
       onRequestClose={() => {}}>
       <View style={styles.ctnContent}>
         <View style={styles.lottieWrapper}>
-          <Text style={styles.txtPercentage}>
-            {loadingModal.counter >= 100 ? 100 : loadingModal.counter}
+          <Text style={[styles.txtPercentage]}>
+            {loadingModal.counter >= 99 ? 99 : loadingModal.counter}
+            {/* 50 */}
             <Text style={styles.percent}>%</Text>
           </Text>
           <LottieView
@@ -46,7 +62,7 @@ function ModalLoadingInitial({
             style={styles.lottieStyle}
           />
         </View>
-        <Text style={styles.txtLoader}>Loading amazingness...</Text>
+        <Text style={styles.txtLoader}>{textToRender[activeText]}</Text>
       </View>
     </Modal>
   );
