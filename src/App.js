@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {LogBox} from 'react-native';
 import Navigator from './Routes';
 import store, {persistor} from './store/configure-store';
+import ModalLoadingInitial from './components/modal-loading-initial';
 
 LogBox.ignoreAllLogs();
 
@@ -70,6 +71,7 @@ const App = () => {
       <LocalizeProvider store={store}>
         <PersistGate persistor={persistor}>
           <Navigator />
+          <ModalLoadingInitial />
         </PersistGate>
       </LocalizeProvider>
     </Provider>
