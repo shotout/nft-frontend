@@ -40,6 +40,7 @@ import {
 import {dateToUnix, getFutureDate} from '../../helpers/dateHelper';
 import DivRender from '../../components/div-render';
 import ModalNotification from '../../components/modal-notification';
+import CollectionImage from '../../components/collection-image';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 
@@ -173,16 +174,7 @@ function DetailProduct({
           }}
           data={detail.collections}
           renderItem={({item}) => (
-            <View style={styles.ctnCollection}>
-              <FastImage
-                source={{
-                  uri: `${URL_WEBSITE}${item.image}`,
-                  priority: FastImage.priority.high,
-                  cache: FastImage.cacheControl.immutable,
-                }}
-                style={styles.imgCollection}
-              />
-            </View>
+            <CollectionImage imageUrl={`${URL_WEBSITE}${item.image}`} />
           )}
           onBeforeSnapToItem={index => setActiveSlide(index)}
           keyExtractor={item => item.uuid}
