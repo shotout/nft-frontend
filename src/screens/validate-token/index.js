@@ -12,7 +12,7 @@ import {verifyToken} from '../../helpers/requests';
 import dispatcher from './dispatcher';
 import LoadingIndicator from '../../components/loading-indicator';
 
-function ValidateToken({route, setProfileUser}) {
+function ValidateToken({route, setProfileUser, showLoadingModal}) {
   const [isLoading, selectedLoading] = useState(true);
   const [isError, setError] = useState(false);
   const handleData = async status => {
@@ -26,6 +26,7 @@ function ValidateToken({route, setProfileUser}) {
       }
       if (status === 'granted') {
         reset('Homepage', {askTrackingPermission: true});
+        showLoadingModal();
       } else {
         reset('ActivateNotification');
       }
@@ -97,6 +98,7 @@ function ValidateToken({route, setProfileUser}) {
             reset('BoardingPage');
           } else {
             reset('Homepage', {askTrackingPermission: true});
+            showLoadingModal();
           }
         }}
       />

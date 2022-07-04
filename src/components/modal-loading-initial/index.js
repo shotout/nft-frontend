@@ -1,36 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import {Modal, View, Text, Image} from 'react-native';
+import {Modal, View, Text} from 'react-native';
 import LottieView from 'lottie-react-native';
+import {connect} from 'react-redux';
 import styles from './styles';
-import {handleShuffleText} from '../../helpers/shuffleText';
+import states from './states';
+import dispatcher from './dispatcher';
 
 const loadingImage = require('../../assets/icon/load_image_loading.json');
 
-function ModalLoadingInitial() {
+function ModalLoadingInitial({
+  hideLoadingModal,
+  setCounterNumber,
+  loadingModal,
+}) {
   const initalState = 0;
   const [count, setCount] = useState(initalState);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCount(count + 20);
+      setCounterNumber(loadingModal.counter + Math.floor(Math.random() * 10));
     }, 1000);
-    if (count >= 100) {
+    if (loadingModal.counter >= 100) {
       clearInterval(interval);
+      hideLoadingModal();
     }
     return () => clearInterval(interval);
-  }, [count]);
+  }, [loadingModal.counter]);
 
   return (
     <Modal
       animationType="slide"
       transparent
-      // visible={visible}
-      visible
+      visible={loadingModal.visible}
       onRequestClose={() => {}}>
       <View style={styles.ctnContent}>
         <View style={styles.lottieWrapper}>
           <Text style={styles.txtPercentage}>
-            {count}
+            {loadingModal.counter >= 100 ? 100 : loadingModal.counter}
             <Text style={styles.percent}>%</Text>
           </Text>
           <LottieView
@@ -40,12 +46,10 @@ function ModalLoadingInitial() {
             style={styles.lottieStyle}
           />
         </View>
-        <Text style={styles.txtLoader}>
-          {handleShuffleText('Loading amazingness...')}
-        </Text>
+        <Text style={styles.txtLoader}>Loading amazingness...</Text>
       </View>
     </Modal>
   );
 }
 
-export default ModalLoadingInitial;
+export default connect(states, dispatcher)(ModalLoadingInitial);

@@ -6,6 +6,10 @@ import {
   setModalDeleteStatus,
   setAppStatus,
 } from '../../store/defaultState/actions';
+import {
+  setCounterNumber,
+  showLoadingModal,
+} from '../../store/generalState/actions';
 
 export default dispatch => ({
   changeAskRatingParameter: (...args) =>
@@ -16,4 +20,6 @@ export default dispatch => ({
     dispatch(increaseOpenAppsCounter(...args)),
   setModalDeleteStatus: (...args) => dispatch(setModalDeleteStatus(...args)),
   setAppStatus: (...args) => dispatch(setAppStatus(...args)),
+  showLoadingModal: (...args) => dispatch(showLoadingModal(...args)),
+  setCounterNumber: (...args) => dispatch(setCounterNumber(...args)),
 });

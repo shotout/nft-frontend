@@ -8,6 +8,7 @@ import {composeWithDevTools} from 'redux-devtools-extension';
 
 // reducer state
 import defaultState from './defaultState/states';
+import generalState from './generalState';
 import {setStorageStatus} from './defaultState/actions';
 import {STORAGE_STATUS} from '../helpers/static';
 
@@ -27,6 +28,7 @@ const commonPersistConfig = {
 const rootReducers = combineReducers({
   defaultState: persistReducer(commonPersistConfig, defaultState),
   localize: localizeReducer,
+  generalState,
 });
 
 const pReducers = persistReducer(persistConfig, rootReducers);

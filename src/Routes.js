@@ -38,6 +38,7 @@ import {getVersionApps} from './helpers/requests';
 import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
 import ConfirmDelete from './screens/confirm-delete';
 import DeleteAccount from './screens/delete-account';
+import {showLoadingModal} from './store/generalState/actions';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +67,7 @@ function Routes({
   handleAppVersion,
   isDeleteUser,
   setStagingMode,
+  handleShowLoadingModal,
 }) {
   const currentAppVersion = isIphone ? IOS_APP_VERSION : ANDROID_APP_VERSION;
   const appState = useRef(AppState.currentState);
@@ -92,6 +94,8 @@ function Routes({
     }
     if (!profile.token) {
       getSetting();
+    } else {
+      handleShowLoadingModal();
     }
   };
 
@@ -223,4 +227,5 @@ export default connect(mapStateToProps, {
   handleProfilUser: setProfileUser,
   handleAppVersion: setAppVersion,
   setStagingMode: setAppStatus,
+  handleShowLoadingModal: showLoadingModal,
 })(Routes);

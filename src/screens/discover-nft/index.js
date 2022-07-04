@@ -40,6 +40,8 @@ function DiscoverNFT({
   setModalDeleteStatus,
   isStaging,
   setAppStatus,
+  showLoadingModal,
+  setCounterNumber,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -133,8 +135,10 @@ function DiscoverNFT({
       setData(listItem);
       handleHypeList(res.data.data);
       setLoading(false);
+      setCounterNumber(98);
       setAppStatus(version.data.status === 0);
     } catch (err) {
+      setCounterNumber(98);
       console.log('Err homepage:', err);
       reset('BoardingPage');
     }

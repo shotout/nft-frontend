@@ -19,7 +19,7 @@ import {eventTracking, SIGN_IN_SUCCESS_ID} from '../../shared/eventTracking';
 import dispatcher from './dispatcher';
 import {isIphone} from '../../shared/devices';
 
-function SignIn({setProfileUser}) {
+function SignIn({setProfileUser, showLoadingModal}) {
   const [activeStep, setActiveStep] = useState('signin');
   const [isLoading, selectedLoading] = useState(false);
   const [keyboardShow, setKeyboardShow] = useState(false);
@@ -97,6 +97,7 @@ function SignIn({setProfileUser}) {
         values.email === 'nstegwart@gmail.com'
       ) {
         setProfileUser(res);
+        showLoadingModal();
         reset('Homepage', {askTrackingPermission: true});
         return true;
       }

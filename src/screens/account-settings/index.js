@@ -67,7 +67,7 @@ function AccountSettings({setProfileUser, userProfile}) {
             if (status === 'granted') {
               Linking.openSettings();
             } else {
-              navigate('ActivateNotification');
+              navigate('ActivateNotification', {justBack: true});
             }
           });
         } else {

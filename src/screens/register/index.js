@@ -63,6 +63,7 @@ function Register({
   setProfileUser,
   userProfile,
   showSkipButton,
+  showLoadingModal,
 }) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
@@ -379,6 +380,7 @@ function Register({
         );
         break;
       case 'done':
+        showLoadingModal();
         reset('Homepage', {askTrackingPermission: true});
         break;
       default:

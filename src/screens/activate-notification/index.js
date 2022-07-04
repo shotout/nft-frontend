@@ -3,16 +3,25 @@ import {View, Text, TouchableOpacity, Linking} from 'react-native';
 import {requestNotifications} from 'react-native-permissions';
 import Button from '../../components/button';
 import FomoComponent from '../../components/fomo-component';
-import {reset} from '../../helpers/navigationRef';
+import {popToTop, reset} from '../../helpers/navigationRef';
 
 import styles from './styles';
 
-function ActivateNotification() {
+function ActivateNotification({route}) {
+  const handleToHome = () => {
+    if (route.params?.justBack) {
+      popToTop();
+    } else {
+      reset('Homepage', {askTrackingPermission: true});
+    }
+  };
+
   const activateNotification = () => {
     requestNotifications(['alert', 'sound', 'badge']).then(
       ({status, settings}) => {
+        console.log('Check status:', status);
         if (status === 'granted') {
-          reset('Homepage', {askTrackingPermission: true});
+          handleToHome();
         } else {
           Linking.openSettings();
         }
@@ -32,7 +41,7 @@ function ActivateNotification() {
       <TouchableOpacity
         style={styles.btnNoThanks}
         onPress={() => {
-          reset('Homepage', {askTrackingPermission: true});
+          handleToHome();
         }}>
         <Text style={styles.txtNothanks}>No thanks</Text>
       </TouchableOpacity>
