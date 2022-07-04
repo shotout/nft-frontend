@@ -12,6 +12,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import {SvgUri, SvgXml} from 'react-native-svg';
 import {connect} from 'react-redux';
 import {moderateScale} from 'react-native-size-matters';
+import FastImage from 'react-native-fast-image';
+import LottieView from 'lottie-react-native';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {navigate} from '../../helpers/navigationRef';
 import {addWatchlist, removeWatchlist} from '../../helpers/requests';
@@ -33,6 +35,7 @@ import NFTWelcomeCard from '../nft-welcome-card';
 
 // const verifiedIcon = require('../../assets/icon/verified.png');
 const groupIcon = require('../../assets/icon/group_icon.png');
+const loadingImage = require('../../assets/icon/load_image_loading.json');
 
 const hypeIcon = require('../../assets/icon/hype_white.png');
 
@@ -53,6 +56,7 @@ function NFTCard({
   const [svgContent, setSvgContent] = useState(
     `${URL_WEBSITE}${item.blockchain?.vektor}`,
   );
+  const [showLoader, setShowLoader] = useState(false);
 
   const isNoExpiredTime = !item.nft_exp_promo;
 
@@ -110,11 +114,46 @@ function NFTCard({
     item.preferance.gradient2_color,
   ];
 
+  // source={{
+  //   uri: `${URL_WEBSITE}${item.collections[0].image}`,
+  // }}
+
+  function renderContentImage() {
+    if (showLoader) {
+      return (
+        <View style={[styles.imageNftStyle, styles.centerizeContent]}>
+          <LottieView
+            source={loadingImage}
+            autoPlay
+            loop
+            style={styles.lottieStyle}
+          />
+          <Text style={styles.txtLoading}>Loading content...</Text>
+        </View>
+      );
+    }
+    return null;
+  }
+
   function renderImage() {
     return (
-      <ImageBackground
-        source={{uri: `${URL_WEBSITE}${item.collections[0].image}`}}
-        style={styles.nftContentStyle}>
+      <View style={styles.nftContentStyle}>
+        <FastImage
+          style={styles.imageNftStyle}
+          onProgress={() => {
+            setShowLoader(true);
+          }}
+          onLoadEnd={() => {
+            setShowLoader(false);
+          }}
+          source={{
+            uri: `${URL_WEBSITE}${item.collections[0].image}`,
+            priority: FastImage.priority.high,
+            cache: FastImage.cacheControl.immutable,
+          }}
+          resizeMode={FastImage.resizeMode.cover}
+        />
+        {renderContentImage()}
         <View style={styles.ctnTitle}>
           <View style={styles.rowTitle}>
             <Text
@@ -166,7 +205,7 @@ function NFTCard({
             </LinearGradient>
           </View>
         </View>
-      </ImageBackground>
+      </View>
     );
   }
 

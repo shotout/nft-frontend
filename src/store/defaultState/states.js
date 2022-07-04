@@ -28,10 +28,16 @@ const INITIAL_STATE = {
   appVersion: null,
   isDeleteUser: false,
   showModalDelete: false,
+  isStaging: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case types.SET_STAGING_STATUS:
+      return {
+        ...state,
+        isStaging: action.payload,
+      };
     case types.SET_MODAL_DELETE_STATUS:
       return {
         ...state,

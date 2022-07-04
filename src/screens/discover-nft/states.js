@@ -5,4 +5,5 @@ export default states => ({
   openAppsCounter: states.defaultState.openAppsCounter,
   haveBeenAskRating: states.defaultState.haveBeenAskRating,
   showModalDelete: states.defaultState.showModalDelete,
+  isStaging: states.defaultState.isStaging,
 });

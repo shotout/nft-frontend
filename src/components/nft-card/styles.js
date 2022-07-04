@@ -261,4 +261,27 @@ export default StyleSheet.create({
   moreDescHeight: {
     height: moderateScale(170),
   },
+  imageNftStyle: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  lottieStyle: {
+    // backgroundColor: 'red',
+    position: 'absolute',
+    height: '90%',
+    width: '100%',
+  },
+  txtLoading: {
+    fontFamily: fonts.MontserratSemiBold,
+    color: '#000',
+    fontSize: moderateScale(14),
+    marginTop: moderateScale(8),
+    paddingBottom: moderateScale(60),
+    textAlign: 'center',
+  },
+  centerizeContent: {
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
 });

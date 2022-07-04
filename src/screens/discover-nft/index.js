@@ -9,7 +9,7 @@ import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import NFTCard from '../../components/nft-card';
 import {reset} from '../../helpers/navigationRef';
-import {getProduct, updateUser} from '../../helpers/requests';
+import {getProduct, getVersionApps, updateUser} from '../../helpers/requests';
 import styles from './styles';
 import {getDimensionWidth} from '../../helpers/getDimensions';
 import {getFutureDate} from '../../helpers/dateHelper';
@@ -23,6 +23,8 @@ import {
 } from '../../shared/eventTracking';
 import {askRating} from '../../shared/askRating';
 import ModalDelete from '../../components/modal-delete';
+import {isIphone} from '../../shared/devices';
+import {ANDROID_APP_VERSION, IOS_APP_VERSION} from '../../shared/constant';
 
 function DiscoverNFT({
   navigation,
@@ -36,6 +38,8 @@ function DiscoverNFT({
   increaseOpenAppsCounter,
   showModalDelete,
   setModalDeleteStatus,
+  isStaging,
+  setAppStatus,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [isRefresh, setRefresh] = useState(false);
@@ -48,7 +52,7 @@ function DiscoverNFT({
   const [countryCode, setCountryCode] = useState('');
   const [loadingContent, setLoadingContent] = useState(false);
   const askPermission = route.params?.askTrackingPermission;
-  const isStaging = route.params?.isStaging;
+  const currentAppVersion = isIphone ? IOS_APP_VERSION : ANDROID_APP_VERSION;
 
   const params = {nft_level: isStaging ? 0 : 1};
 
@@ -105,14 +109,16 @@ function DiscoverNFT({
   const fetchData = async () => {
     try {
       setLoading(true);
+      const version = await getVersionApps({
+        app_version: currentAppVersion,
+      });
       const res = await getProduct({
         length: 12,
         page: currentPage,
-        ...params,
+        nft_level: version.data.status,
       });
       const country = await axios.get('https://ipapi.co/json/');
       setCountryCode(country.data.country_code);
-
       const additionalItem = isFirstTimeRender
         ? [
             {
@@ -127,6 +133,7 @@ function DiscoverNFT({
       setData(listItem);
       handleHypeList(res.data.data);
       setLoading(false);
+      setAppStatus(version.data.status === 0);
     } catch (err) {
       console.log('Err homepage:', err);
       reset('BoardingPage');

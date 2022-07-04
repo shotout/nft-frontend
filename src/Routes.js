@@ -23,6 +23,7 @@ import {
   fetchWallet,
   setProfileUser,
   setAppVersion,
+  setAppStatus,
 } from './store/defaultState/actions';
 import {
   userCredentialSelector,
@@ -35,7 +36,6 @@ import ActivateNotification from './screens/activate-notification';
 import {isIphone} from './shared/devices';
 import {getVersionApps} from './helpers/requests';
 import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
-import LoadingIndicator from './components/loading-indicator';
 import ConfirmDelete from './screens/confirm-delete';
 import DeleteAccount from './screens/delete-account';
 
@@ -52,7 +52,6 @@ function Homepage({route}) {
         component={DiscoverNFT}
         initialParams={{
           askTrackingPermission: route.params?.askTrackingPermission,
-          isStaging: route.params?.isStaging,
         }}
       />
     </Drawer.Navigator>
@@ -66,9 +65,8 @@ function Routes({
   handleProfilUser,
   handleAppVersion,
   isDeleteUser,
+  setStagingMode,
 }) {
-  const [isStaging, setStagingMode] = useState(false);
-  const [isLoading, setLoader] = useState(true);
   const currentAppVersion = isIphone ? IOS_APP_VERSION : ANDROID_APP_VERSION;
   const appState = useRef(AppState.currentState);
 
@@ -77,7 +75,6 @@ function Routes({
       app_version: currentAppVersion,
     });
     setStagingMode(version.data.status === 0);
-    setLoader(false);
   };
 
   const resetNotificationBadge = () => {
@@ -88,11 +85,13 @@ function Routes({
 
   const handleInitialData = () => {
     handleFetchWallet();
-    getSetting();
     resetNotificationBadge();
     if (getAppVersion !== currentAppVersion) {
       handleProfilUser(null);
       handleAppVersion(currentAppVersion);
+    }
+    if (!profile.token) {
+      getSetting();
     }
   };
 
@@ -140,10 +139,6 @@ function Routes({
     return 'BoardingPage';
   }
 
-  if (isLoading) {
-    return <LoadingIndicator fullscreen />;
-  }
-
   return (
     <NavigationContainer linking={linking} ref={navigationRef}>
       <Stack.Navigator initialRouteName={getInitialRoute()}>
@@ -160,7 +155,6 @@ function Routes({
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="Register"
-          initialParams={{showSkipButton: isStaging}}
           component={Register}
         />
         <Stack.Screen
@@ -186,7 +180,6 @@ function Routes({
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="Homepage"
-          initialParams={{isStaging}}
           component={Homepage}
         />
         <Stack.Screen
@@ -198,7 +191,6 @@ function Routes({
           options={navigationData.noHeader.options}
           name="DetailProduct"
           component={DetailProduct}
-          initialParams={{showMint: !isStaging}}
         />
         <Stack.Screen
           options={navigationData.noHeader.options}
@@ -230,4 +222,5 @@ export default connect(mapStateToProps, {
   handleFetchWallet: fetchWallet,
   handleProfilUser: setProfileUser,
   handleAppVersion: setAppVersion,
+  setStagingMode: setAppStatus,
 })(Routes);

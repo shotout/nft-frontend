@@ -57,7 +57,13 @@ const iPhoneProgress2 = require('../../assets/icon/progress_bar/ios/progress_ste
 const iPhoneProgress3 = require('../../assets/icon/progress_bar/ios/progress_step_3.png');
 const iPhoneProgress4 = require('../../assets/icon/progress_bar/ios/progress_step_4.png');
 
-function Register({walletList, route, setProfileUser, userProfile}) {
+function Register({
+  walletList,
+  route,
+  setProfileUser,
+  userProfile,
+  showSkipButton,
+}) {
   const [activeStep, setActiveStep] = useState('username'); // email,wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
@@ -74,10 +80,9 @@ function Register({walletList, route, setProfileUser, userProfile}) {
     name: null,
     email: null,
   });
-  const showSkipButton = route.params?.showSkipButton;
   const [notificationStatus, setNotificationStatus] = useState('');
   const noneId = '6S9k8lpoFy7M6heCsMElgD';
-
+  console.log('Check showSkipButton:', showSkipButton);
   const getToken = async () => {
     try {
       const fcmToken = await messaging().getToken();

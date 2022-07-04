@@ -4,6 +4,7 @@ import {
   increaseOpenAppsCounter,
   changeAskRatingParameter,
   setModalDeleteStatus,
+  setAppStatus,
 } from '../../store/defaultState/actions';
 
 export default dispatch => ({
@@ -14,4 +15,5 @@ export default dispatch => ({
   increaseOpenAppsCounter: (...args) =>
     dispatch(increaseOpenAppsCounter(...args)),
   setModalDeleteStatus: (...args) => dispatch(setModalDeleteStatus(...args)),
+  setAppStatus: (...args) => dispatch(setAppStatus(...args)),
 });

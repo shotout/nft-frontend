@@ -11,7 +11,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {connect} from 'react-redux';
-import moment from 'moment';
+import FastImage from 'react-native-fast-image';
 import styles from './styles';
 import {URL_WEBSITE} from '../../helpers/static';
 import Button from '../../components/button';
@@ -45,6 +45,7 @@ const iconVerified = require('../../assets/icon/verified_black.png');
 
 const instagram = require('../../assets/icon/instagram.png');
 const openseaIcon = require('../../assets/icon/opensea.png');
+const raribleIcon = require('../../assets/icon/rarible.png');
 const twitter = require('../../assets/icon/twitter.png');
 const discord = require('../../assets/icon/discord.png');
 const telegram = require('../../assets/icon/telegram.png');
@@ -59,6 +60,7 @@ function DetailProduct({
   openArticleCounter,
   changeAskRatingParameter,
   haveBeenAskRating,
+  isStaging,
 }) {
   const [isLoading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -73,7 +75,6 @@ function DetailProduct({
   let carouselRef = useRef();
   const hypeAmount = useRef();
   const mountTime = dateToUnix(new Date());
-  const showMintButton = route.params?.showMint;
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
 
   const fetchData = async () => {
@@ -173,8 +174,12 @@ function DetailProduct({
           data={detail.collections}
           renderItem={({item}) => (
             <View style={styles.ctnCollection}>
-              <Image
-                source={{uri: `${URL_WEBSITE}${item.image}`}}
+              <FastImage
+                source={{
+                  uri: `${URL_WEBSITE}${item.image}`,
+                  priority: FastImage.priority.high,
+                  cache: FastImage.cacheControl.immutable,
+                }}
                 style={styles.imgCollection}
               />
             </View>
@@ -343,6 +348,18 @@ function DetailProduct({
               </View>
             </TouchableWithoutFeedback>
           )}
+          {detail.community?.rarible && (
+            <TouchableWithoutFeedback
+              onPress={() => {
+                handleOpenURL(detail.community.rarible);
+              }}>
+              <View style={styles.ctnCommunity}>
+                <Image source={raribleIcon} style={styles.icnCommunity} />
+                <Text style={styles.txtCommunity}>Rarible</Text>
+                <Image source={linkIcon} style={styles.socialIcon} />
+              </View>
+            </TouchableWithoutFeedback>
+          )}
           {detail.nft_website && (
             <TouchableWithoutFeedback
               onPress={() => {
@@ -398,7 +415,7 @@ function DetailProduct({
         {renderSlider()}
         {renderContent()}
       </ScrollView>
-      {showMintButton && (
+      {!isStaging && (
         <LinearGradient
           colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
           style={styles.ctnGradient}>
