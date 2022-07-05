@@ -23,7 +23,7 @@ function ModalLoadingInitial({
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCounterNumber(loadingModal.counter + Math.floor(Math.random() * 10));
+      setCounterNumber(loadingModal.counter + Math.floor(Math.random() * 20));
     }, 1000);
     if (loadingModal.counter >= 100) {
       clearInterval(interval);

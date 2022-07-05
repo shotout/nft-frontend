@@ -329,12 +329,14 @@ function DiscoverNFT({
               <NFTCard
                 index={index}
                 shutOffTutorial={() => {
+                  showLoadingModal();
                   setActiveSlide(0);
                   setOffFirstTimeRender();
                   setData(listData.filter(content => !content.isTutorial));
                   setLoadingContent(true);
                   setTimeout(() => {
                     setLoadingContent(false);
+                    setCounterNumber(90);
                   }, 2000);
                 }}
                 handleRefresh={handleRefresh}
@@ -353,12 +355,14 @@ function DiscoverNFT({
             onBeforeSnapToItem={index => {
               setActiveSlide(index);
               if (listData[activeSlide].isTutorial) {
+                showLoadingModal();
                 setOffFirstTimeRender();
                 setData(listData.filter(content => !content.isTutorial));
                 setLoadingContent(true);
                 setTimeout(() => {
                   setActiveSlide(0);
                   setLoadingContent(false);
+                  setCounterNumber(90);
                 }, 2000);
               }
               eventTracking(
