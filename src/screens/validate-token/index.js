@@ -12,7 +12,12 @@ import {verifyToken} from '../../helpers/requests';
 import dispatcher from './dispatcher';
 import LoadingIndicator from '../../components/loading-indicator';
 
-function ValidateToken({route, setProfileUser, showLoadingModal}) {
+function ValidateToken({
+  route,
+  setProfileUser,
+  showLoadingModal,
+  setCounterNumber,
+}) {
   const [isLoading, selectedLoading] = useState(true);
   const [isError, setError] = useState(false);
   const handleData = async status => {
@@ -26,9 +31,9 @@ function ValidateToken({route, setProfileUser, showLoadingModal}) {
       }
       if (status === 'granted') {
         reset('Homepage', {askTrackingPermission: true});
-        showLoadingModal();
       } else {
         reset('ActivateNotification');
+        setCounterNumber(98);
       }
       selectedLoading(false);
     } catch (err) {
@@ -39,6 +44,7 @@ function ValidateToken({route, setProfileUser, showLoadingModal}) {
   };
 
   useEffect(() => {
+    showLoadingModal();
     checkNotifications().then(({status, settings}) => {
       console.log('Check notif:', status);
       handleData(status);
@@ -67,14 +73,6 @@ function ValidateToken({route, setProfileUser, showLoadingModal}) {
           </Text>
         </View>
       </>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <View style={{flex: 1, backgroundColor: '#fff'}}>
-        <LoadingIndicator fullscreen />
-      </View>
     );
   }
 

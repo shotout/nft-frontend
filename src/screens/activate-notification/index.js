@@ -1,18 +1,21 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, Linking} from 'react-native';
 import {requestNotifications} from 'react-native-permissions';
+import {connect} from 'react-redux';
 import Button from '../../components/button';
 import FomoComponent from '../../components/fomo-component';
 import {popToTop, reset} from '../../helpers/navigationRef';
+import dispatcher from './dispatcher';
 
 import styles from './styles';
 
-function ActivateNotification({route}) {
+function ActivateNotification({route, showLoadingModal}) {
   const handleToHome = () => {
     if (route.params?.justBack) {
       popToTop();
     } else {
       reset('Homepage', {askTrackingPermission: true});
+      showLoadingModal();
     }
   };
 
@@ -49,4 +52,4 @@ function ActivateNotification({route}) {
   );
 }
 
-export default ActivateNotification;
+export default connect(undefined, dispatcher)(ActivateNotification);

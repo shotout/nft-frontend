@@ -38,7 +38,7 @@ import {getVersionApps} from './helpers/requests';
 import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
 import ConfirmDelete from './screens/confirm-delete';
 import DeleteAccount from './screens/delete-account';
-import {showLoadingModal} from './store/generalState/actions';
+import {setCounterNumber, showLoadingModal} from './store/generalState/actions';
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +68,7 @@ function Routes({
   isDeleteUser,
   setStagingMode,
   handleShowLoadingModal,
+  handleCounterLoadingModal,
 }) {
   const currentAppVersion = isIphone ? IOS_APP_VERSION : ANDROID_APP_VERSION;
   const appState = useRef(AppState.currentState);
@@ -88,14 +89,20 @@ function Routes({
   const handleInitialData = () => {
     handleFetchWallet();
     resetNotificationBadge();
+    if (!profile.token) {
+      getSetting();
+    }
+    if (profile?.token || getAppVersion !== currentAppVersion) {
+      handleShowLoadingModal();
+      if (!profile?.token) {
+        setTimeout(() => {
+          handleCounterLoadingModal(98);
+        }, 3000);
+      }
+    }
     if (getAppVersion !== currentAppVersion) {
       handleProfilUser(null);
       handleAppVersion(currentAppVersion);
-    }
-    if (!profile.token) {
-      getSetting();
-    } else {
-      handleShowLoadingModal();
     }
   };
 
@@ -228,4 +235,5 @@ export default connect(mapStateToProps, {
   handleAppVersion: setAppVersion,
   setStagingMode: setAppStatus,
   handleShowLoadingModal: showLoadingModal,
+  handleCounterLoadingModal: setCounterNumber,
 })(Routes);

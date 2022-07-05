@@ -93,8 +93,8 @@ function SignIn({setProfileUser, showLoadingModal}) {
         `Sign in complete, user ${res?.data?.name || ''}`,
       );
       if (
-        values.email === 'gian.devx@gmail.com' ||
-        values.email === 'nstegwart@gmail.com'
+        values.email === 'gian.devx@gmail.com'
+        // || values.email === 'nstegwart@gmail.com'
       ) {
         setProfileUser(res);
         showLoadingModal();

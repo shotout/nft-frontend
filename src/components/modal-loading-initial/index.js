@@ -16,7 +16,7 @@ function ModalLoadingInitial({
   const [activeText, setActiveText] = useState(0);
   const textToRender = [
     'Loading amazingness...',
-    'NO FOMO...\nScanning the chain for hottest NFT...',
+    'NO FOMO...\nScanning the chain for the hottest NFT...',
     'Fire projects inbound...',
     'Unique NFTs take time...',
   ];
@@ -27,7 +27,7 @@ function ModalLoadingInitial({
     }, 1000);
     if (loadingModal.counter >= 100) {
       clearInterval(interval);
-      // hideLoadingModal();
+      hideLoadingModal();
     }
 
     const textInterval = setInterval(() => {
@@ -50,11 +50,13 @@ function ModalLoadingInitial({
       onRequestClose={() => {}}>
       <View style={styles.ctnContent}>
         <View style={styles.lottieWrapper}>
-          <Text style={[styles.txtPercentage]}>
-            {loadingModal.counter >= 99 ? 99 : loadingModal.counter}
-            {/* 50 */}
+          <View style={styles.counterWrapper}>
+            <Text style={[styles.txtPercentage]}>
+              {loadingModal.counter >= 99 ? 99 : loadingModal.counter}
+              {/* 22 */}
+            </Text>
             <Text style={styles.percent}>%</Text>
-          </Text>
+          </View>
           <LottieView
             source={loadingImage}
             autoPlay
@@ -62,7 +64,12 @@ function ModalLoadingInitial({
             style={styles.lottieStyle}
           />
         </View>
-        <Text style={styles.txtLoader}>{textToRender[activeText]}</Text>
+        <View style={styles.ctnTextLoader}>
+          <Text style={styles.txtLoader}>{textToRender[activeText]}</Text>
+        </View>
+        {/* <Text style={styles.txtLoader}>
+          {'NO FOMO...\nScanning the chain for hottest NFT...'}
+        </Text> */}
       </View>
     </Modal>
   );
