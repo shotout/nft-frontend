@@ -38,6 +38,7 @@ export default function RenderAsset({id}) {
         aspectRatio: 1 / 1,
         resizeMode: 'contain',
         borderRadius: moderateScale(20),
+        marginBottom: moderateScale(20),
       }}
     />
   );

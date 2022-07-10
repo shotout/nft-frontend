@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
-import {isIphoneXorAbove} from '../../shared/devices';
+import {isIphone, isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
@@ -40,5 +40,17 @@ export default StyleSheet.create({
     resizeMode: 'contain',
     marginLeft: moderateScale(6),
     top: moderateScale(1),
+  },
+  topWrapper: {
+    flex: 1,
+  },
+  ctBanner: {
+    width: '100%',
+    paddingBottom: isIphone ? moderateScale(40) : 0,
+  },
+  bannerStyle: {
+    width: moderateScale(220),
+    height: moderateScale(220),
+    resizeMode: 'contain',
   },
 });

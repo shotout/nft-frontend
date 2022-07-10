@@ -1,10 +1,21 @@
 import React from 'react';
-import {View, Text, TouchableOpacity, Image, Linking} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Linking,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {push} from '../../helpers/navigationRef';
 import styles from './styles';
 
 const iconSocial = require('../../assets/icon/social.png');
+const bottomBanner = require('../../assets/icon/image_sidebar.png');
+
+const bannerURL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSdUb2CSISqHafbkmWMQr_NNAyvv812qVfY_sXyAr5KRTSnpGg/viewform';
 
 export default function Sidebar({navigation, route}) {
   const topMenu = [
@@ -95,17 +106,33 @@ export default function Sidebar({navigation, route}) {
     );
   }
 
+  function renderBanner() {
+    return (
+      <View style={styles.ctBanner}>
+        <TouchableWithoutFeedback
+          onPress={() => {
+            Linking.openURL(bannerURL);
+          }}>
+          <Image source={bottomBanner} style={styles.bannerStyle} />
+        </TouchableWithoutFeedback>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.ctnRoot}>
-      <TouchableOpacity
-        style={styles.ctnClose}
-        onPress={() => {
-          navigation.closeDrawer();
-        }}>
-        <AntDesign name="close" color="#000" size={30} />
-      </TouchableOpacity>
-      {renderMenu()}
-      {renderSocialMenu()}
+      <View style={styles.topWrapper}>
+        <TouchableOpacity
+          style={styles.ctnClose}
+          onPress={() => {
+            navigation.closeDrawer();
+          }}>
+          <AntDesign name="close" color="#000" size={30} />
+        </TouchableOpacity>
+        {renderMenu()}
+        {renderSocialMenu()}
+      </View>
+      {renderBanner()}
     </View>
   );
 }

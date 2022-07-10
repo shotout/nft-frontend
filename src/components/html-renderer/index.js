@@ -23,7 +23,13 @@ function HTMRenderer({content, tagsStyles = {}, renderers = {}}) {
         source={{html: content}}
         tagsStyles={{
           p: styles.pStyle,
+          h1: styles.h1Style,
           h2: styles.h2Style,
+          h3: styles.h3Style,
+          h4: styles.h4Style,
+          h5: styles.h5Style,
+          ul: styles.ulStyle,
+          li: styles.liStyle,
           ...tagsStyles,
         }}
         renderers={renderers}
