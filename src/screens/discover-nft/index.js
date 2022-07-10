@@ -25,6 +25,18 @@ import {askRating} from '../../shared/askRating';
 import ModalDelete from '../../components/modal-delete';
 import {isIphone} from '../../shared/devices';
 import {ANDROID_APP_VERSION, IOS_APP_VERSION} from '../../shared/constant';
+import {dummyProduct} from '../../shared/dummyProduct';
+
+const dummyContent = [
+  {
+    ...dummyProduct[0],
+    isTutorial: true,
+    uuid: 'sdasd123',
+  },
+  {
+    ...dummyProduct[0],
+  },
+];
 
 function DiscoverNFT({
   navigation,
@@ -43,9 +55,9 @@ function DiscoverNFT({
   showLoadingModal,
   setCounterNumber,
 }) {
-  const [isLoading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(isFirstTimeRender !== true);
   const [isRefresh, setRefresh] = useState(false);
-  const [listData, setData] = useState([]);
+  const [listData, setData] = useState(isFirstTimeRender ? dummyContent : []);
   const [activeSlide, setActiveSlide] = useState(0);
   const [totalItem, setTotalItem] = useState(0);
   const [currentPage, setPage] = useState(1);
@@ -108,7 +120,7 @@ function DiscoverNFT({
     }
   };
 
-  const fetchData = async () => {
+  const fetchData = async isTutorial => {
     try {
       setLoading(true);
       const version = await getVersionApps({
@@ -120,19 +132,10 @@ function DiscoverNFT({
         nft_level: version.data.status,
       });
       const country = await axios.get('https://ipapi.co/json/');
+      setLoadingContent(false);
       setCountryCode(country.data.country_code);
-      const additionalItem = isFirstTimeRender
-        ? [
-            {
-              ...res.data.data[0],
-              isTutorial: true,
-              uuid: 'sdasd123',
-            },
-          ]
-        : [];
-      const listItem = [...additionalItem, ...(res?.data?.data || [])];
       setTotalItem(res.data.total);
-      setData(listItem);
+      setData(res?.data?.data);
       handleHypeList(res.data.data);
       setLoading(false);
       setCounterNumber(98);
@@ -191,7 +194,12 @@ function DiscoverNFT({
       console.log('ASK TRACKING PERMISSION');
       askTrackingPermission();
     }
-    fetchData();
+    if (isFirstTimeRender) {
+      setCounterNumber(90);
+      setLoading(false);
+    } else {
+      fetchData();
+    }
   };
 
   const handleOpenApps = () => {
@@ -332,12 +340,8 @@ function DiscoverNFT({
                   showLoadingModal();
                   setActiveSlide(0);
                   setOffFirstTimeRender();
-                  setData(listData.filter(content => !content.isTutorial));
                   setLoadingContent(true);
-                  setTimeout(() => {
-                    setLoadingContent(false);
-                    setCounterNumber(90);
-                  }, 2000);
+                  fetchData(true);
                 }}
                 handleRefresh={handleRefresh}
                 isActive={index === activeSlide}
@@ -357,13 +361,9 @@ function DiscoverNFT({
               if (listData[activeSlide].isTutorial) {
                 showLoadingModal();
                 setOffFirstTimeRender();
-                setData(listData.filter(content => !content.isTutorial));
                 setLoadingContent(true);
-                setTimeout(() => {
-                  setActiveSlide(0);
-                  setLoadingContent(false);
-                  setCounterNumber(90);
-                }, 2000);
+                fetchData(true);
+                setActiveSlide(0);
               }
               eventTracking(
                 SWYPE_COLLECTION_ID,

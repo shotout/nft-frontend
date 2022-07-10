@@ -6,16 +6,19 @@ import Button from '../../components/button';
 import FomoComponent from '../../components/fomo-component';
 import {popToTop, reset} from '../../helpers/navigationRef';
 import dispatcher from './dispatcher';
+import states from './states';
 
 import styles from './styles';
 
-function ActivateNotification({route, showLoadingModal}) {
+function ActivateNotification({route, showLoadingModal, isFirstTimeRender}) {
   const handleToHome = () => {
     if (route.params?.justBack) {
       popToTop();
     } else {
       reset('Homepage', {askTrackingPermission: true});
-      showLoadingModal();
+      if (!isFirstTimeRender) {
+        showLoadingModal();
+      }
     }
   };
 
@@ -52,4 +55,4 @@ function ActivateNotification({route, showLoadingModal}) {
   );
 }
 
-export default connect(undefined, dispatcher)(ActivateNotification);
+export default connect(states, dispatcher)(ActivateNotification);

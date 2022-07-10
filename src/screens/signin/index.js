@@ -18,8 +18,9 @@ import arrayErrorResturctor from '../register/responseValidatorArr';
 import {eventTracking, SIGN_IN_SUCCESS_ID} from '../../shared/eventTracking';
 import dispatcher from './dispatcher';
 import {isIphone} from '../../shared/devices';
+import states from './states';
 
-function SignIn({setProfileUser, showLoadingModal}) {
+function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
   const [activeStep, setActiveStep] = useState('signin');
   const [isLoading, selectedLoading] = useState(false);
   const [keyboardShow, setKeyboardShow] = useState(false);
@@ -97,7 +98,9 @@ function SignIn({setProfileUser, showLoadingModal}) {
         // || values.email === 'nstegwart@gmail.com'
       ) {
         setProfileUser(res);
-        showLoadingModal();
+        if (!isFirstTimeRender) {
+          showLoadingModal();
+        }
         reset('Homepage', {askTrackingPermission: true});
         return true;
       }
@@ -191,4 +194,4 @@ function SignIn({setProfileUser, showLoadingModal}) {
   );
 }
 
-export default connect(null, dispatcher)(SignIn);
+export default connect(states, dispatcher)(SignIn);

@@ -27,20 +27,29 @@ function ModalLoadingInitial({
     }, 1000);
     if (loadingModal.counter >= 100) {
       clearInterval(interval);
+      setActiveText(0);
       hideLoadingModal();
     }
 
+    return () => {
+      clearInterval(interval);
+    };
+  }, [loadingModal.counter]);
+
+  useEffect(() => {
+    console.log('Check visibility :', loadingModal.visible);
     const textInterval = setInterval(() => {
       setActiveText(currentValue =>
         currentValue === 3 ? 0 : currentValue + 1,
       );
     }, 1800);
-
+    if (!loadingModal.visible) {
+      clearInterval(textInterval);
+    }
     return () => {
-      clearInterval(interval);
       clearInterval(textInterval);
     };
-  }, [loadingModal.counter]);
+  }, [loadingModal.visible]);
 
   return (
     <Modal

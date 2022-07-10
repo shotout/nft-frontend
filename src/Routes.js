@@ -92,13 +92,13 @@ function Routes({
     if (!profile.token) {
       getSetting();
     }
-    if (profile?.token || getAppVersion !== currentAppVersion) {
+    if (profile?.token) {
       handleShowLoadingModal();
-      if (!profile?.token) {
-        setTimeout(() => {
-          handleCounterLoadingModal(98);
-        }, 3000);
-      }
+      // if (!profile?.token) {
+      //   setTimeout(() => {
+      //     handleCounterLoadingModal(98);
+      //   }, 3000);
+      // }
     }
     if (getAppVersion !== currentAppVersion) {
       handleProfilUser(null);

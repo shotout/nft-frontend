@@ -10,13 +10,14 @@ import {reset} from '../../helpers/navigationRef';
 import RegisterAnimate from '../../components/register-animate';
 import {verifyToken} from '../../helpers/requests';
 import dispatcher from './dispatcher';
-import LoadingIndicator from '../../components/loading-indicator';
+import states from './states';
 
 function ValidateToken({
   route,
   setProfileUser,
   showLoadingModal,
   setCounterNumber,
+  isFirstTimeRender,
 }) {
   const [isLoading, selectedLoading] = useState(true);
   const [isError, setError] = useState(false);
@@ -96,7 +97,9 @@ function ValidateToken({
             reset('BoardingPage');
           } else {
             reset('Homepage', {askTrackingPermission: true});
-            showLoadingModal();
+            if (!isFirstTimeRender) {
+              showLoadingModal();
+            }
           }
         }}
       />
@@ -104,4 +107,4 @@ function ValidateToken({
   );
 }
 
-export default connect(null, dispatcher)(ValidateToken);
+export default connect(states, dispatcher)(ValidateToken);
