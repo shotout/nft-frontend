@@ -124,11 +124,7 @@ function DetailProduct({
 
   const handleOpenRating = () => {
     const currentTotalOpenArticle = openArticleCounter + 1;
-    console.log('Check counter', currentTotalOpenArticle);
-    if (
-      currentTotalOpenArticle % 3 === 0 &&
-      (haveBeenAskRating === null || haveBeenAskRating === getFutureDate(-10))
-    ) {
+    if (currentTotalOpenArticle % 3 === 0 && haveBeenAskRating === null) {
       showRating(true);
       changeAskRatingParameter();
     }

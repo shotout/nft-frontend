@@ -12,7 +12,7 @@ const ratingIcon = require('../../assets/icon/rating_star.png');
 const unSelectRatingStar = require('../../assets/icon/unselect_rating_star.png');
 
 function ModalNotification({changeAskRatingParameter, handleClose, visible}) {
-  const [ratingSelected, setRatingSelected] = useState(5);
+  const [ratingSelected, setRatingSelected] = useState(0);
 
   const handleSubmit = () => {
     if (ratingSelected === 5 || ratingSelected === 4) {
@@ -31,7 +31,7 @@ function ModalNotification({changeAskRatingParameter, handleClose, visible}) {
       <View style={styles.ctnContent}>
         <View style={styles.itemWrapper}>
           <Text style={styles.txtTitle}>Enjoying NFT Daily?</Text>
-          <Text style={styles.txtDesc}>Please give us rating.</Text>
+          <Text style={styles.txtDesc}>Please give us a rating.</Text>
           <View style={styles.ctnIcon}>
             {Array.apply(null, Array(ratingSelected)).map((x, i) => (
               <TouchableOpacity
