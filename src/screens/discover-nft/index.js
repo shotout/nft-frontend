@@ -181,6 +181,7 @@ function DiscoverNFT({
       setLoadMore(true);
       const res = await getProduct({length: 12, page: currentPage, ...params});
       setTotalItem(res.data.total);
+      handleHypeList([...listData, ...res.data.data]);
       setData([...listData, ...res.data.data]);
       setLoadMore(false);
     } catch (err) {
