@@ -47,7 +47,7 @@ export default StyleSheet.create({
     height: '100%',
     paddingRight: moderateScale(20),
     paddingLeft: moderateScale(20),
-    paddingBottom: moderateScale(58),
+    paddingBottom: moderateScale(50),
     marginTop: moderateScale(6),
   },
   overlay: {
