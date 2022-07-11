@@ -6,6 +6,7 @@ import {
   Image,
   Linking,
   TouchableWithoutFeedback,
+  ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {push} from '../../helpers/navigationRef';
@@ -121,7 +122,7 @@ export default function Sidebar({navigation, route}) {
 
   return (
     <View style={styles.ctnRoot}>
-      <View style={styles.topWrapper}>
+      <ScrollView style={styles.topWrapper}>
         <TouchableOpacity
           style={styles.ctnClose}
           onPress={() => {
@@ -131,8 +132,8 @@ export default function Sidebar({navigation, route}) {
         </TouchableOpacity>
         {renderMenu()}
         {renderSocialMenu()}
-      </View>
-      {renderBanner()}
+        {renderBanner()}
+      </ScrollView>
     </View>
   );
 }

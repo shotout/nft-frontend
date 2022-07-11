@@ -1,7 +1,9 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import {isIphone, isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
+
+const windowHeight = Dimensions.get('window').height;
 
 export default StyleSheet.create({
   ctnRoot: {
@@ -13,7 +15,7 @@ export default StyleSheet.create({
     paddingVertical: moderateScale(20),
   },
   ctnSocial: {
-    marginTop: moderateScale(40),
+    marginTop: moderateScale(30),
     borderBottomColor: colors.dark,
     flexDirection: 'row',
     alignItems: 'center',
@@ -46,11 +48,17 @@ export default StyleSheet.create({
   },
   ctBanner: {
     width: '100%',
-    paddingBottom: isIphone ? moderateScale(40) : 0,
+    aspectRatio: 1 / 1,
+    marginBottom: windowHeight > 700 ? moderateScale(40) : 0,
+    marginTop: moderateScale(40),
+    // backgroundColor: 'red',
   },
   bannerStyle: {
-    width: moderateScale(220),
-    height: moderateScale(220),
+    width: '100%',
+    height: '100%',
     resizeMode: 'contain',
+  },
+  scrollCtn: {
+    flexGrow: 1,
   },
 });
