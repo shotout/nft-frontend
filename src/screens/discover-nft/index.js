@@ -152,6 +152,7 @@ function DiscoverNFT({
       if (!disableSnap) {
         setRefresh(true);
         carouselRef.current.snapToItem(0);
+        setActiveSlide(0);
       }
       setPage(1);
       const res = await getProduct({length: 12, page: 1, ...params});
@@ -295,7 +296,7 @@ function DiscoverNFT({
   }
 
   function renderTitle() {
-    if (listData[activeSlide].isTutorial) {
+    if (listData[activeSlide] && listData[activeSlide].isTutorial) {
       return (
         <View style={styles.ctnTitle}>
           <Text style={styles.txtName}>{`Hi ${

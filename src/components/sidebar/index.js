@@ -9,8 +9,10 @@ import {
   ScrollView,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import {connect} from 'react-redux';
 import {push} from '../../helpers/navigationRef';
 import styles from './styles';
+import states from './states';
 
 const iconSocial = require('../../assets/icon/social.png');
 const bottomBanner = require('../../assets/icon/image_sidebar.png');
@@ -18,7 +20,7 @@ const bottomBanner = require('../../assets/icon/image_sidebar.png');
 const bannerURL =
   'https://docs.google.com/forms/d/e/1FAIpQLSdUb2CSISqHafbkmWMQr_NNAyvv812qVfY_sXyAr5KRTSnpGg/viewform';
 
-export default function Sidebar({navigation, route}) {
+function Sidebar({navigation, isStaging}) {
   const topMenu = [
     {
       name: 'Account & Settings',
@@ -108,6 +110,9 @@ export default function Sidebar({navigation, route}) {
   }
 
   function renderBanner() {
+    if (isStaging) {
+      return null;
+    }
     return (
       <View style={styles.ctBanner}>
         <TouchableWithoutFeedback
@@ -137,3 +142,5 @@ export default function Sidebar({navigation, route}) {
     </View>
   );
 }
+
+export default connect(states)(Sidebar);
