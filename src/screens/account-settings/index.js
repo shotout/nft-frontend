@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {checkNotifications} from 'react-native-permissions';
 import {connect} from 'react-redux';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import {navigate, reset} from '../../helpers/navigationRef';
@@ -23,15 +24,24 @@ const forwardIcon = require('../../assets/icon/forward_icon.png');
 
 function AccountSettings({setProfileUser, userProfile}) {
   const [loadingGetEdit, setEditLoading] = useState(false);
+  const [loadingWallet, setWalletLoading] = useState(false);
 
-  const getInitialData = async () => {
-    setEditLoading(true);
+  const getInitialData = async isWallet => {
+    if (isWallet) {
+      setWalletLoading(true);
+    } else {
+      setEditLoading(true);
+    }
     const res = await getProfile();
     setProfileUser({
       ...userProfile,
       ...res,
     });
-    setEditLoading(false);
+    if (isWallet) {
+      setWalletLoading(false);
+    } else {
+      setEditLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -91,32 +101,82 @@ function AccountSettings({setProfileUser, userProfile}) {
     },
   ];
 
+  console.log('Check profil:', userProfile);
+
+  const handleConnectWallet = async () => {
+    console.log('Is available:', await InAppBrowser.isAvailable());
+    const URLDirect = `https://wallet.nftdaily.app/?token=${userProfile.token}`;
+    if (await InAppBrowser.isAvailable()) {
+      const result = await InAppBrowser.open(URLDirect, {
+        dismissButtonStyle: 'cancel',
+        enableUrlBarHiding: true,
+        hasBackButton: false,
+        enableDefaultShare: false,
+        showInRecents: true,
+        forceCloseOnRedirection: false,
+      });
+      console.log('Reesult :', result);
+      getInitialData(true);
+    } else {
+      console.log('didnt support in app browser');
+      Linking.openURL(URLDirect);
+    }
+  };
+
+  function renderButtonWallet() {
+    if (userProfile.wallet_connect) {
+      return (
+        <Button
+          type="green"
+          isLoading={loadingWallet}
+          label="Wallet Linked"
+          btnStyle={styles.btnStyle}
+          onPress={() => {}}
+        />
+      );
+    }
+    return (
+      <Button
+        type="dark"
+        isLoading={loadingWallet}
+        label="Set Wallet Address"
+        btnStyle={styles.btnStyle}
+        onPress={handleConnectWallet}
+      />
+    );
+  }
+
   function renderContent() {
     if (loadingGetEdit) {
       return <LoadingIndicator fullscreen />;
     }
     return (
-      <View style={styles.ctnCard}>
-        <FlatList
-          data={menuItem}
-          renderItem={({item}) => (
-            <TouchableWithoutFeedback onPress={item.onPress}>
-              <View style={styles.ctnItem}>
-                <View style={styles.ctnLeft}>
-                  <Text style={styles.txtTitle}>{item.title}</Text>
-                  <Text style={styles.txtDesc}>{item.desc}</Text>
+      <View style={styles.contentWrapper}>
+        <View style={styles.ctnCard}>
+          <FlatList
+            data={menuItem}
+            renderItem={({item}) => (
+              <TouchableWithoutFeedback onPress={item.onPress}>
+                <View style={styles.ctnItem}>
+                  <View style={styles.ctnLeft}>
+                    <Text style={styles.txtTitle}>{item.title}</Text>
+                    <Text style={styles.txtDesc}>{item.desc}</Text>
+                  </View>
+                  <Image source={forwardIcon} style={styles.forwardStyle} />
                 </View>
-                <Image source={forwardIcon} style={styles.forwardStyle} />
-              </View>
-            </TouchableWithoutFeedback>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-        <Button
-          type="dark"
-          label="Set Wallet Address"
-          btnStyle={styles.btnStyle}
-        />
+              </TouchableWithoutFeedback>
+            )}
+            keyExtractor={(item, index) => index.toString()}
+          />
+          {renderButtonWallet()}
+        </View>
+
+        <View style={styles.ctnText}>
+          <Text style={styles.txtHelp}>
+            Feel free to reach out to us if you encounter any problem regarding
+            your account.
+          </Text>
+        </View>
       </View>
     );
   }
@@ -125,7 +185,6 @@ function AccountSettings({setProfileUser, userProfile}) {
     <View style={styles.ctnRoot}>
       <Header title="Account & Settings" />
       <View style={styles.ctnScrollStyle}>{renderContent()}</View>
-
       {/* <Button
         btnStyle={styles.btnStyle}
         label="Logout"

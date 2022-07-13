@@ -5,6 +5,7 @@ export const colors = {
   dark: '#0a2753',
   grayText: '#39404B',
   pink: '#FC095A',
+  green: '#00C892',
 };
 
 export const fonts = {

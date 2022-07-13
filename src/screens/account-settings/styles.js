@@ -55,5 +55,15 @@ export default StyleSheet.create({
   btnStyle: {
     borderRadius: moderateScale(24),
     marginTop: moderateScale(12),
+    marginHorizontal: 0,
+  },
+  ctnText: {
+    marginHorizontal: moderateScale(20),
+  },
+  txtHelp: {
+    color: colors.dark,
+    fontFamily: fonts.MontserratItalic,
+    fontSize: moderateScale(12),
+    textAlign: 'center',
   },
 });
