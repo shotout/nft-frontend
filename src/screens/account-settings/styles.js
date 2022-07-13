@@ -53,6 +53,7 @@ export default StyleSheet.create({
     flexGrow: 1,
   },
   btnStyle: {
-    marginBottom: isIphoneXorAbove() ? moderateScale(28) : moderateScale(20),
+    borderRadius: moderateScale(24),
+    marginTop: moderateScale(12),
   },
 });

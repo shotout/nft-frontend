@@ -18,6 +18,8 @@ export default function Button({
     switch (type) {
       case 'white-button':
         return {backgroundColor: '#fff'};
+      case 'dark':
+        return {backgroundColor: colors.dark};
       default:
         if (isDisable) {
           return {backgroundColor: '#ddd'};

@@ -112,6 +112,11 @@ function AccountSettings({setProfileUser, userProfile}) {
           )}
           keyExtractor={(item, index) => index.toString()}
         />
+        <Button
+          type="dark"
+          label="Set Wallet Address"
+          btnStyle={styles.btnStyle}
+        />
       </View>
     );
   }
