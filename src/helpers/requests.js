@@ -108,6 +108,13 @@ export const getVersionApps = params =>
     params,
   });
 
+export const getWalletToken = params =>
+  Wrap({
+    url: `/users/token`,
+    method: 'GET',
+    params,
+  });
+
 export const getContentHTML = id => {
   Wrap({
     url: `https://cdn.contentful.com/spaces/iekxawt54bzj/environments/master/entries/${id}`,

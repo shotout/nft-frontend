@@ -13,7 +13,7 @@ import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
 import {navigate, reset} from '../../helpers/navigationRef';
-import {getProfile} from '../../helpers/requests';
+import {getProfile, getWalletToken} from '../../helpers/requests';
 import {isIphone} from '../../shared/devices';
 import styles from './styles';
 import dispatcher from './dispatcher';
@@ -25,6 +25,7 @@ const forwardIcon = require('../../assets/icon/forward_icon.png');
 function AccountSettings({setProfileUser, userProfile}) {
   const [loadingGetEdit, setEditLoading] = useState(false);
   const [loadingWallet, setWalletLoading] = useState(false);
+  const [walletToken, setWalletToken] = useState(null);
 
   const getInitialData = async isWallet => {
     if (isWallet) {
@@ -44,8 +45,14 @@ function AccountSettings({setProfileUser, userProfile}) {
     }
   };
 
+  const getToken = async () => {
+    const res = await getWalletToken();
+    setWalletToken(res.data);
+  };
+
   useEffect(() => {
     getInitialData();
+    getToken();
   }, []);
 
   const menuItem = [
@@ -105,8 +112,8 @@ function AccountSettings({setProfileUser, userProfile}) {
 
   const handleConnectWallet = async () => {
     console.log('Is available:', await InAppBrowser.isAvailable());
-    const URLDirect = `https://wallet.nftdaily.app/?token=${userProfile.token}`;
-    if (await InAppBrowser.isAvailable()) {
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;
+    if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
         dismissButtonStyle: 'cancel',
         enableUrlBarHiding: true,
@@ -119,12 +126,14 @@ function AccountSettings({setProfileUser, userProfile}) {
       getInitialData(true);
     } else {
       console.log('didnt support in app browser');
-      Linking.openURL(URLDirect);
+      if (walletToken) {
+        Linking.openURL(URLDirect);
+      }
     }
   };
 
   function renderButtonWallet() {
-    if (userProfile.wallet_connect) {
+    if (userProfile.data.wallet_connect) {
       return (
         <Button
           type="green"
