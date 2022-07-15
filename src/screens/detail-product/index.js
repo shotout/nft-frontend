@@ -69,6 +69,7 @@ function DetailProduct({
   setProfileUser,
   userProfile,
 }) {
+  const [loadingWallet, setWalletLoading] = useState(false);
   const [walletToken, setWalletToken] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
@@ -87,11 +88,13 @@ function DetailProduct({
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
 
   const getInitialData = async () => {
+    setWalletLoading(true);
     const res = await getProfile();
     setProfileUser({
       ...userProfile,
       ...res,
     });
+    setWalletLoading(false);
   };
 
   const getToken = async () => {
@@ -439,7 +442,7 @@ function DetailProduct({
   }
 
   function renderButton() {
-    if (isStaging || contentType) {
+    if (contentType) {
       return null;
     }
     if (detail.is_airdrop === '1') {
@@ -476,11 +479,15 @@ function DetailProduct({
               backgroundColor: detail.preferance.main_color,
             }}
             onPress={handleConnectWallet}
+            isLoading={loadingWallet}
             label="Enter Airdrop"
           />
           <Text style={styles.txtWallet}>No Wallet Connected</Text>
         </LinearGradient>
       );
+    }
+    if (isStaging) {
+      return null;
     }
     return (
       <LinearGradient

@@ -191,7 +191,7 @@ export default StyleSheet.create({
     width: '100%',
     justifyContent: 'center',
     paddingBottom: isIphoneXorAbove() ? moderateScale(20) : undefined,
-    paddingTop: moderateScale(20),
+    // paddingTop: moderateScale(20),
   },
   ctnScroll: {
     flexGrow: 1,
