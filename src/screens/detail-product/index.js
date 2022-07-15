@@ -12,6 +12,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {connect} from 'react-redux';
 import FastImage from 'react-native-fast-image';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import styles from './styles';
 import {URL_WEBSITE} from '../../helpers/static';
 import Button from '../../components/button';
@@ -19,6 +20,8 @@ import {hexToRgbA} from '../../helpers/hexToRgba';
 import {
   addWatchlist,
   getDetailProduct,
+  getProfile,
+  getWalletToken,
   removeWatchlist,
 } from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
@@ -41,6 +44,7 @@ import {dateToUnix, getFutureDate} from '../../helpers/dateHelper';
 import DivRender from '../../components/div-render';
 import ModalNotification from '../../components/modal-notification';
 import CollectionImage from '../../components/collection-image';
+import SuccessfullEnterAirdrop from '../../components/successfull-enter-airdrop';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 
@@ -62,7 +66,10 @@ function DetailProduct({
   changeAskRatingParameter,
   haveBeenAskRating,
   isStaging,
+  setProfileUser,
+  userProfile,
 }) {
+  const [walletToken, setWalletToken] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(0);
   const [detail, setDetail] = useState({});
@@ -71,6 +78,7 @@ function DetailProduct({
   );
   const [loadingFavorite, setFavorite] = useState(false);
   const [ratingVisible, showRating] = useState(false);
+  const [contentType, setContentType] = useState(null);
 
   const handleRefresh = route.params?.handleRefresh;
   let carouselRef = useRef();
@@ -78,9 +86,25 @@ function DetailProduct({
   const mountTime = dateToUnix(new Date());
   const [days, hours, minutes, seconds] = useCountdown(route.params.exp_promo);
 
+  const getInitialData = async () => {
+    const res = await getProfile();
+    setProfileUser({
+      ...userProfile,
+      ...res,
+    });
+  };
+
+  const getToken = async () => {
+    const res = await getWalletToken();
+    setWalletToken(res.data);
+  };
+
   const fetchData = async () => {
     setLoading(true);
     const res = await getDetailProduct(route.params.id);
+    if (res.data.is_airdrop === '1') {
+      getToken();
+    }
     setDetail(res.data);
     eventTracking(
       OPEN_COLLECTION_ID,
@@ -106,6 +130,27 @@ function DetailProduct({
       }
     } catch (err) {
       setFavorite(false);
+    }
+  };
+
+  const handleConnectWallet = async () => {
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;
+    if ((await InAppBrowser.isAvailable()) && walletToken) {
+      const result = await InAppBrowser.open(URLDirect, {
+        dismissButtonStyle: 'cancel',
+        enableUrlBarHiding: true,
+        hasBackButton: false,
+        enableDefaultShare: false,
+        showInRecents: true,
+        forceCloseOnRedirection: false,
+      });
+      console.log('Reesult :', result);
+      getInitialData();
+    } else {
+      console.log('didnt support in app browser');
+      if (walletToken) {
+        Linking.openURL(URLDirect);
+      }
     }
   };
 
@@ -152,7 +197,7 @@ function DetailProduct({
 
   const handleShare = async () => {
     await Share.share({
-      message: `Hey, have you heard about NFT Daily? Discover today's NFT pick before it's too late! https://nftdaily.app/article/${detail.uuid}`,
+      message: `Hey, have you heard about NFT Daily? Discover today's NFT pick before it's too late! https://backend.nftdaily.app/article/${detail.uuid}`,
     });
   };
 
@@ -366,6 +411,21 @@ function DetailProduct({
   }
 
   function renderContent() {
+    if (contentType === 'enter-airdrop') {
+      return (
+        <SuccessfullEnterAirdrop
+          backgroundColor={detail.preferance.main_color}
+          onPress={() => {
+            handleOpenURL(detail.nft_mint);
+            eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
+          }}
+          label={detail.preferance.button_label}
+          onBack={() => {
+            setContentType(null);
+          }}
+        />
+      );
+    }
     return (
       <View style={styles.ctnContent}>
         {renderTitle()}
@@ -375,6 +435,70 @@ function DetailProduct({
         {/* {renderRaffle()} */}
         {renderCommunity()}
       </View>
+    );
+  }
+
+  function renderButton() {
+    if (isStaging || contentType) {
+      return null;
+    }
+    if (detail.is_airdrop === '1') {
+      if (userProfile.data.wallet_connect) {
+        return (
+          <LinearGradient
+            colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
+            style={styles.ctnGradient}>
+            <Button
+              btnStyle={{
+                marginTop: 0,
+                marginBottom: 0,
+                backgroundColor: detail.preferance.main_color,
+              }}
+              onPress={() => {
+                setContentType('enter-airdrop');
+              }}
+              label="Enter Airdrop"
+            />
+            <Text style={[styles.txtWallet, styles.txtGreen]}>
+              Wallet Linked
+            </Text>
+          </LinearGradient>
+        );
+      }
+      return (
+        <LinearGradient
+          colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
+          style={styles.ctnGradient}>
+          <Button
+            btnStyle={{
+              // marginTop: 0,
+              marginBottom: 0,
+              backgroundColor: detail.preferance.main_color,
+            }}
+            onPress={handleConnectWallet}
+            label="Enter Airdrop"
+          />
+          <Text style={styles.txtWallet}>No Wallet Connected</Text>
+        </LinearGradient>
+      );
+    }
+    return (
+      <LinearGradient
+        colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
+        style={styles.ctnGradient}>
+        <Button
+          btnStyle={{
+            marginTop: 0,
+            marginBottom: 0,
+            backgroundColor: detail.preferance.main_color,
+          }}
+          onPress={() => {
+            handleOpenURL(detail.nft_mint);
+            eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
+          }}
+          label={detail.preferance.button_label}
+        />
+      </LinearGradient>
     );
   }
 
@@ -403,24 +527,7 @@ function DetailProduct({
         {renderSlider()}
         {renderContent()}
       </ScrollView>
-      {!isStaging && (
-        <LinearGradient
-          colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
-          style={styles.ctnGradient}>
-          <Button
-            btnStyle={{
-              marginTop: 0,
-              marginBottom: 0,
-              backgroundColor: detail.preferance.main_color,
-            }}
-            onPress={() => {
-              handleOpenURL(detail.nft_mint);
-              eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
-            }}
-            label={detail.preferance.button_label}
-          />
-        </LinearGradient>
-      )}
+      {renderButton()}
       <ModalNotification
         visible={ratingVisible}
         handleClose={() => {

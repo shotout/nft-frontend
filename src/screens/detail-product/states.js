@@ -3,4 +3,5 @@ export default states => ({
   openArticleCounter: states.defaultState.openArticleCounter,
   haveBeenAskRating: states.defaultState.haveBeenAskRating,
   isStaging: states.defaultState.isStaging,
+  userProfile: states.defaultState.userProfile,
 });

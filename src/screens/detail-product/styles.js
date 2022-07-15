@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {isIphoneXorAbove} from '../../shared/devices';
 import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
@@ -188,9 +189,9 @@ export default StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     width: '100%',
-    height: moderateScale(80),
     justifyContent: 'center',
-    // alignItems: 'center',
+    paddingBottom: isIphoneXorAbove() ? moderateScale(20) : undefined,
+    paddingTop: moderateScale(20),
   },
   ctnScroll: {
     flexGrow: 1,
@@ -240,5 +241,15 @@ export default StyleSheet.create({
   imgContentStyle: {
     width: '100%',
     height: '100%',
+  },
+  txtWallet: {
+    textAlign: 'center',
+    marginTop: moderateScale(8),
+    color: colors.red,
+    fontSize: moderateScale(12),
+    fontFamily: fonts.MontserratItalic,
+  },
+  txtGreen: {
+    color: colors.green,
   },
 });
