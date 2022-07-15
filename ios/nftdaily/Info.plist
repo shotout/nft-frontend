@@ -23,10 +23,6 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string>nftdaily</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>nftdaily</string>
@@ -35,20 +31,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>message</string>
-		<string>readdle-spark</string>
-		<string>airmail</string>
-		<string>ms-outlook</string>
-		<string>googlegmail</string>
-		<string>inbox-gmail</string>
-		<string>ymail</string>
-		<string>superhuman</string>
-		<string>yandexmail</string>
-		<string>fastmail</string>
-		<string>protonmail</string>
-	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -63,33 +45,31 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>Your data will be used to check if you are using in-app features, this will be used for future updates and development purposes.</string>
+	<string/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>Montserrat-Black.ttf</string>
-		<string>Montserrat-Bold.ttf</string>
-		<string>Montserrat-Light.ttf</string>
-		<string>Montserrat-Regular.ttf</string>
-		<string>Montserrat-SemiBold.ttf</string>
-		<string>AntDesign.ttf</string>
-		<string>Entypo.ttf</string>
-		<string>EvilIcons.ttf</string>
-		<string>Feather.ttf</string>
-		<string>FontAwesome.ttf</string>
-		<string>FontAwesome5_Brands.ttf</string>
-		<string>FontAwesome5_Regular.ttf</string>
-		<string>FontAwesome5_Solid.ttf</string>
-		<string>Fontisto.ttf</string>
-		<string>Foundation.ttf</string>
-		<string>Ionicons.ttf</string>
-		<string>MaterialCommunityIcons.ttf</string>
-		<string>MaterialIcons.ttf</string>
-		<string>Octicons.ttf</string>
-		<string>SimpleLineIcons.ttf</string>
-		<string>Zocial.ttf</string>
-		<string>Montserrat-Italic.ttf</string>
+    <string>Montserrat-Black.ttf</string>
+    <string>Montserrat-Bold.ttf</string>
+    <string>Montserrat-Light.ttf</string>
+    <string>Montserrat-Regular.ttf</string>
+    <string>Montserrat-SemiBold.ttf</string>
+    <string>AntDesign.ttf</string>
+    <string>Entypo.ttf</string>
+    <string>EvilIcons.ttf</string>
+    <string>Feather.ttf</string>
+    <string>FontAwesome.ttf</string>
+    <string>FontAwesome5_Brands.ttf</string>
+    <string>FontAwesome5_Regular.ttf</string>
+    <string>FontAwesome5_Solid.ttf</string>
+    <string>Fontisto.ttf</string>
+    <string>Foundation.ttf</string>
+    <string>Ionicons.ttf</string>
+    <string>MaterialCommunityIcons.ttf</string>
+    <string>MaterialIcons.ttf</string>
+    <string>Octicons.ttf</string>
+    <string>SimpleLineIcons.ttf</string>
+    <string>Zocial.ttf</string>
+    <string>Montserrat-Italic.ttf</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>

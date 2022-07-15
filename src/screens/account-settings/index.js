@@ -108,8 +108,6 @@ function AccountSettings({setProfileUser, userProfile}) {
     },
   ];
 
-  console.log('Check profil:', userProfile);
-
   const handleConnectWallet = async () => {
     console.log('Is available:', await InAppBrowser.isAvailable());
     const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;

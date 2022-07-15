@@ -55,7 +55,7 @@ const config = {
 };
 
 export const linking = {
-  prefixes: ['https://backend.nftdaily.app'],
+  prefixes: ['https://backend.nftdaily.app', 'nftdaily://'],
   // prefixes: ['nftapps://link'],
   config,
   // getInitialURL: async () => {

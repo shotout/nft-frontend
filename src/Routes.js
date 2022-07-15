@@ -6,7 +6,7 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import messaging from '@react-native-firebase/messaging';
 import {connect} from 'react-redux';
 import notifee from '@notifee/react-native';
-import {Alert, AppState} from 'react-native';
+import {Alert, AppState, Linking} from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
@@ -120,6 +120,16 @@ function Routes({
       notifee.incrementBadgeCount();
     });
 
+    const getAsyncURL = async () => {
+      const initialUrl = await Linking.getInitialURL();
+      if (initialUrl != undefined && initialUrl != null) {
+        console.log('Check url:', initialUrl);
+        // Handle initialURL as per your response and open a specific screen using navigation
+      }
+    };
+
+    getAsyncURL();
+
     return () => {
       subscription.remove();
     };
@@ -152,7 +162,7 @@ function Routes({
 
   return (
     <NavigationContainer linking={linking} ref={navigationRef}>
-      <Stack.Navigator initialRouteName={getInitialRoute()}>
+      <Stack.Navigator>
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="BoardingPage"
