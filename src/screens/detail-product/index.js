@@ -19,6 +19,7 @@ import Button from '../../components/button';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {
   addWatchlist,
+  connectAirdrop,
   getDetailProduct,
   getProfile,
   getWalletToken,
@@ -100,6 +101,13 @@ function DetailProduct({
   const getToken = async () => {
     const res = await getWalletToken();
     setWalletToken(res.data);
+  };
+
+  const handleAirdropConnect = async () => {
+    connectAirdrop({
+      user_id: userProfile.data.id,
+      product_id: detail.id,
+    });
   };
 
   const fetchData = async () => {
@@ -459,6 +467,7 @@ function DetailProduct({
               }}
               onPress={() => {
                 setContentType('enter-airdrop');
+                handleAirdropConnect();
               }}
               label="Enter Airdrop"
             />

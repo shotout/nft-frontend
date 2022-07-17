@@ -21,6 +21,7 @@ import {
 } from 'react-native-permissions';
 import {moderateScale} from 'react-native-size-matters';
 import RNExitApp from 'react-native-exit-app';
+import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Button from '../../components/button';
 import Header from '../../components/header';
 import Input from '../../components/input';
@@ -32,6 +33,7 @@ import states from './states';
 import {
   getProfile,
   getSkipResult,
+  getWalletToken,
   postRegister,
   updateUser,
 } from '../../helpers/requests';
@@ -57,6 +59,9 @@ const iPhoneProgress2 = require('../../assets/icon/progress_bar/ios/progress_ste
 const iPhoneProgress3 = require('../../assets/icon/progress_bar/ios/progress_step_3.png');
 const iPhoneProgress4 = require('../../assets/icon/progress_bar/ios/progress_step_4.png');
 
+const connectWalletBanner = require('../../assets/icon/connect_wallet_banner.png');
+const walletConnected = require('../../assets/icon/wallet_connected.png');
+
 function Register({
   walletList,
   route,
@@ -66,7 +71,9 @@ function Register({
   showLoadingModal,
   isFirstTimeRender,
 }) {
-  const [activeStep, setActiveStep] = useState('username'); // email,wallet
+  const [loadingWallet, setWalletLoading] = useState(false);
+  const [walletToken, setWalletToken] = useState(null);
+  const [activeStep, setActiveStep] = useState('username'); // email,connect-wallet
   const [selectedWallet, setSelectedWallet] = useState([]);
   const [isLoading, selectedLoading] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
@@ -85,6 +92,7 @@ function Register({
   const [notificationStatus, setNotificationStatus] = useState('');
   const noneId = '6S9k8lpoFy7M6heCsMElgD';
   console.log('Check showSkipButton:', showSkipButton);
+
   const getToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
@@ -96,6 +104,13 @@ function Register({
     } catch (err) {
       console.log('firebase error', err);
     }
+  };
+
+  const getAuthWallet = async () => {
+    setWalletLoading(true);
+    const res = await getWalletToken();
+    setWalletToken(res.data);
+    setWalletLoading(false);
   };
 
   const handleInitialEdit = async () => {
@@ -171,6 +186,38 @@ function Register({
     // }
   }, [activeStep]);
 
+  const getInitialData = async () => {
+    setWalletLoading(true);
+    const res = await getProfile();
+    setProfileUser({
+      ...userProfile,
+      ...res,
+    });
+    setWalletLoading(false);
+  };
+
+  const handleConnectWallet = async () => {
+    console.log('Is available:', await InAppBrowser.isAvailable());
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;
+    if ((await InAppBrowser.isAvailable()) && walletToken) {
+      const result = await InAppBrowser.open(URLDirect, {
+        dismissButtonStyle: 'cancel',
+        enableUrlBarHiding: true,
+        hasBackButton: false,
+        enableDefaultShare: false,
+        showInRecents: true,
+        forceCloseOnRedirection: false,
+      });
+      console.log('Reesult :', result);
+      getInitialData(true);
+    } else {
+      console.log('didnt support in app browser');
+      if (walletToken) {
+        Linking.openURL(URLDirect);
+      }
+    }
+  };
+
   const handleChangeText = (stateName, value) => {
     setValues({...values, [stateName]: value});
   };
@@ -192,11 +239,11 @@ function Register({
       case 'username':
         goBack();
         break;
-      case 'wallet':
-        setActiveStep('username');
+      case 'connect-wallet':
+        setActiveStep('email');
         break;
       case 'email':
-        setActiveStep('wallet');
+        setActiveStep('username');
         break;
       case 'done':
         break;
@@ -249,13 +296,12 @@ function Register({
   };
 
   const handleSubmit = async isSkip => {
-    console.log('IS SKIP:', isSkip);
     try {
       selectedLoading(true);
       const body = {
         ...values,
         email: isSkip ? `guest${Date.now()}@mail.com` : values.email,
-        wallet: selectedWallet,
+        wallet: [noneId],
       };
       const res = await postRegister(body);
       eventTracking(
@@ -266,11 +312,8 @@ function Register({
         Alert.alert(res?.message || 'Error');
       } else {
         setProfileUser(res);
-        if (isIphone && notificationStatus !== 'granted') {
-          setActiveStep('notification');
-        } else {
-          setActiveStep('done');
-        }
+        setActiveStep('connect-wallet');
+        getAuthWallet();
       }
       selectedLoading(false);
     } catch (err) {
@@ -314,6 +357,12 @@ function Register({
     if (activeStep === 'done') {
       return 'Start Exploring';
     }
+    if (activeStep === 'connect-wallet') {
+      if (userProfile?.data?.wallet_connect) {
+        return 'Continue';
+      }
+      return 'Connect Wallet';
+    }
     if (activeStep === 'notification') {
       return 'ENABLE NOTIFICATIONS';
     }
@@ -331,7 +380,7 @@ function Register({
           if (skip) {
             handleChangeText('name', 'Guest');
           }
-          setActiveStep('wallet');
+          setActiveStep('email');
           setError({
             ...error,
             name: null,
@@ -341,16 +390,6 @@ function Register({
             ...error,
             name: 'Username is required.',
           });
-        }
-        break;
-      case 'wallet':
-        if (selectedWallet.length === 0 && !skip) {
-          Alert.alert('Wallet must be selected.');
-        } else {
-          if (skip) {
-            setSelectedWallet([noneId]);
-          }
-          setActiveStep('email');
         }
         break;
       case 'email':
@@ -366,6 +405,17 @@ function Register({
             ...error,
             email: 'Please enter a valid email address.',
           });
+        }
+        break;
+      case 'connect-wallet':
+        if (userProfile?.data?.wallet_connect || skip) {
+          if (isIphone) {
+            setActiveStep('notification');
+          } else {
+            setActiveStep('done');
+          }
+        } else {
+          handleConnectWallet();
         }
         break;
       case 'notification':
@@ -395,9 +445,9 @@ function Register({
   function getProgressImage() {
     if (isIphone) {
       switch (activeStep) {
-        case 'wallet':
-          return iPhoneProgress2;
         case 'email':
+          return iPhoneProgress2;
+        case 'connect-wallet':
           return iPhoneProgress3;
         case 'notification':
           return iPhoneProgress4;
@@ -406,9 +456,9 @@ function Register({
       }
     } else {
       switch (activeStep) {
-        case 'wallet':
-          return androidProgress2;
         case 'email':
+          return androidProgress2;
+        case 'connect-wallet':
           return androidProgress3;
         default:
           return androidProgress1;
@@ -497,49 +547,22 @@ function Register({
         </>
       );
     }
-    if (activeStep === 'wallet') {
+    if (activeStep === 'connect-wallet') {
       return (
         <>
-          <Title label="Make it relevant for you! Select your primary wallets." />
+          <Title label="Wallet Connect." />
           <View style={styles.cntWallet}>
-            {walletList.map(wallet => {
-              const isWalletSelected = findSelectedWallet(wallet.uuid);
-              const isItemDisable = isDisableItem(wallet.uuid);
-              return (
-                <View style={styles.ctnWallet} key={wallet.uuid}>
-                  <TouchableOpacity
-                    // disabled={isItemDisable}
-                    onPress={() => {
-                      handleSelectedWallet(wallet.uuid, wallet.name);
-                    }}>
-                    <View
-                      style={[
-                        styles.icnWallet,
-                        isWalletSelected && styles.redBorder,
-                        // isItemDisable && styles.disableBg,
-                      ]}>
-                      <Image
-                        source={{uri: wallet.image_url}}
-                        style={styles.walletIcoStyle}
-                      />
-                    </View>
-                  </TouchableOpacity>
-                  <Text style={styles.txtWallet}>{wallet.name}</Text>
-                </View>
-              );
-            })}
-            {/* <View style={styles.ctnWallet}>
-              <TouchableOpacity
-                onPress={() => {
-                  setSelectedWallet([]);
-                  setNone(true);
-                }}>
-                <View style={[styles.icnWallet, isNone && styles.redBorder]}>
-                  <Fontisto name="close" size={30} color={colors.dark} />
-                </View>
-              </TouchableOpacity>
-              <Text style={styles.txtWallet}>None</Text>
-            </View> */}
+            <Image
+              source={
+                userProfile?.data?.wallet_connect
+                  ? walletConnected
+                  : connectWalletBanner
+              }
+              style={styles.walletBannerStyle}
+            />
+            <Text style={[styles.txtDescDone, styles.mgTop20]}>
+              {`Enjoy added benefits by connecting your wallets once and thereby linking your wallet address to your account.\n\nIf you do not own a wallet, you can skip this step for now.`}
+            </Text>
           </View>
         </>
       );
@@ -593,7 +616,7 @@ function Register({
             route.params?.edit ||
             activeStep === 'notification'
               ? undefined
-              : showSkipButton
+              : showSkipButton || activeStep === 'connect-wallet'
               ? 'skip-right-text'
               : null
           }
@@ -607,7 +630,7 @@ function Register({
       </View>
       {!loadingGetEdit && ((!keyboardShow && !isIphone) || isIphone) && (
         <Button
-          isLoading={isLoading}
+          isLoading={isLoading || loadingWallet}
           label={getLabel()}
           onPress={() => {
             handleChangeStep(false);

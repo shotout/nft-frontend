@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
-import {fonts} from '../../shared/styling';
+import {isIphoneXorAbove} from '../../shared/devices';
+import {colors, fonts} from '../../shared/styling';
 
 export default StyleSheet.create({
   ctnRoot: {
@@ -8,7 +9,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: moderateScale(30),
     borderTopRightRadius: moderateScale(30),
-    paddingBottom: moderateScale(30),
+    paddingBottom: isIphoneXorAbove() ? moderateScale(30) : moderateScale(20),
     marginTop: moderateScale(20),
   },
   backIconStyle: {
@@ -32,12 +33,13 @@ export default StyleSheet.create({
     marginBottom: moderateScale(12),
   },
   txtDesc: {
-    fontFamily: fonts.MontserratLight,
+    fontFamily: fonts.MontserratRegular,
     fontSize: moderateScale(14),
     textAlign: 'center',
     marginHorizontal: moderateScale(20),
     marginBottom: moderateScale(12),
     lineHeight: moderateScale(22),
+    color: colors.dark,
   },
   ctnBack: {
     position: 'absolute',

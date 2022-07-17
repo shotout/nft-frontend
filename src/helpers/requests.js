@@ -32,6 +32,13 @@ export const postRegister = data =>
     data,
   });
 
+export const connectAirdrop = data =>
+  Wrap({
+    url: '/airdrop/store',
+    method: 'POST',
+    data,
+  });
+
 export const updateUser = data =>
   Wrap({
     url: '/users',

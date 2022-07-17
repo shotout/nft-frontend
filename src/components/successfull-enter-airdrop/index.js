@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import LottieView from 'lottie-react-native';
+import {moderateScale} from 'react-native-size-matters';
 import styles from './styles';
 import Button from '../button';
 
@@ -48,7 +49,7 @@ export default function SuccessfullEnterAirdrop({
 
       <Button
         btnStyle={{
-          marginTop: 0,
+          marginTop: moderateScale(20),
           marginBottom: 0,
           backgroundColor,
         }}
