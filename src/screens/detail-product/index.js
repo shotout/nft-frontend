@@ -46,6 +46,7 @@ import DivRender from '../../components/div-render';
 import ModalNotification from '../../components/modal-notification';
 import CollectionImage from '../../components/collection-image';
 import SuccessfullEnterAirdrop from '../../components/successfull-enter-airdrop';
+import MintViaEmail from '../../components/mint-via-email';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 
@@ -106,7 +107,7 @@ function DetailProduct({
   const handleAirdropConnect = async () => {
     connectAirdrop({
       user_id: userProfile.data.id,
-      product_id: detail.id,
+      product_id: detail.uuid,
     });
   };
 
@@ -214,6 +215,15 @@ function DetailProduct({
 
   const handleOpenURL = url => {
     Linking.openURL(url);
+  };
+
+  const handleButtonPress = () => {
+    if (detail.minting_type === '1') {
+      setContentType('mint-email');
+    } else {
+      handleOpenURL(detail.nft_mint);
+    }
+    eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
   };
 
   function renderSlider() {
@@ -422,14 +432,22 @@ function DetailProduct({
   }
 
   function renderContent() {
+    if (contentType === 'mint-email') {
+      return (
+        <MintViaEmail
+          id={detail.uuid}
+          backgroundColor={detail.preferance.main_color}
+          onBack={() => {
+            setContentType(null);
+          }}
+        />
+      );
+    }
     if (contentType === 'enter-airdrop') {
       return (
         <SuccessfullEnterAirdrop
           backgroundColor={detail.preferance.main_color}
-          onPress={() => {
-            handleOpenURL(detail.nft_mint);
-            eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
-          }}
+          onPress={handleButtonPress}
           label={detail.preferance.button_label}
           onBack={() => {
             setContentType(null);
@@ -453,6 +471,10 @@ function DetailProduct({
     if (contentType) {
       return null;
     }
+
+    // if (isStaging) {
+    //   return null;
+    // }
     if (detail.is_airdrop === '1') {
       if (userProfile.data.wallet_connect) {
         return (
@@ -495,9 +517,6 @@ function DetailProduct({
         </LinearGradient>
       );
     }
-    if (isStaging) {
-      return null;
-    }
     return (
       <LinearGradient
         colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
@@ -508,10 +527,7 @@ function DetailProduct({
             marginBottom: 0,
             backgroundColor: detail.preferance.main_color,
           }}
-          onPress={() => {
-            handleOpenURL(detail.nft_mint);
-            eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
-          }}
+          onPress={handleButtonPress}
           label={detail.preferance.button_label}
         />
       </LinearGradient>

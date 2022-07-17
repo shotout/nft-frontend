@@ -39,6 +39,13 @@ export const connectAirdrop = data =>
     data,
   });
 
+export const mintViaEmail = (id, data) =>
+  Wrap({
+    url: `/users/mint/${id}`,
+    method: 'POST',
+    data,
+  });
+
 export const updateUser = data =>
   Wrap({
     url: '/users',

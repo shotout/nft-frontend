@@ -9,7 +9,6 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     borderTopLeftRadius: moderateScale(30),
     borderTopRightRadius: moderateScale(30),
-    paddingBottom: isIphoneXorAbove() ? moderateScale(30) : moderateScale(20),
     marginTop: moderateScale(20),
   },
   backIconStyle: {
@@ -37,7 +36,6 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratRegular,
     fontSize: moderateScale(14),
     textAlign: 'center',
-    marginHorizontal: moderateScale(20),
     marginBottom: moderateScale(12),
     lineHeight: moderateScale(22),
     color: colors.dark,
@@ -49,5 +47,22 @@ export default StyleSheet.create({
   },
   topContainer: {
     flex: 1,
+    paddingTop: moderateScale(18),
+    marginHorizontal: moderateScale(40),
+  },
+  btnCancel: {
+    paddingTop: moderateScale(16),
+    paddingBottom: isIphoneXorAbove() ? moderateScale(30) : moderateScale(20),
+  },
+  txtMintCancel: {
+    textAlign: 'center',
+    fontFamily: fonts.MontserratRegular,
+    fontSize: moderateScale(14),
+    color: colors.dark,
+    textDecorationLine: 'underline',
+  },
+  normalizePdTop: {
+    paddingTop: 0,
+    paddingBottom: isIphoneXorAbove() ? moderateScale(30) : moderateScale(20),
   },
 });
