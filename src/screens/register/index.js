@@ -1,10 +1,9 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
-  AppState,
   Linking,
   Alert,
   TouchableWithoutFeedback,
@@ -15,12 +14,8 @@ import RNAndroidKeyboardAdjust from 'rn-android-keyboard-adjust';
 import Fontisto from 'react-native-vector-icons/Fontisto';
 import {connect} from 'react-redux';
 import messaging from '@react-native-firebase/messaging';
-import {
-  checkNotifications,
-  requestNotifications,
-} from 'react-native-permissions';
+import {requestNotifications} from 'react-native-permissions';
 import {moderateScale} from 'react-native-size-matters';
-import RNExitApp from 'react-native-exit-app';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Button from '../../components/button';
 import Header from '../../components/header';
@@ -32,7 +27,6 @@ import {goBack, reset} from '../../helpers/navigationRef';
 import states from './states';
 import {
   getProfile,
-  getSkipResult,
   getWalletToken,
   postRegister,
   updateUser,
@@ -43,12 +37,7 @@ import RegisterAnimate from '../../components/register-animate';
 import dispatcher from './dispatcher';
 import FomoComponent from '../../components/fomo-component';
 import {isIphone} from '../../shared/devices';
-import {
-  eventTracking,
-  SELECT_WALLET_ID,
-  SIGN_UP_SUCCESS_ID,
-  UNSELECT_WALLET_ID,
-} from '../../shared/eventTracking';
+import {eventTracking, SIGN_UP_SUCCESS_ID} from '../../shared/eventTracking';
 
 const androidProgress1 = require('../../assets/icon/progress_bar/android/progress_step_1.png');
 const androidProgress2 = require('../../assets/icon/progress_bar/android/progress_step_2.png');
@@ -63,13 +52,13 @@ const connectWalletBanner = require('../../assets/icon/connect_wallet_banner.png
 const walletConnected = require('../../assets/icon/wallet_connected.png');
 
 function Register({
-  walletList,
   route,
   setProfileUser,
   userProfile,
   showSkipButton,
   showLoadingModal,
   isFirstTimeRender,
+  handleForceCloseStatus,
 }) {
   const [loadingWallet, setWalletLoading] = useState(false);
   const [walletToken, setWalletToken] = useState(null);
@@ -78,7 +67,6 @@ function Register({
   const [isLoading, selectedLoading] = useState(false);
   const [loadingGetEdit, setEditLoading] = useState(false);
   const [keyboardShow, setKeyboardShow] = useState(false);
-  const appState = useRef(AppState.currentState);
   const [values, setValues] = useState({
     name: '',
     email: '',
@@ -89,9 +77,7 @@ function Register({
     name: null,
     email: null,
   });
-  const [notificationStatus, setNotificationStatus] = useState('');
   const noneId = '6S9k8lpoFy7M6heCsMElgD';
-  console.log('Check showSkipButton:', showSkipButton);
 
   const getToken = async () => {
     try {
@@ -133,16 +119,6 @@ function Register({
   useEffect(() => {
     handleInitialEdit();
     getToken();
-    checkNotifications().then(({status, settings}) => {
-      setNotificationStatus(status);
-    });
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'background') {
-        if (Platform.OS === 'ios') {
-          RNExitApp.exitApp();
-        }
-      }
-    });
     if (Platform.OS === 'android') {
       RNAndroidKeyboardAdjust.setAdjustResize();
     }
@@ -150,41 +126,8 @@ function Register({
       if (Platform.OS === 'android') {
         RNAndroidKeyboardAdjust.setAdjustPan();
       }
-      subscription.remove();
     };
   }, []);
-
-  useEffect(() => {
-    // if (activeStep === 'done') {
-    //   if (Platform.OS === 'ios') {
-    //     setTimeout(() => {
-    //       console.log('Exit apps', activeStep);
-    //       RNExitApp.exitApp();
-    //     }, 5000);
-    //   }
-    // }
-    // const subscription = AppState.addEventListener('change', nextAppState => {
-    //   if (
-    //     appState.current.match(/inactive|background/) &&
-    //     nextAppState === 'active'
-    //   ) {
-    //     console.log('App has come to the foreground!');
-    //   }
-    //   appState.current = nextAppState;
-    //   setAppStateVisible(appState.current);
-    //   console.log('AppState', appState.current, activeStep);
-    //   if (nextAppState === 'inactive' || nextAppState === 'background') {
-    //     if (Platform.OS === 'ios') {
-    //       console.log('Exit apps', activeStep);
-    //       RNExitApp.exitApp();
-    //     }
-    //   }
-    // });
-    // return () => {
-    //   subscription.remove();
-    // };
-    // }
-  }, [activeStep]);
 
   const getInitialData = async () => {
     setWalletLoading(true);
@@ -193,11 +136,17 @@ function Register({
       ...userProfile,
       ...res,
     });
+    if (res.data?.wallet_connect) {
+      if (isIphone) {
+        setActiveStep('notification');
+      } else {
+        setActiveStep('done');
+      }
+    }
     setWalletLoading(false);
   };
 
   const handleConnectWallet = async () => {
-    console.log('Is available:', await InAppBrowser.isAvailable());
     const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;
     if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
@@ -222,14 +171,6 @@ function Register({
     setValues({...values, [stateName]: value});
   };
 
-  const findSelectedWallet = name => {
-    const isThere = selectedWallet.find(item => item === name);
-    if (isThere) {
-      return true;
-    }
-    return false;
-  };
-
   const handleBack = () => {
     if (route.params?.edit) {
       goBack();
@@ -241,6 +182,7 @@ function Register({
         break;
       case 'connect-wallet':
         setActiveStep('email');
+        // handleForceCloseStatus(false);
         break;
       case 'email':
         setActiveStep('username');
@@ -272,29 +214,6 @@ function Register({
     return false;
   };
 
-  function isDisableItem(id) {
-    const isNoneSelected = selectedWallet.find(wallet => wallet === noneId);
-    if (isNoneSelected && noneId !== id) {
-      return true;
-    }
-    return false;
-  }
-
-  const handleSelectedWallet = (name, walletName) => {
-    const isThere = findSelectedWallet(name);
-    if (isThere) {
-      setSelectedWallet(selectedWallet.filter(item => item !== name));
-      eventTracking(UNSELECT_WALLET_ID, `Wallet: unselect ${walletName || ''}`);
-    } else if (noneId === name) {
-      setSelectedWallet([name]);
-    } else {
-      const currrentData = [...selectedWallet];
-      currrentData.push(name);
-      setSelectedWallet(currrentData.filter(ctn => ctn !== noneId));
-      eventTracking(SELECT_WALLET_ID, `Wallet: select ${walletName || ''}`);
-    }
-  };
-
   const handleSubmit = async isSkip => {
     try {
       selectedLoading(true);
@@ -313,6 +232,7 @@ function Register({
       } else {
         setProfileUser(res);
         setActiveStep('connect-wallet');
+        handleForceCloseStatus(true);
         getAuthWallet();
       }
       selectedLoading(false);
@@ -409,6 +329,7 @@ function Register({
         break;
       case 'connect-wallet':
         if (userProfile?.data?.wallet_connect || skip) {
+          // handleForceCloseStatus(false);
           if (isIphone) {
             setActiveStep('notification');
           } else {

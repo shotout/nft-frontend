@@ -8,7 +8,6 @@ const windowHeight = Dimensions.get('window').height;
 export default StyleSheet.create({
   ctnRoot: {
     flex: 1,
-    paddingHorizontal: moderateScale(20),
     paddingTop: isIphoneXorAbove() ? moderateScale(40) : undefined,
   },
   ctnClose: {
@@ -47,18 +46,21 @@ export default StyleSheet.create({
     flex: 1,
   },
   ctBanner: {
-    width: '100%',
+    width: '90%',
     aspectRatio: 1 / 1,
     marginBottom: windowHeight > 700 ? moderateScale(40) : 0,
     marginTop: moderateScale(40),
-    // backgroundColor: 'red',
+    paddingHorizontal: moderateScale(10),
   },
   bannerStyle: {
-    width: '100%',
+    width: '90%',
     height: '100%',
     resizeMode: 'contain',
   },
   scrollCtn: {
     flexGrow: 1,
+  },
+  ctnHorizontal: {
+    paddingHorizontal: moderateScale(20),
   },
 });

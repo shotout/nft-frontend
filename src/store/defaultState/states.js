@@ -29,10 +29,16 @@ const INITIAL_STATE = {
   isDeleteUser: false,
   showModalDelete: false,
   isStaging: false,
+  setOffForceCloseIOS: false,
 };
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case types.HANDLE_FORCE_CLOSE_IOS:
+      return {
+        ...state,
+        setOffForceCloseIOS: action.payload,
+      };
     case types.SET_STAGING_STATUS:
       return {
         ...state,

@@ -1,6 +1,11 @@
 import {getWallet} from '../../helpers/requests';
 import * as types from './types';
 
+export const handleForceCloseStatus = payload => ({
+  type: types.HANDLE_FORCE_CLOSE_IOS,
+  payload,
+});
+
 export const setAppStatus = payload => ({
   type: types.SET_STAGING_STATUS,
   payload,
