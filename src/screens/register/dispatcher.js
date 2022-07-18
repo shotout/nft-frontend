@@ -1,7 +1,12 @@
-import {setProfileUser} from '../../store/defaultState/actions';
+import {
+  handleForceCloseStatus,
+  setProfileUser,
+} from '../../store/defaultState/actions';
 import {showLoadingModal} from '../../store/generalState/actions';
 
 export default dispatch => ({
   setProfileUser: (...args) => dispatch(setProfileUser(...args)),
   showLoadingModal: (...args) => dispatch(showLoadingModal(...args)),
+  handleForceCloseStatus: (...args) =>
+    dispatch(handleForceCloseStatus(...args)),
 });
