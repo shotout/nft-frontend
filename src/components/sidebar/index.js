@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import {push} from '../../helpers/navigationRef';
 import styles from './styles';
 import states from './states';
+import {openWeb} from '../../helpers/openWeb';
 
 const iconSocial = require('../../assets/icon/social.png');
 const bottomBanner = require('../../assets/icon/image_sidebar.png');
@@ -52,7 +53,7 @@ function Sidebar({navigation, isStaging}) {
   ];
 
   const handleOpenURL = url => {
-    Linking.openURL(url);
+    openWeb(url);
   };
 
   const socialMenu = [
@@ -117,7 +118,7 @@ function Sidebar({navigation, isStaging}) {
       <View style={styles.ctBanner}>
         <TouchableWithoutFeedback
           onPress={() => {
-            Linking.openURL(bannerURL);
+            handleOpenURL(bannerURL);
           }}>
           <Image source={bottomBanner} style={styles.bannerStyle} />
         </TouchableWithoutFeedback>

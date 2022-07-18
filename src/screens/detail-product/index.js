@@ -46,6 +46,7 @@ import DivRender from '../../components/div-render';
 import ModalNotification from '../../components/modal-notification';
 import CollectionImage from '../../components/collection-image';
 import SuccessfullEnterAirdrop from '../../components/successfull-enter-airdrop';
+import {openWeb} from '../../helpers/openWeb';
 
 const iconVerified = require('../../assets/icon/verified_black.png');
 
@@ -213,7 +214,7 @@ function DetailProduct({
   };
 
   const handleOpenURL = url => {
-    Linking.openURL(url);
+    openWeb(url);
   };
 
   function renderSlider() {
