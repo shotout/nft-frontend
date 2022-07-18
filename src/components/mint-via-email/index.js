@@ -48,6 +48,34 @@ export default function MintViaEmail({
       </View>
     );
   }
+  if (activeStep === 'mint-via-apps') {
+    return (
+      <View style={styles.ctnRoot}>
+        <View style={styles.topContainer}>
+          <Text style={styles.txtTitle}>Mint on your phone</Text>
+          <Text style={styles.txtDesc}>
+            We recommend minting on desktop for now, but you can continue
+            minting on your phone by clicking the link below to get to the
+            minting page.
+          </Text>
+        </View>
+
+        <View style={styles.mintWrapper}>
+          <Button
+            btnStyle={{
+              marginTop: moderateScale(20),
+              marginBottom: 0,
+              backgroundColor,
+            }}
+            onPress={onPress}
+            isLoading={loadingMint}
+            label={label}
+          />
+        </View>
+        {renderBackButton()}
+      </View>
+    );
+  }
   if (activeStep === 'success') {
     return (
       <View style={styles.ctnRoot}>
@@ -87,7 +115,11 @@ export default function MintViaEmail({
           isLoading={loadingMint}
           label="Mint via Email link"
         />
-        <TouchableOpacity style={styles.btnCancel} onPress={onBack}>
+        <TouchableOpacity
+          style={styles.btnCancel}
+          onPress={() => {
+            setStep('mint-via-apps');
+          }}>
           <Text style={styles.txtMintCancel}>No, thanks</Text>
         </TouchableOpacity>
       </View>

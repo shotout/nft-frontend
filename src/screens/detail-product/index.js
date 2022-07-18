@@ -224,12 +224,12 @@ function DetailProduct({
     openWeb(url);
   };
 
+  const handleMintProduct = () => {
+    setContentType('mint-email');
+  };
+
   const handleButtonPress = () => {
-    if (detail.minting_type === '1') {
-      setContentType('mint-email');
-    } else {
-      handleOpenURL(detail.nft_mint);
-    }
+    handleOpenURL(detail.nft_mint);
     eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
   };
 
@@ -442,6 +442,8 @@ function DetailProduct({
     if (contentType === 'mint-email') {
       return (
         <MintViaEmail
+          onPress={handleButtonPress}
+          label={detail.preferance.button_label}
           id={detail.uuid}
           backgroundColor={detail.preferance.main_color}
           onBack={() => {
@@ -533,7 +535,7 @@ function DetailProduct({
             marginBottom: 0,
             backgroundColor: detail.preferance.main_color,
           }}
-          onPress={handleButtonPress}
+          onPress={handleMintProduct}
           label={detail.preferance.button_label}
         />
       </LinearGradient>
