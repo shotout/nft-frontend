@@ -111,9 +111,9 @@ function Sidebar({navigation, isStaging}) {
   }
 
   function renderBanner() {
-    if (isStaging) {
-      return null;
-    }
+    // if (isStaging) {
+    //   return null;
+    // }
     return (
       <View style={styles.ctBanner}>
         <TouchableWithoutFeedback
@@ -129,15 +129,17 @@ function Sidebar({navigation, isStaging}) {
   return (
     <View style={styles.ctnRoot}>
       <ScrollView style={styles.topWrapper}>
-        <TouchableOpacity
-          style={styles.ctnClose}
-          onPress={() => {
-            navigation.closeDrawer();
-          }}>
-          <AntDesign name="close" color="#000" size={30} />
-        </TouchableOpacity>
-        {renderMenu()}
-        {renderSocialMenu()}
+        <View style={styles.ctnHorizontal}>
+          <TouchableOpacity
+            style={styles.ctnClose}
+            onPress={() => {
+              navigation.closeDrawer();
+            }}>
+            <AntDesign name="close" color="#000" size={30} />
+          </TouchableOpacity>
+          {renderMenu()}
+          {renderSocialMenu()}
+        </View>
         {renderBanner()}
       </ScrollView>
     </View>
