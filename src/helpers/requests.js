@@ -32,9 +32,9 @@ export const postRegister = data =>
     data,
   });
 
-export const connectAirdrop = data =>
+export const connectAirdrop = (id, data) =>
   Wrap({
-    url: '/airdrop/store',
+    url: `/airdrop/store/${id}`,
     method: 'POST',
     data,
   });
@@ -73,6 +73,13 @@ export const removeWatchlist = id =>
 export const postLogin = data =>
   Wrap({
     url: '/auth/login',
+    method: 'POST',
+    data,
+  });
+
+export const checkAirdrop = (id, data) =>
+  Wrap({
+    url: `/airdrop/check/${id}`,
     method: 'POST',
     data,
   });

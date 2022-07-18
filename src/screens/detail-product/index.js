@@ -19,6 +19,7 @@ import Button from '../../components/button';
 import {hexToRgbA} from '../../helpers/hexToRgba';
 import {
   addWatchlist,
+  checkAirdrop,
   connectAirdrop,
   getDetailProduct,
   getProfile,
@@ -82,6 +83,8 @@ function DetailProduct({
   const [loadingFavorite, setFavorite] = useState(false);
   const [ratingVisible, showRating] = useState(false);
   const [contentType, setContentType] = useState(null);
+  const [airdropStatus, setAirdropStatus] = useState(false);
+  const [loadingAirdrop, setLoadingAirdrop] = useState(false);
 
   const handleRefresh = route.params?.handleRefresh;
   let carouselRef = useRef();
@@ -105,15 +108,18 @@ function DetailProduct({
   };
 
   const handleAirdropConnect = async () => {
-    connectAirdrop({
-      user_id: userProfile.data.id,
-      product_id: detail.id,
-    });
+    setLoadingAirdrop(true);
+    await connectAirdrop(detail.id);
+    setAirdropStatus(true);
+    setLoadingAirdrop(false);
+    setContentType('enter-airdrop');
   };
 
   const fetchData = async () => {
     setLoading(true);
     const res = await getDetailProduct(route.params.id);
+    const resAirdrop = await checkAirdrop(res.data.id);
+    setAirdropStatus(resAirdrop.status === 'success');
     if (res.data.is_airdrop === '1') {
       getToken();
     }
@@ -454,20 +460,23 @@ function DetailProduct({
     if (contentType) {
       return null;
     }
-    if (detail.is_airdrop === '1') {
+    // if (isStaging) {
+    //   return null;
+    // }
+    if (detail.is_airdrop === '1' && !airdropStatus) {
       if (userProfile.data.wallet_connect) {
         return (
           <LinearGradient
             colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
             style={styles.ctnGradient}>
             <Button
+              isLoading={loadingAirdrop}
               btnStyle={{
                 marginTop: 0,
                 marginBottom: 0,
                 backgroundColor: detail.preferance.main_color,
               }}
               onPress={() => {
-                setContentType('enter-airdrop');
                 handleAirdropConnect();
               }}
               label="Enter Airdrop"
@@ -495,9 +504,6 @@ function DetailProduct({
           <Text style={styles.txtWallet}>No Wallet Connected</Text>
         </LinearGradient>
       );
-    }
-    if (isStaging) {
-      return null;
     }
     return (
       <LinearGradient
