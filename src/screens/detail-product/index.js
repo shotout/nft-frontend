@@ -228,9 +228,17 @@ function DetailProduct({
     setContentType('mint-email');
   };
 
-  const handleButtonPress = () => {
-    handleOpenURL(detail.nft_mint);
-    eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
+  const handleFinishAirdrop = () => {
+    if (detail.minting_type === '1') {
+      setContentType('mint-email');
+    } else {
+      if (detail.cta_link) {
+        handleOpenURL(detail.cta_link);
+      } else {
+        handleOpenURL(detail.nft_mint);
+      }
+      eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
+    }
   };
 
   function renderSlider() {
@@ -442,7 +450,13 @@ function DetailProduct({
     if (contentType === 'mint-email') {
       return (
         <MintViaEmail
-          onPress={handleButtonPress}
+          onPress={() => {
+            if (detail.cta_link) {
+              handleOpenURL(detail.cta_link);
+            } else {
+              handleOpenURL(detail.nft_mint);
+            }
+          }}
           label={detail.preferance.button_label}
           id={detail.uuid}
           backgroundColor={detail.preferance.main_color}
@@ -456,7 +470,7 @@ function DetailProduct({
       return (
         <SuccessfullEnterAirdrop
           backgroundColor={detail.preferance.main_color}
-          onPress={handleButtonPress}
+          onPress={handleFinishAirdrop}
           label={detail.preferance.button_label}
           onBack={() => {
             setContentType(null);
@@ -532,7 +546,7 @@ function DetailProduct({
         <Button
           btnStyle={{
             marginTop: 0,
-            marginBottom: 0,
+            marginBottom: 12,
             backgroundColor: detail.preferance.main_color,
           }}
           onPress={handleMintProduct}

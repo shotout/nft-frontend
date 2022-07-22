@@ -53,7 +53,7 @@ export default StyleSheet.create({
     paddingHorizontal: moderateScale(10),
   },
   bannerStyle: {
-    width: '90%',
+    width: '100%',
     height: '100%',
     resizeMode: 'contain',
   },

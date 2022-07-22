@@ -2,26 +2,32 @@ import React, {useState} from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {moderateScale} from 'react-native-size-matters';
+import {connect} from 'react-redux';
+import {openInbox} from 'react-native-email-link';
 import styles from './styles';
 import Button from '../button';
 import {mintViaEmail} from '../../helpers/requests';
+import states from './states';
 
 const successAnimation = require('../../assets/icon/success_animation.json');
 const backArrow = require('../../assets/icon/back_button.png');
 
-export default function MintViaEmail({
+function MintViaEmail({
   backgroundColor,
   label,
   onPress,
   onBack,
   id,
+  userProfile,
 }) {
   const [loadingMint, setLoadingMint] = useState(false);
   const [activeStep, setStep] = useState('mint');
-
   const handleMint = async () => {
     setLoadingMint(true);
-    await mintViaEmail(id);
+    const body = {
+      email: userProfile.data.email,
+    };
+    await mintViaEmail(id, body);
     setLoadingMint(false);
     setStep('success');
   };
@@ -64,7 +70,7 @@ export default function MintViaEmail({
           <Button
             btnStyle={{
               marginTop: moderateScale(20),
-              marginBottom: 0,
+              marginBottom: 20,
               backgroundColor,
             }}
             onPress={onPress}
@@ -86,6 +92,20 @@ export default function MintViaEmail({
             Check your emails you should have received and email from us with
             the link to the mint.
           </Text>
+        </View>
+
+        <View style={styles.mintWrapper}>
+          <Button
+            btnStyle={{
+              marginTop: moderateScale(20),
+              marginBottom: 20,
+              backgroundColor,
+            }}
+            onPress={() => {
+              openInbox();
+            }}
+            label="Open Emails"
+          />
         </View>
         {renderBackButton()}
       </View>
@@ -127,3 +147,5 @@ export default function MintViaEmail({
     </View>
   );
 }
+
+export default connect(states)(MintViaEmail);
