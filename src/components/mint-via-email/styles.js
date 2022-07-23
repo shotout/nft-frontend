@@ -29,7 +29,7 @@ export default StyleSheet.create({
     fontSize: moderateScale(16),
     textAlign: 'center',
     marginHorizontal: moderateScale(20),
-    marginBottom: moderateScale(12),
+    marginBottom: moderateScale(4),
     color: colors.dark,
   },
   txtDesc: {
@@ -63,6 +63,13 @@ export default StyleSheet.create({
   },
   normalizePdTop: {
     paddingTop: 0,
-    paddingBottom: isIphoneXorAbove() ? moderateScale(30) : moderateScale(20),
+    marginTop: moderateScale(-16),
+  },
+  ctnInput: {
+    marginTop: 0,
+    paddingHorizontal: moderateScale(4),
+  },
+  txtLimitStyle: {
+    textAlign: 'right',
   },
 });

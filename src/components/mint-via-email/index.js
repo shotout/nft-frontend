@@ -8,9 +8,13 @@ import styles from './styles';
 import Button from '../button';
 import {mintViaEmail} from '../../helpers/requests';
 import states from './states';
+import Input from '../input';
 
 const successAnimation = require('../../assets/icon/success_animation.json');
 const backArrow = require('../../assets/icon/back_button.png');
+
+const validEmail =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
 function MintViaEmail({
   backgroundColor,
@@ -22,10 +26,13 @@ function MintViaEmail({
 }) {
   const [loadingMint, setLoadingMint] = useState(false);
   const [activeStep, setStep] = useState('mint');
+  const [showInput, setShowInput] = useState(false);
+  const [email, setEmail] = useState('');
+
   const handleMint = async () => {
     setLoadingMint(true);
     const body = {
-      email: userProfile.data.email,
+      email,
     };
     await mintViaEmail(id, body);
     setLoadingMint(false);
@@ -124,6 +131,24 @@ function MintViaEmail({
         </Text>
       </View>
 
+      {showInput && (
+        <View style={styles.ctnInput}>
+          <Input
+            ctnRootStyle={styles.ctnInput}
+            txtLimitStyle={styles.txtLimitStyle}
+            ctnInputStyle={{borderColor: backgroundColor}}
+            maxLength={100}
+            value={email}
+            onChangeText={value => {
+              setEmail(value);
+            }}
+            placeholder="Your Email"
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+        </View>
+      )}
+
       <View style={styles.mintWrapper}>
         <Button
           btnStyle={{
@@ -131,9 +156,16 @@ function MintViaEmail({
             marginBottom: 0,
             backgroundColor,
           }}
-          onPress={handleMint}
+          onPress={() => {
+            if (!showInput) {
+              setShowInput(true);
+            } else {
+              handleMint();
+            }
+          }}
+          isDisable={showInput && !email.match(validEmail)}
           isLoading={loadingMint}
-          label="Mint via Email link"
+          label="Mint via Email Link"
         />
         <TouchableOpacity
           style={styles.btnCancel}

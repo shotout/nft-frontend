@@ -5,10 +5,11 @@ import {colors} from '../../shared/styling';
 import styles from './styles';
 
 export default function Input(props) {
+  const {ctnRootStyle, txtLimitStyle, ctnInputStyle} = props;
   const [isFocus, setFocus] = useState(false);
   return (
-    <View style={styles.mainWrapper}>
-      <View style={styles.ctnInput}>
+    <View style={[styles.mainWrapper, ctnRootStyle]}>
+      <View style={[styles.ctnInput, ctnInputStyle]}>
         <TextInput
           onFocus={() => {
             setFocus(true);
@@ -22,9 +23,9 @@ export default function Input(props) {
         />
       </View>
       {props.error && <Text style={styles.txtRed}>{props.error}</Text>}
-      <Text style={styles.txtLimit}>{`${props.value.length || '0'}/${
-        props.maxLength
-      }`}</Text>
+      <Text style={[styles.txtLimit, txtLimitStyle]}>{`${
+        props.value.length || '0'
+      }/${props.maxLength}`}</Text>
     </View>
   );
 }
