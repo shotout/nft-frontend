@@ -28,8 +28,9 @@ export default StyleSheet.create({
     fontFamily: fonts.MontserratBold,
     fontSize: moderateScale(16),
     textAlign: 'center',
-    marginHorizontal: moderateScale(20),
-    marginBottom: moderateScale(4),
+    marginHorizontal: moderateScale(48),
+    marginBottom: moderateScale(16),
+    lineHeight: moderateScale(24),
     color: colors.dark,
   },
   txtDesc: {
@@ -37,18 +38,18 @@ export default StyleSheet.create({
     fontSize: moderateScale(14),
     textAlign: 'center',
     marginBottom: moderateScale(12),
-    lineHeight: moderateScale(22),
+    lineHeight: moderateScale(24),
     color: colors.dark,
   },
   ctnBack: {
     position: 'absolute',
-    top: moderateScale(0),
+    top: moderateScale(2),
     left: moderateScale(0),
   },
   topContainer: {
     flex: 1,
-    paddingTop: moderateScale(18),
-    marginHorizontal: moderateScale(40),
+    paddingTop: moderateScale(24),
+    marginHorizontal: moderateScale(12),
   },
   btnCancel: {
     paddingTop: moderateScale(16),
@@ -71,5 +72,12 @@ export default StyleSheet.create({
   },
   txtLimitStyle: {
     textAlign: 'right',
+  },
+  phoneMintWrapper: {
+    paddingBottom: isIphoneXorAbove() ? moderateScale(12) : undefined,
+  },
+  succesfullText: {
+    marginBottom: moderateScale(4),
+    marginTop: moderateScale(6),
   },
 });

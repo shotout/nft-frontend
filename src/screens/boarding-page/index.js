@@ -40,7 +40,11 @@ function BoardingPage({
   };
 
   useEffect(() => {
-    if (setOffForceCloseIOS) {
+    if (
+      setOffForceCloseIOS &&
+      subscription.current &&
+      typeof subscription.current.remove === 'function'
+    ) {
       subscription.current.remove();
     }
     if (localOffStatus && !setOffForceCloseIOS) {

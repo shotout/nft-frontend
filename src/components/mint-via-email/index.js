@@ -13,9 +13,6 @@ import Input from '../input';
 const successAnimation = require('../../assets/icon/success_animation.json');
 const backArrow = require('../../assets/icon/back_button.png');
 
-const validEmail =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
 function MintViaEmail({
   backgroundColor,
   label,
@@ -27,7 +24,14 @@ function MintViaEmail({
   const [loadingMint, setLoadingMint] = useState(false);
   const [activeStep, setStep] = useState('mint');
   const [showInput, setShowInput] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(userProfile.data?.email || '');
+
+  function validateEmail() {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+      return true;
+    }
+    return false;
+  }
 
   const handleMint = async () => {
     setLoadingMint(true);
@@ -73,7 +77,7 @@ function MintViaEmail({
           </Text>
         </View>
 
-        <View style={styles.mintWrapper}>
+        <View style={styles.phoneMintWrapper}>
           <Button
             btnStyle={{
               marginTop: moderateScale(20),
@@ -94,14 +98,15 @@ function MintViaEmail({
       <View style={styles.ctnRoot}>
         {renderAnimation()}
         <View style={[styles.topContainer, styles.normalizePdTop]}>
-          <Text style={styles.txtTitle}>Successfully Sent</Text>
+          <Text style={[styles.txtTitle, styles.succesfullText]}>
+            Successfully sent
+          </Text>
           <Text style={styles.txtDesc}>
-            Check your emails you should have received and email from us with
-            the link to the mint.
+            {`Check your emails!\nYou should have received an email from us with the link to the mint.`}
           </Text>
         </View>
 
-        <View style={styles.mintWrapper}>
+        <View style={styles.phoneMintWrapper}>
           <Button
             btnStyle={{
               marginTop: moderateScale(20),
@@ -125,9 +130,7 @@ function MintViaEmail({
           Get your exclusive minting link in your inbox
         </Text>
         <Text style={styles.txtDesc}>
-          You can direclty mint here via on your phone or we can send you the
-          exclusive link to your accounts email, so you can check them out on
-          your desktop.
+          {`You can directly mint here on your phone\nor we can send the exclusive link to your\nemail, so you can check it out on your\ndesktop and other devices.`}
         </Text>
       </View>
 
@@ -163,9 +166,9 @@ function MintViaEmail({
               handleMint();
             }
           }}
-          isDisable={showInput && !email.match(validEmail)}
+          isDisable={showInput && !validateEmail()}
           isLoading={loadingMint}
-          label="Mint via Email Link"
+          label={`${label} via Email Link`}
         />
         <TouchableOpacity
           style={styles.btnCancel}

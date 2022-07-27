@@ -541,7 +541,11 @@ function Register({
               ? 'skip-right-text'
               : null
           }
-          hideLeft={activeStep === 'done' || activeStep === 'notification'}
+          hideLeft={
+            activeStep === 'done' ||
+            activeStep === 'notification' ||
+            activeStep === 'connect-wallet'
+          }
           backPress={handleBack}
           onSkip={() => {
             handleChangeStep(true);

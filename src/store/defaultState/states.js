@@ -89,7 +89,6 @@ export default (state = INITIAL_STATE, action) => {
           isFirstTimeRender: true,
           openAppsCounter: 0,
           openArticleCounter: 0,
-          haveBeenAskRating: null,
           userProfile: {},
         };
       }

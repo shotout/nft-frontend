@@ -3,7 +3,6 @@ import {
   View,
   Text,
   Image,
-  ScrollView,
   Share,
   Linking,
   TouchableWithoutFeedback,
@@ -11,8 +10,8 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination} from 'react-native-snap-carousel';
 import {connect} from 'react-redux';
-import FastImage from 'react-native-fast-image';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import styles from './styles';
 import {URL_WEBSITE} from '../../helpers/static';
 import Button from '../../components/button';
@@ -42,7 +41,7 @@ import {
   OPEN_MINT,
   UNHYPE_COLLECTION_ID,
 } from '../../shared/eventTracking';
-import {dateToUnix, getFutureDate} from '../../helpers/dateHelper';
+import {dateToUnix} from '../../helpers/dateHelper';
 import DivRender from '../../components/div-render';
 import ModalNotification from '../../components/modal-notification';
 import CollectionImage from '../../components/collection-image';
@@ -451,11 +450,7 @@ function DetailProduct({
       return (
         <MintViaEmail
           onPress={() => {
-            if (detail.cta_link) {
-              handleOpenURL(detail.cta_link);
-            } else {
-              handleOpenURL(detail.nft_mint);
-            }
+            handleOpenURL(detail.nft_mint);
           }}
           label={detail.preferance.button_label}
           id={detail.uuid}
@@ -539,6 +534,27 @@ function DetailProduct({
         </LinearGradient>
       );
     }
+
+    if (detail.minting_type === '0') {
+      return (
+        <LinearGradient
+          colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
+          style={styles.ctnGradient}>
+          <Button
+            btnStyle={{
+              marginTop: 0,
+              marginBottom: 12,
+              backgroundColor: detail.preferance.main_color,
+            }}
+            onPress={() => {
+              handleOpenURL(detail.nft_mint);
+              eventTracking(OPEN_MINT, `Mint ${detail?.nft_title || ''}`);
+            }}
+            label={detail.preferance.button_label}
+          />
+        </LinearGradient>
+      );
+    }
     return (
       <LinearGradient
         colors={[hexToRgbA('#fff', 0.5), hexToRgbA('#fff', 1)]}
@@ -565,7 +581,8 @@ function DetailProduct({
   }
   return (
     <View style={[styles.ctnRoot]}>
-      <ScrollView
+      <KeyboardAwareScrollView
+        keyboardShouldPersistTaps="handled"
         style={[
           styles.ctnRoot,
           {backgroundColor: detail.preferance.background_color},
@@ -580,7 +597,7 @@ function DetailProduct({
         />
         {renderSlider()}
         {renderContent()}
-      </ScrollView>
+      </KeyboardAwareScrollView>
       {renderButton()}
       <ModalNotification
         visible={ratingVisible}
