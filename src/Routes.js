@@ -7,7 +7,6 @@ import messaging from '@react-native-firebase/messaging';
 import {connect} from 'react-redux';
 import notifee from '@notifee/react-native';
 import {AppState} from 'react-native';
-import RNExitApp from 'react-native-exit-app';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
 import navigationData from './shared/navigationData';
@@ -131,24 +130,6 @@ function Routes({
       subscription.remove();
     };
   }, []);
-
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'background') {
-        if (isDeleteUser) {
-          RNExitApp.exitApp();
-        }
-      }
-    });
-    if (!isDeleteUser) {
-      subscription.remove();
-    }
-    return () => {
-      if (typeof subscription.remove === 'function') {
-        subscription.remove();
-      }
-    };
-  }, [isDeleteUser]);
 
   function getInitialRoute() {
     if (profile.token) {
