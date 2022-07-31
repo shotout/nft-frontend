@@ -32,6 +32,20 @@ export const postRegister = data =>
     data,
   });
 
+export const connectAirdrop = (id, data) =>
+  Wrap({
+    url: `/airdrop/store/${id}`,
+    method: 'POST',
+    data,
+  });
+
+export const mintViaEmail = (id, data) =>
+  Wrap({
+    url: `/users/mint/${id}`,
+    method: 'POST',
+    data,
+  });
+
 export const updateUser = data =>
   Wrap({
     url: '/users',
@@ -66,6 +80,13 @@ export const removeWatchlist = id =>
 export const postLogin = data =>
   Wrap({
     url: '/auth/login',
+    method: 'POST',
+    data,
+  });
+
+export const checkAirdrop = (id, data) =>
+  Wrap({
+    url: `/airdrop/check/${id}`,
     method: 'POST',
     data,
   });

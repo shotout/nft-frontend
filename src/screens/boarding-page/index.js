@@ -12,24 +12,59 @@ import ModalDelete from '../../components/modal-delete';
 
 const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 
-function BoardingPage({route, setDeleteUserStatus, isDeleteUser}) {
+function BoardingPage({
+  route,
+  setDeleteUserStatus,
+  isDeleteUser,
+  setOffForceCloseIOS,
+}) {
+  console.log('Check setOffForceCloseIOS:', setOffForceCloseIOS);
+
   const player = useRef();
+  const subscription = useRef();
   const [showModalDelete, setModalDelete] = useState(false);
+  const [localOffStatus, setLocalOffStatus] = useState(false);
+
+  const handleCloseApps = () => {
+    if (Platform.OS === 'ios' && !setOffForceCloseIOS) {
+      RNExitApp.exitApp();
+    }
+  };
+
+  const activateStateListener = () => {
+    subscription.current = AppState.addEventListener('change', nextAppState => {
+      if (nextAppState === 'background') {
+        handleCloseApps();
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (
+      setOffForceCloseIOS &&
+      subscription.current &&
+      typeof subscription.current.remove === 'function'
+    ) {
+      subscription.current.remove();
+    }
+    if (localOffStatus && !setOffForceCloseIOS) {
+      activateStateListener();
+    }
+    setLocalOffStatus(setOffForceCloseIOS);
+  }, [setOffForceCloseIOS]);
 
   useEffect(() => {
     if (isDeleteUser) {
       setModalDelete(true);
       setDeleteUserStatus(false);
     }
-    const subscription = AppState.addEventListener('change', nextAppState => {
+    subscription.current = AppState.addEventListener('change', nextAppState => {
       if (nextAppState === 'background') {
-        if (Platform.OS === 'ios') {
-          RNExitApp.exitApp();
-        }
+        handleCloseApps();
       }
     });
     return () => {
-      subscription.remove();
+      subscription.current.remove();
     };
   }, []);
 
@@ -122,6 +157,7 @@ function BoardingPage({route, setDeleteUserStatus, isDeleteUser}) {
 
 const mapStateToProps = state => ({
   isDeleteUser: state.defaultState.isDeleteUser,
+  setOffForceCloseIOS: state.defaultState.setOffForceCloseIOS,
 });
 
 export default connect(mapStateToProps, dispatcher)(BoardingPage);

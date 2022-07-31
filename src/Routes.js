@@ -1,12 +1,12 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import messaging from '@react-native-firebase/messaging';
 import {connect} from 'react-redux';
 import notifee from '@notifee/react-native';
-import {Alert, AppState, Linking} from 'react-native';
+import {AppState} from 'react-native';
 import RNExitApp from 'react-native-exit-app';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
@@ -46,7 +46,13 @@ const Drawer = createDrawerNavigator();
 
 function Homepage({route}) {
   return (
-    <Drawer.Navigator drawerContent={props => <Sidebar {...props} />}>
+    <Drawer.Navigator
+      screenOptions={{
+        drawerStyle: {
+          width: '80%',
+        },
+      }}
+      drawerContent={props => <Sidebar {...props} />}>
       <Drawer.Screen
         options={navigationData.noHeader.options}
         name="DiscoverNFT"
@@ -120,16 +126,6 @@ function Routes({
       notifee.incrementBadgeCount();
     });
 
-    const getAsyncURL = async () => {
-      const initialUrl = await Linking.getInitialURL();
-      if (initialUrl != undefined && initialUrl != null) {
-        console.log('Check url:', initialUrl);
-        // Handle initialURL as per your response and open a specific screen using navigation
-      }
-    };
-
-    getAsyncURL();
-
     return () => {
       subscription.remove();
     };
@@ -162,7 +158,7 @@ function Routes({
 
   return (
     <NavigationContainer linking={linking} ref={navigationRef}>
-      <Stack.Navigator>
+      <Stack.Navigator initialRouteName={getInitialRoute()}>
         <Stack.Screen
           options={navigationData.noHeader.options}
           name="BoardingPage"

@@ -46,7 +46,7 @@ export default function Button({
     <TouchableOpacity
       disabled={isLoading || isDisable}
       onPress={onPress}
-      style={[styles.ctnRoot, getBgColor(), btnStyle]}>
+      style={[styles.ctnRoot, btnStyle, getBgColor()]}>
       {isLoading ? (
         <ActivityIndicator size="small" color="#fff" />
       ) : (

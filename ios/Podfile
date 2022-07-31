@@ -11,6 +11,9 @@ target 'NFTDaily' do
   #Permission
   pod 'Permission-Notifications', :path => "#{permissions_path}/Notifications"
 
+  #Deep Link
+  pod 'React-RCTLinking', :path => '../node_modules/react-native/Libraries/LinkingIOS'
+
   use_react_native!(
     :path => config[:reactNativePath],
     # to enable hermes on iOS, change `false` to `true` and then install pods

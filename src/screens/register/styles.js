@@ -24,10 +24,10 @@ export default StyleSheet.create({
   cntWallet: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     flexWrap: 'wrap',
-    marginTop: moderateScale(40),
-    marginHorizontal: moderateScale(40),
+    marginTop: moderateScale(20),
+    marginHorizontal: moderateScale(20),
   },
   ctnWallet: {
     width: '40%',
@@ -152,5 +152,13 @@ export default StyleSheet.create({
   },
   scrollStyle: {
     paddingBottom: moderateScale(40),
+  },
+  walletBannerStyle: {
+    width: '90%',
+    aspectRatio: 1 / 1,
+    resizeMode: 'cover',
+  },
+  mgTop20: {
+    marginTop: moderateScale(20),
   },
 });

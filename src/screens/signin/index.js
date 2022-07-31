@@ -24,10 +24,8 @@ function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
   const [activeStep, setActiveStep] = useState('signin');
   const [isLoading, selectedLoading] = useState(false);
   const [keyboardShow, setKeyboardShow] = useState(false);
-  const [values, setValues] = useState({
-    email: '',
-    fcm_token: '',
-  });
+  const [values, setValues] = useState({email: ''});
+  const [tokenFCM, setToken] = useState('');
   const [error, setError] = useState({
     email: null,
   });
@@ -35,11 +33,7 @@ function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
   const getToken = async () => {
     try {
       const fcmToken = await messaging().getToken();
-      setValues({
-        ...values,
-        fcm_token: fcmToken,
-      });
-      console.log('Check fcm:', fcmToken);
+      setToken(fcmToken);
     } catch (err) {
       console.log('firebase error', err);
     }
@@ -87,12 +81,9 @@ function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
       selectedLoading(true);
       const body = {
         ...values,
+        fcm_token: tokenFCM,
       };
       const res = await postLogin(body);
-      eventTracking(
-        SIGN_IN_SUCCESS_ID,
-        `Sign in complete, user ${res?.data?.name || ''}`,
-      );
       if (
         values.email === 'gian.devx@gmail.com'
         // || values.email === 'nstegwart@gmail.com'
@@ -108,6 +99,10 @@ function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
         Alert.alert(res?.message || 'Error');
       } else {
         setActiveStep('success');
+        eventTracking(
+          SIGN_IN_SUCCESS_ID,
+          `Sign in complete, user ${res?.data?.name || ''}`,
+        );
       }
       selectedLoading(false);
     } catch (err) {
@@ -172,6 +167,7 @@ function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
             setKeyboardShow(false);
           }}
           contentContainerStyle={styles.scrollStyle}
+          keyboardShouldPersistTaps="handled"
           style={styles.ctnRoot}>
           {renderContent()}
         </KeyboardAwareScrollView>

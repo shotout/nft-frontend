@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import styles from './styles';
 import dispatcher from './dispatcher';
@@ -6,18 +6,20 @@ import {confirmDeleteUser} from '../../helpers/requests';
 import LoadingIndicator from '../../components/loading-indicator';
 import {reset} from '../../helpers/navigationRef';
 
-function DeleteAccount({setProfileUser, route}) {
-  const [isLoading, setLoading] = useState(true);
+function DeleteAccount({setProfileUser, route, setCounterNumber}) {
   const isConfirm = route.params?.id;
 
   const handleInitial = async () => {
-    await confirmDeleteUser(isConfirm);
     reset('BoardingPage');
+    setCounterNumber(90);
+    confirmDeleteUser(isConfirm);
     setProfileUser('reset');
   };
 
   useEffect(() => {
-    handleInitial();
+    setTimeout(() => {
+      handleInitial();
+    }, 1000);
   }, []);
 
   return <LoadingIndicator fullscreen stylesRoot={styles.ctnRoot} />;

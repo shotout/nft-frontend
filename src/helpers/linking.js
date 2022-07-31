@@ -50,6 +50,7 @@ const config = {
       },
     },
     Signin: 'signin',
+    // AccountSettings: 'connected-wallet',
     // Homepage: '*',
   },
 };
