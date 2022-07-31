@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
-import {navigate, reset} from '../../helpers/navigationRef';
+import {navigate} from '../../helpers/navigationRef';
 import {getProfile, getWalletToken} from '../../helpers/requests';
 import {isIphone} from '../../shared/devices';
 import styles from './styles';
@@ -136,7 +136,7 @@ function AccountSettings({setProfileUser, userProfile}) {
           isLoading={loadingWallet}
           label="Wallet Linked"
           btnStyle={styles.btnStyle}
-          onPress={handleConnectWallet}
+          // onPress={handleConnectWallet}
         />
       );
     }

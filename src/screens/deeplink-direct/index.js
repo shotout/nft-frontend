@@ -1,12 +1,18 @@
 import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
 import styles from './styles';
 import LoadingIndicator from '../../components/loading-indicator';
-import {navigate, replace, reset} from '../../helpers/navigationRef';
+import {navigate, reset} from '../../helpers/navigationRef';
+import dispatcher from './dispatcher';
 
-function DeeplinkDirect({route}) {
+function DeeplinkDirect({route, setCounterNumber, showLoadingModal}) {
   const screenType = route.params.id;
 
   const handleInitial = async () => {
+    showLoadingModal();
+    setTimeout(() => {
+      setCounterNumber(96);
+    }, 3000);
     switch (screenType) {
       case 'setting':
         reset('Homepage');
@@ -30,12 +36,10 @@ function DeeplinkDirect({route}) {
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      handleInitial();
-    }, 1000);
+    handleInitial();
   }, []);
 
   return <LoadingIndicator fullscreen stylesRoot={styles.ctnRoot} />;
 }
 
-export default DeeplinkDirect;
+export default connect(undefined, dispatcher)(DeeplinkDirect);
