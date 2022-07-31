@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Video from 'react-native-video';
 import {connect} from 'react-redux';
@@ -11,24 +11,9 @@ import ModalDelete from '../../components/modal-delete';
 
 const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 
-function BoardingPage({
-  route,
-  setDeleteUserStatus,
-  isDeleteUser,
-  setOffForceCloseIOS,
-}) {
-  console.log('Check setOffForceCloseIOS:', setOffForceCloseIOS);
-
+function BoardingPage() {
   const player = useRef();
   const [showModalDelete, setModalDelete] = useState(false);
-
-  useEffect(() => {
-    if (isDeleteUser) {
-      setModalDelete(true);
-      setDeleteUserStatus(false);
-    }
-    return () => {};
-  }, []);
 
   // function notificationBar() {
   //   if (isIphone) {
