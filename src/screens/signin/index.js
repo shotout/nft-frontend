@@ -85,7 +85,7 @@ function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
       };
       const res = await postLogin(body);
       if (
-        values.email === 'gian.devx@gmail.com'
+        values.email === 'gianas.devx@gmail.com'
         // || values.email === 'nstegwart@gmail.com'
       ) {
         setProfileUser(res);

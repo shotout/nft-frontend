@@ -50,6 +50,12 @@ const config = {
       },
     },
     Signin: 'signin',
+    DeeplinkDirect: {
+      path: 'deeplink/:id',
+      parse: {
+        id: id => `${id}`,
+      },
+    },
     // AccountSettings: 'connected-wallet',
     // Homepage: '*',
   },

@@ -117,6 +117,13 @@ function Register({
   };
 
   useEffect(() => {
+    if (route.params?.isWalletConnected) {
+      if (isIphone) {
+        setActiveStep('notification');
+      } else {
+        setActiveStep('done');
+      }
+    }
     handleInitialEdit();
     getToken();
     if (Platform.OS === 'android') {
@@ -147,7 +154,7 @@ function Register({
   };
 
   const handleConnectWallet = async () => {
-    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=nftdaily://deeplink/register`;
     if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
         dismissButtonStyle: 'cancel',

@@ -109,8 +109,7 @@ function AccountSettings({setProfileUser, userProfile}) {
   ];
 
   const handleConnectWallet = async () => {
-    console.log('Is available:', await InAppBrowser.isAvailable());
-    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=nftdaily://deeplink/setting`;
     if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
         dismissButtonStyle: 'cancel',
@@ -120,7 +119,6 @@ function AccountSettings({setProfileUser, userProfile}) {
         showInRecents: true,
         forceCloseOnRedirection: false,
       });
-      console.log('Reesult :', result);
       getInitialData(true);
     } else {
       console.log('didnt support in app browser');
@@ -138,7 +136,7 @@ function AccountSettings({setProfileUser, userProfile}) {
           isLoading={loadingWallet}
           label="Wallet Linked"
           btnStyle={styles.btnStyle}
-          onPress={() => {}}
+          onPress={handleConnectWallet}
         />
       );
     }

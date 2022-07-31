@@ -39,6 +39,7 @@ import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
 import ConfirmDelete from './screens/confirm-delete';
 import DeleteAccount from './screens/delete-account';
 import {setCounterNumber, showLoadingModal} from './store/generalState/actions';
+import DeeplinkDirect from './screens/deeplink-direct';
 
 const Stack = createNativeStackNavigator();
 
@@ -208,6 +209,7 @@ function Routes({
           options={navigationData.noHeader.options}
           name="DetailProduct"
           component={DetailProduct}
+          getId={({params}) => params.id}
         />
         <Stack.Screen
           options={navigationData.noHeader.options}
@@ -223,6 +225,11 @@ function Routes({
           options={navigationData.noHeader.options}
           name="DeleteAccount"
           component={DeleteAccount}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="DeeplinkDirect"
+          component={DeeplinkDirect}
         />
       </Stack.Navigator>
     </NavigationContainer>
