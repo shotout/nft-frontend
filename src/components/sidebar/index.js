@@ -111,9 +111,9 @@ function Sidebar({navigation, isStaging}) {
   }
 
   function renderBanner() {
-    // if (isStaging) {
-    //   return null;
-    // }
+    if (isStaging) {
+      return null;
+    }
     return (
       <View style={styles.ctBanner}>
         <TouchableWithoutFeedback

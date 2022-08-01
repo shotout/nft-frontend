@@ -494,12 +494,9 @@ function DetailProduct({
   }
 
   function renderButton() {
-    if (contentType) {
+    if (contentType || isStaging) {
       return null;
     }
-    // if (isStaging) {
-    //   return null;
-    // }
     if (detail.is_airdrop === '1' && !airdropStatus) {
       if (userProfile.data.wallet_connect) {
         return (
