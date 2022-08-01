@@ -39,7 +39,6 @@ import ConfirmDelete from './screens/confirm-delete';
 import DeleteAccount from './screens/delete-account';
 import {setCounterNumber, showLoadingModal} from './store/generalState/actions';
 import DeeplinkDirect from './screens/deeplink-direct';
-import {askTrackingPermission} from './shared/eventTracking';
 
 const Stack = createNativeStackNavigator();
 
@@ -115,7 +114,6 @@ function Routes({
 
   useEffect(() => {
     handleInitialData();
-    askTrackingPermission();
     const subscription = AppState.addEventListener('change', nextAppState => {
       if (appState.current.match('background') && nextAppState === 'active') {
         resetNotificationBadge();

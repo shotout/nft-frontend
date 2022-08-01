@@ -46,8 +46,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-  <key>NSUserTrackingUsageDescription</key>
-  <string>Your data will be used to check if you are using in-app features, this will be used for future updates and development purposes.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>Your data will be used to check if you are using in-app features, this will be used for future updates and development purposes.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Black.ttf</string>
