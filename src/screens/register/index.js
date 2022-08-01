@@ -116,6 +116,12 @@ function Register({
     }
   };
 
+  const handleURL = item => {
+    if (item.url) {
+      InAppBrowser.close();
+    }
+  };
+
   useEffect(() => {
     if (route.params?.isWalletConnected) {
       if (isIphone) {
@@ -126,10 +132,12 @@ function Register({
     }
     handleInitialEdit();
     getToken();
+    const subs = Linking.addEventListener('url', handleURL);
     if (Platform.OS === 'android') {
       RNAndroidKeyboardAdjust.setAdjustResize();
     }
     return () => {
+      subs.remove();
       if (Platform.OS === 'android') {
         RNAndroidKeyboardAdjust.setAdjustPan();
       }
@@ -143,18 +151,20 @@ function Register({
       ...userProfile,
       ...res,
     });
-    if (res.data?.wallet_connect) {
-      if (isIphone) {
-        setActiveStep('notification');
-      } else {
-        setActiveStep('done');
+    setTimeout(() => {
+      if (res.data?.wallet_connect) {
+        if (isIphone) {
+          setActiveStep('notification');
+        } else {
+          setActiveStep('done');
+        }
       }
-    }
+    }, 2000);
     setWalletLoading(false);
   };
 
   const handleConnectWallet = async () => {
-    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=nftdaily://deeplink/register`;
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=https://backend.nftdaily.app/deeplink/register`;
     if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
         dismissButtonStyle: 'cancel',

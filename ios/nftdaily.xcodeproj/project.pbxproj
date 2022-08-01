@@ -9,12 +9,12 @@
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* NFTDailyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* NFTDailyTests.m */; };
 		1136C8A1288192E60023B46D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1136C8A0288192E50023B46D /* GoogleService-Info.plist */; };
-		1136C8A3288195B80023B46D /* AdServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A2288195B80023B46D /* AdServices.framework */; };
-		1136C8A5288195BD0023B46D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A4288195BD0023B46D /* AdSupport.framework */; };
-		1136C8A7288195C40023B46D /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A6288195C40023B46D /* AppTrackingTransparency.framework */; };
-		1136C8A9288195CC0023B46D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A8288195CC0023B46D /* CoreTelephony.framework */; };
-		1136C8AB288195D10023B46D /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8AA288195D10023B46D /* iAd.framework */; };
-		1136C8AD288195DA0023B46D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8AC288195DA0023B46D /* StoreKit.framework */; };
+		1136C8A3288195B80023B46D /* AdServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A2288195B80023B46D /* AdServices.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1136C8A5288195BD0023B46D /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A4288195BD0023B46D /* AdSupport.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1136C8A7288195C40023B46D /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A6288195C40023B46D /* AppTrackingTransparency.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1136C8A9288195CC0023B46D /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8A8288195CC0023B46D /* CoreTelephony.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1136C8AB288195D10023B46D /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8AA288195D10023B46D /* iAd.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		1136C8AD288195DA0023B46D /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1136C8AC288195DA0023B46D /* StoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		1136C8B5288199730023B46D /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1136C8AF288199720023B46D /* Montserrat-SemiBold.ttf */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -108,13 +108,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D3D2F02259B2AFA79D47A343 /* libPods-NFTDaily.a in Frameworks */,
 				1136C8AD288195DA0023B46D /* StoreKit.framework in Frameworks */,
-				1136C8A7288195C40023B46D /* AppTrackingTransparency.framework in Frameworks */,
 				1136C8A9288195CC0023B46D /* CoreTelephony.framework in Frameworks */,
-				1136C8AB288195D10023B46D /* iAd.framework in Frameworks */,
 				1136C8A3288195B80023B46D /* AdServices.framework in Frameworks */,
+				1136C8AB288195D10023B46D /* iAd.framework in Frameworks */,
 				1136C8A5288195BD0023B46D /* AdSupport.framework in Frameworks */,
+				D3D2F02259B2AFA79D47A343 /* libPods-NFTDaily.a in Frameworks */,
+				1136C8A7288195C40023B46D /* AppTrackingTransparency.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

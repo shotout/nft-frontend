@@ -152,7 +152,7 @@ function DetailProduct({
   };
 
   const handleConnectWallet = async () => {
-    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=nftdaily://deeplink/article${route.params.id}`;
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=https://backend.nftdaily.app/deeplink/article${route.params.id}`;
     if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
         dismissButtonStyle: 'cancel',
@@ -162,7 +162,7 @@ function DetailProduct({
         showInRecents: true,
         forceCloseOnRedirection: false,
       });
-      console.log('Reesult :', result);
+      console.log('Reeult :', result);
       getInitialData();
     } else {
       console.log('didnt support in app browser');
@@ -194,10 +194,18 @@ function DetailProduct({
     increaseOpenArticleCounter();
   };
 
+  const handleURL = item => {
+    if (item.url) {
+      InAppBrowser.close();
+    }
+  };
+
   useEffect(() => {
     fetchData();
     handleOpenRating();
+    const subs = Linking.addEventListener('url', handleURL);
     return () => {
+      subs.remove();
       handleSetFlameState();
       eventTracking(
         OPEN_COLLECTION_DURATION_ID,

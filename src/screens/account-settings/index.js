@@ -50,9 +50,19 @@ function AccountSettings({setProfileUser, userProfile}) {
     setWalletToken(res.data);
   };
 
+  const handleURL = item => {
+    if (item.url) {
+      InAppBrowser.close();
+    }
+  };
+
   useEffect(() => {
     getInitialData();
     getToken();
+    const subs = Linking.addEventListener('url', handleURL);
+    return () => {
+      subs.remove();
+    };
   }, []);
 
   const menuItem = [
@@ -109,7 +119,7 @@ function AccountSettings({setProfileUser, userProfile}) {
   ];
 
   const handleConnectWallet = async () => {
-    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=nftdaily://deeplink/setting`;
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=https://backend.nftdaily.app/deeplink/setting`;
     if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
         dismissButtonStyle: 'cancel',
@@ -120,6 +130,7 @@ function AccountSettings({setProfileUser, userProfile}) {
         forceCloseOnRedirection: false,
       });
       getInitialData(true);
+      console.log('Check result:', result);
     } else {
       console.log('didnt support in app browser');
       if (walletToken) {
