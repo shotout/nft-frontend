@@ -454,7 +454,7 @@ function DetailProduct({
   }
 
   function renderContent() {
-    if (contentType !== 'mint-email') {
+    if (contentType === 'mint-email') {
       return (
         <MintViaEmail
           onPress={() => {
@@ -494,9 +494,9 @@ function DetailProduct({
   }
 
   function renderButton() {
-    // if (contentType || isStaging) {
-    //   return null;
-    // }
+    if (contentType || isStaging) {
+      return null;
+    }
     if (detail.is_airdrop === '1' && !airdropStatus) {
       if (userProfile.data.wallet_connect) {
         return (
@@ -603,7 +603,7 @@ function DetailProduct({
         {renderSlider()}
         {renderContent()}
       </KeyboardAwareScrollView>
-      {/* {renderButton()} */}
+      {renderButton()}
       <ModalNotification
         visible={ratingVisible}
         handleClose={() => {
