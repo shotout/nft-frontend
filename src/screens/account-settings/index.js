@@ -12,7 +12,7 @@ import {connect} from 'react-redux';
 import InAppBrowser from 'react-native-inappbrowser-reborn';
 import Header from '../../components/header';
 import LoadingIndicator from '../../components/loading-indicator';
-import {navigate, reset} from '../../helpers/navigationRef';
+import {navigate} from '../../helpers/navigationRef';
 import {getProfile, getWalletToken} from '../../helpers/requests';
 import {isIphone} from '../../shared/devices';
 import styles from './styles';
@@ -50,9 +50,19 @@ function AccountSettings({setProfileUser, userProfile}) {
     setWalletToken(res.data);
   };
 
+  const handleURL = item => {
+    if (item.url) {
+      InAppBrowser.close();
+    }
+  };
+
   useEffect(() => {
     getInitialData();
     getToken();
+    const subs = Linking.addEventListener('url', handleURL);
+    return () => {
+      subs.remove();
+    };
   }, []);
 
   const menuItem = [
@@ -109,8 +119,7 @@ function AccountSettings({setProfileUser, userProfile}) {
   ];
 
   const handleConnectWallet = async () => {
-    console.log('Is available:', await InAppBrowser.isAvailable());
-    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}`;
+    const URLDirect = `https://wallet.nftdaily.app/?token=${walletToken}&direct_url=https://backend.nftdaily.app/deeplink/setting`;
     if ((await InAppBrowser.isAvailable()) && walletToken) {
       const result = await InAppBrowser.open(URLDirect, {
         dismissButtonStyle: 'cancel',
@@ -120,8 +129,8 @@ function AccountSettings({setProfileUser, userProfile}) {
         showInRecents: true,
         forceCloseOnRedirection: false,
       });
-      console.log('Reesult :', result);
       getInitialData(true);
+      console.log('Check result:', result);
     } else {
       console.log('didnt support in app browser');
       if (walletToken) {
@@ -138,7 +147,7 @@ function AccountSettings({setProfileUser, userProfile}) {
           isLoading={loadingWallet}
           label="Wallet Linked"
           btnStyle={styles.btnStyle}
-          onPress={() => {}}
+          // onPress={handleConnectWallet}
         />
       );
     }

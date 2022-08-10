@@ -27,7 +27,11 @@ function MintViaEmail({
   const [email, setEmail] = useState(userProfile.data?.email || '');
 
   function validateEmail() {
-    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+    if (
+      /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i.test(
+        email,
+      )
+    ) {
       return true;
     }
     return false;

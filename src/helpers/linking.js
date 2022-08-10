@@ -50,13 +50,19 @@ const config = {
       },
     },
     Signin: 'signin',
+    // DeeplinkDirect: {
+    //   path: 'deeplink/:id',
+    //   parse: {
+    //     id: id => `${id}`,
+    //   },
+    // },
     // AccountSettings: 'connected-wallet',
     // Homepage: '*',
   },
 };
 
 export const linking = {
-  prefixes: ['https://backend.nftdaily.app'],
+  prefixes: ['https://backend.nftdaily.app', 'nftdaily://'],
   // prefixes: ['nftapps://link'],
   config,
   // getInitialURL: async () => {

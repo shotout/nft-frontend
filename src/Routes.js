@@ -7,7 +7,6 @@ import messaging from '@react-native-firebase/messaging';
 import {connect} from 'react-redux';
 import notifee from '@notifee/react-native';
 import {AppState} from 'react-native';
-import RNExitApp from 'react-native-exit-app';
 import SignIn from './screens/signin';
 import {navigationRef} from './helpers/navigationRef';
 import navigationData from './shared/navigationData';
@@ -39,6 +38,7 @@ import {IOS_APP_VERSION, ANDROID_APP_VERSION} from './shared/constant';
 import ConfirmDelete from './screens/confirm-delete';
 import DeleteAccount from './screens/delete-account';
 import {setCounterNumber, showLoadingModal} from './store/generalState/actions';
+import DeeplinkDirect from './screens/deeplink-direct';
 
 const Stack = createNativeStackNavigator();
 
@@ -131,24 +131,6 @@ function Routes({
     };
   }, []);
 
-  useEffect(() => {
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'background') {
-        if (isDeleteUser) {
-          RNExitApp.exitApp();
-        }
-      }
-    });
-    if (!isDeleteUser) {
-      subscription.remove();
-    }
-    return () => {
-      if (typeof subscription.remove === 'function') {
-        subscription.remove();
-      }
-    };
-  }, [isDeleteUser]);
-
   function getInitialRoute() {
     if (profile.token) {
       return 'Homepage';
@@ -208,6 +190,7 @@ function Routes({
           options={navigationData.noHeader.options}
           name="DetailProduct"
           component={DetailProduct}
+          getId={({params}) => params.id}
         />
         <Stack.Screen
           options={navigationData.noHeader.options}
@@ -223,6 +206,11 @@ function Routes({
           options={navigationData.noHeader.options}
           name="DeleteAccount"
           component={DeleteAccount}
+        />
+        <Stack.Screen
+          options={navigationData.noHeader.options}
+          name="DeeplinkDirect"
+          component={DeeplinkDirect}
         />
       </Stack.Navigator>
     </NavigationContainer>

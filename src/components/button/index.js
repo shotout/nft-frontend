@@ -1,19 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, TouchableOpacity, ActivityIndicator} from 'react-native';
 import {colors} from '../../shared/styling';
 import styles from './styles';
 
 export default function Button({
   label,
-  onPress,
+  onPress = () => {},
   type,
   isLoading,
   btnStyle,
   isDisable,
 }) {
-  const [isFocus, setFocus] = useState(false);
-
   function getBgColor() {
     switch (type) {
       case 'white-button':

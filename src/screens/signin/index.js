@@ -1,6 +1,5 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {View, Text, AppState, Platform, Alert} from 'react-native';
-import RNExitApp from 'react-native-exit-app';
+import React, {useEffect, useState} from 'react';
+import {View, Text, Platform, Alert} from 'react-native';
 import {connect} from 'react-redux';
 import {openInbox} from 'react-native-email-link';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -41,20 +40,11 @@ function SignIn({setProfileUser, showLoadingModal, isFirstTimeRender}) {
 
   useEffect(() => {
     getToken();
-    const subscription = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'background') {
-        if (Platform.OS === 'ios') {
-          RNExitApp.exitApp();
-        }
-      }
-    });
-
     if (Platform.OS === 'android') {
       RNAndroidKeyboardAdjust.setAdjustResize();
     }
 
     return () => {
-      subscription.remove();
       if (Platform.OS === 'android') {
         RNAndroidKeyboardAdjust.setAdjustPan();
       }

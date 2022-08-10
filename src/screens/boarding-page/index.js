@@ -1,6 +1,5 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {View, Text, TouchableOpacity, AppState, Platform} from 'react-native';
-import RNExitApp from 'react-native-exit-app';
+import React, {useRef, useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Video from 'react-native-video';
 import {connect} from 'react-redux';
 import Button from '../../components/button';
@@ -12,61 +11,9 @@ import ModalDelete from '../../components/modal-delete';
 
 const backgroundImage = require('../../assets/icon/nft_boarding_bg.mp4');
 
-function BoardingPage({
-  route,
-  setDeleteUserStatus,
-  isDeleteUser,
-  setOffForceCloseIOS,
-}) {
-  console.log('Check setOffForceCloseIOS:', setOffForceCloseIOS);
-
+function BoardingPage() {
   const player = useRef();
-  const subscription = useRef();
   const [showModalDelete, setModalDelete] = useState(false);
-  const [localOffStatus, setLocalOffStatus] = useState(false);
-
-  const handleCloseApps = () => {
-    if (Platform.OS === 'ios' && !setOffForceCloseIOS) {
-      RNExitApp.exitApp();
-    }
-  };
-
-  const activateStateListener = () => {
-    subscription.current = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'background') {
-        handleCloseApps();
-      }
-    });
-  };
-
-  useEffect(() => {
-    if (
-      setOffForceCloseIOS &&
-      subscription.current &&
-      typeof subscription.current.remove === 'function'
-    ) {
-      subscription.current.remove();
-    }
-    if (localOffStatus && !setOffForceCloseIOS) {
-      activateStateListener();
-    }
-    setLocalOffStatus(setOffForceCloseIOS);
-  }, [setOffForceCloseIOS]);
-
-  useEffect(() => {
-    if (isDeleteUser) {
-      setModalDelete(true);
-      setDeleteUserStatus(false);
-    }
-    subscription.current = AppState.addEventListener('change', nextAppState => {
-      if (nextAppState === 'background') {
-        handleCloseApps();
-      }
-    });
-    return () => {
-      subscription.current.remove();
-    };
-  }, []);
 
   // function notificationBar() {
   //   if (isIphone) {
