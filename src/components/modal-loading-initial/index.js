@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Modal, View, Text} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {connect} from 'react-redux';
@@ -13,21 +13,12 @@ function ModalLoadingInitial({
   loadingModal,
   hideLoadingModal,
 }) {
-  const [activeText, setActiveText] = useState(0);
-  const textToRender = [
-    'Loading amazingness...',
-    'NO FOMO...\nScanning the chain for the hottest NFT...',
-    'Fire projects inbound...',
-    'Unique NFTs take time...',
-  ];
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCounterNumber(loadingModal.counter + Math.floor(Math.random() * 20));
     }, 1000);
     if (loadingModal.counter >= 100) {
       clearInterval(interval);
-      setActiveText(0);
       hideLoadingModal();
     }
 
@@ -35,21 +26,6 @@ function ModalLoadingInitial({
       clearInterval(interval);
     };
   }, [loadingModal.counter]);
-
-  useEffect(() => {
-    console.log('Check visibility :', loadingModal.visible);
-    const textInterval = setInterval(() => {
-      setActiveText(currentValue =>
-        currentValue === 3 ? 0 : currentValue + 1,
-      );
-    }, 1800);
-    if (!loadingModal.visible) {
-      clearInterval(textInterval);
-    }
-    return () => {
-      clearInterval(textInterval);
-    };
-  }, [loadingModal.visible]);
 
   return (
     <Modal
@@ -72,9 +48,6 @@ function ModalLoadingInitial({
             loop
             style={styles.lottieStyle}
           />
-        </View>
-        <View style={styles.ctnTextLoader}>
-          <Text style={styles.txtLoader}>{textToRender[activeText]}</Text>
         </View>
         {/* <Text style={styles.txtLoader}>
           {'NO FOMO...\nScanning the chain for hottest NFT...'}
